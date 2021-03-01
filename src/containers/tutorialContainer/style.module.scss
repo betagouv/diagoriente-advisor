@@ -15,12 +15,12 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      max-width: 600px;
-      max-height: 590px;
+      width: 90%;
+      height: auto;
       position: relative;
       .logo {
-        width: 500px;
-        height: 490px;
+        width: 50%;
+        height: auto;
         position: absolute;
         top: 0px;
         z-index: 1;
@@ -28,7 +28,6 @@
       .title {
         color: #ff458b;
         font-family: ocean;
-        font-style: normal;
         font-weight: 900;
         font-size: 36px;
         line-height: 36px;
@@ -41,11 +40,12 @@
         font-weight: 900;
         color: #10255e;
         text-align: center;
+        width: 70%;
         z-index: 2;
       }
       .stepsContainer {
-        width: 100%;
-        margin-bottom: 17px;
+        width: 700px;
+        margin-bottom: 27px;
         display: flex;
         align-items: flex-end;
         justify-content: space-between;
