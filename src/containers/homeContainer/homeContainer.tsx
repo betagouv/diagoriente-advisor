@@ -149,7 +149,7 @@ const HomeContainer = () => {
           descriptopn="Personne n’a encore jouté d’expérience."
           link="En savoir plus"
           image={Exp}
-          data={filtredSkills || []}
+          data={filtredSkills?.slice(filtredSkills?.length - 6) || []}
           message="a ajouté une expérience"
           filters={['TOUT', 'PROFESSIONNELLE', 'PERSONNELLE', 'ENGAGEMENT', 'SPORT']}
           SetelectedFilter={SetelectedFilter}

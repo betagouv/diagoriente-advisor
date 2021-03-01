@@ -51,9 +51,8 @@ const TutorialContainer = () => {
       <Title title="Tableau de board" />
       <div className={style.tutorialBox}>
         <div className={style.tutorialContent}>
-          {/* <img src={Image} className={style.logo} alt="logo_tuto" /> */}
           <div className={style.logo}>
-            <ImageTuto color={doneTutorial ? '#E1F2F2' : '#FFE3EE'} width="600px" height="590" />
+            <ImageTuto color={doneTutorial ? '#E1F2F2' : '#FFE3EE'} width="1O0%" height="100%" />
           </div>
           <div className={style.title} style={{ color: doneTutorial ? '#3AB8BA' : '' }}>
             {doneTutorial ? 'Bravo!' : 'Bienvenue'}
