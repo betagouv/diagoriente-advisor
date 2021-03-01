@@ -1,0 +1,38 @@
+.column {
+  display: flex;
+  flex-direction: column;
+}
+.row {
+  display: flex;
+  flex-direction: row;
+}
+.container {
+  width: 100%;
+  min-height: 100vh;
+}
+.page {
+  flex: 1 1 auto;
+  transition: width 0.6s;
+  transition: margin 700ms;
+}
+.marginPageOpen {
+  margin-left: 270px;
+  padding: 30px 20px 10px 20px;
+}
+.marginPageClose {
+  margin-left: 140px;
+  padding: 30px 20px 10px 20px;
+}
+.isAuthMargin {
+  margin-left: 0 !important;
+  padding: 0px;
+}
+@media screen and (min-width: 1150px) {
+  .page {
+    margin-left: 270px;
+  }
+  .isAuthMargin {
+    margin-left: 0 !important;
+    padding: 0px;
+  }
+}

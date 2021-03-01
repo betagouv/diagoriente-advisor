@@ -1,0 +1,66 @@
+.modal {
+  max-width: 890px;
+  max-height: 464px;
+}
+
+.modalBody {
+  margin: 0 !important;
+}
+
+.headerText {
+  color: rgba($color: #10255e, $alpha: 0.4);
+  margin-left: 20px;
+}
+
+.crud {
+  margin: 31px 0;
+}
+
+.tableRow {
+  height: 78px;
+  padding: 15px;
+  td {
+    border-bottom: 1px solid rgba($color: #10255e, $alpha: 0.3);
+  }
+  &:last-child {
+    td {
+      border: none;
+    }
+  }
+}
+
+.addContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.groupTitle {
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 22px;
+  color: #10255e;
+}
+
+.groupDetail {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 22px;
+  color: rgba($color: #10255e, $alpha: 0.4);
+  margin-left: 29px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.code {
+  font-size: 14px;
+  line-height: 22px;
+  color: #10255e;
+}
+
+.codeLabel {
+  color: rgba($color: #10255e, $alpha: 0.4);
+}

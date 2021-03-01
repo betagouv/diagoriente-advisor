@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.title {
+  font-size: 13px;
+  color: #10255e;
+  font-weight: 500;
+  padding-left: 4px;
+  line-height: 21px;
+  stroke: #10255e;
+  -webkit-text-stroke-width: 0.5px;
+}
+
+.circle {
+  background-color: #10255e;
+  border-radius: 50%;
+  transform: scale(0.5, 0.5);
+  width: 8px;
+  height: 8px;
+}

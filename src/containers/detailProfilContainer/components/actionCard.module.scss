@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: white;
+  border-radius: 16px;
+  padding: 20px;
+  height: 65px;
+}
+.title {
+  font-size: 12px;
+  color: #10255e;
+  font-weight: bold;
+  padding-left: 25px;
+}

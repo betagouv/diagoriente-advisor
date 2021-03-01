@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+}
+
+.table {
+  flex: 1 0 auto;
+}
+
+.clickableRow {
+  cursor: pointer;
+  &:hover {
+    z-index: 1;
+    background-color: rgba($color: #10255e, $alpha: 0.1);
+  }
+}
+
+.pagination {
+  margin: 32px 0;
+}
+
+.noPages {
+  margin-bottom: 32px;
+}

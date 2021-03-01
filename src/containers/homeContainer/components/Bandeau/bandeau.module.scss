@@ -1,0 +1,112 @@
+.container {
+  width: 100%;
+  background: #ffe3ee;
+  border-radius: 8px;
+  display: flex;
+  margin-top: 30px;
+  .content {
+    display: flex;
+    flex-direction: column;
+    padding: 30px 20px 15px 20px;
+    flex: 1;
+  }
+  .title_bandeau {
+    color: #ff458b;
+    font-family: ocean;
+    font-weight: 900;
+    font-size: 36px;
+    line-height: 36px;
+  }
+  .info_container_text {
+    width: 100%;
+    .warningContainer {
+      display: flex;
+      align-items: center;
+    }
+    .btn {
+      width: 150px;
+      height: 40px;
+    }
+    .infoDataContainer {
+      display: flex;
+      .infoDataContainerText {
+        width: 60%;
+      }
+      .infoContainer {
+        display: flex;
+        width: 40%;
+        .info {
+          display: flex;
+          flex-direction: column;
+          width: 100px;
+          margin: 0px 3px;
+          .titleInfo {
+            font-family: ocean;
+            font-weight: 900;
+            font-size: 36px;
+            line-height: 36px;
+            color: #ff458b;
+          }
+          .descriptionInfo {
+            font-weight: 900;
+            font-size: 14px;
+            line-height: 22px;
+
+            color: #ff458b;
+          }
+        }
+      }
+    }
+  }
+  .info_description {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 36px;
+    color: #10255e;
+    width: 80%;
+  }
+  .warning {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 36px;
+    color: #10255e;
+    width: 80%;
+  }
+}
+
+.image_wrapper_bandeau {
+  width: 175px;
+  position: relative;
+}
+.image_container_bandeau {
+  position: absolute;
+  right: 50px;
+  top: -45px;
+}
+.modal_confirmation {
+  width: 50% !important;
+  height: 300px !important;
+  .titleModal {
+    text-align: center;
+    font-size: 30px;
+    line-height: 37px;
+  }
+  .modalBody {
+    .text_confirmation {
+      font-size: 18px;
+      text-align: center;
+      color: #10255e;
+    }
+    .btn_container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+
+      .btn_style {
+        width: 200px;
+        margin-top: 20px;
+        background-color: transparent;
+      }
+    }
+  }
+}

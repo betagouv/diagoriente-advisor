@@ -1,0 +1,45 @@
+.inputContainer {
+  width: 100%;
+  .labelContainer {
+    .label {
+      font-family: Montserrat;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 15px;
+      text-transform: uppercase;
+      color: rgba(16, 37, 94, 0.6);
+      margin-bottom: 11px;
+    }
+  }
+
+  .wrapperInput {
+    .input {
+      width: -webkit-fill-available;
+      width: -moz-available;
+      height: 48px;
+      background: #f5f6fb;
+      border-radius: 16px;
+      border: transparent;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 30px;
+      color: #10255e;
+      padding-left: 24px;
+      margin-bottom: 24px;
+      &:focus {
+        outline: none;
+        border: 1px solid #10255e;
+      }
+    }
+    .input::placeholder {
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 30px;
+      color: rgba(16, 37, 94, 0.6);
+    }
+
+    .input::-moz-placeholder {
+      line-height: 48px;
+    }
+  }
+}

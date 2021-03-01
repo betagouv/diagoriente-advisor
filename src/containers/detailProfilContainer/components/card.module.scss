@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 180px;
+  background-color: #ffd27e;
+  border-radius: 16px;
+  justify-content: center;
+  padding: 22px;
+  position: relative;
+}
+.title {
+  font-size: 17px;
+  color: #10255e;
+  font-weight: 700;
+}
+.text {
+  font-weight: bold;
+  font-size: 12px;
+  color: #10255e;
+  max-width: 169px;
+  margin-top: 10px;
+}
+
+.viewIcon {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}

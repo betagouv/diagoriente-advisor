@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 20px 0px;
+}
+.title {
+  font-size: 13px;
+  color: #10255e;
+  font-weight: bold;
+  line-height: 21px;
+  text-transform: uppercase;
+  padding-right: 8px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 200px;
+  stroke: #10255e;
+  -webkit-text-stroke-width: 0.5px;
+}
+
+.text {
+  color: rgba(16, 37, 94, 0.6);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 15px;
+  text-align: left;
+}

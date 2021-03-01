@@ -1,0 +1,49 @@
+$error: #ff458b;
+$warning: #ffd27e;
+$success: #3ab8ba;
+$info: #10255e;
+$width: 250px;
+
+.snackbar {
+  position: fixed;
+  top: 40px;
+  right: 20px;
+  transition: all 0.25s ease-in-out;
+  display: flex;
+  align-items: center;
+  width: $width;
+  color: #fff;
+  padding: 10px 16px;
+  line-height: 1.43;
+  border-radius: 4px;
+  box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+  transform: translateX($width + 20px);
+  z-index: 1600;
+}
+
+.snackbarOpen {
+  transform: translateX(0);
+}
+
+.icon {
+  margin-right: 12px;
+  height: 22px;
+  width: 22px;
+}
+
+.error {
+  background-color: $error;
+}
+
+.success {
+  background-color: $success;
+}
+
+.warning {
+  background-color: $warning;
+}
+
+.info {
+  background-color: $info;
+}

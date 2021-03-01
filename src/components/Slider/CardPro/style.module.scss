@@ -1,0 +1,53 @@
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #eaedf6;
+  box-shadow: 2px 4px 10px rgba(16, 37, 94, 0.3);
+  border-radius: 16px;
+  position: relative;
+  width: 257px;
+  height: 256px;
+  padding: 20px;
+  background: #ffffff;
+}
+
+.pro {
+  padding: 5px 8px;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 15px;
+  color: #ff458b;
+  text-transform: uppercase;
+  border: 1px solid #ff458b;
+  border-radius: 10px;
+  padding: 5px;
+  align-self: flex-start;
+}
+
+.title {
+  font-size: 12px;
+  line-height: 15px;
+  font-weight: bold;
+  color: #10255e;
+  text-transform: uppercase;
+  margin-top: 11px;
+}
+
+.date {
+  color: rgba($color: #10255e, $alpha: 0.4);
+  font-size: 12px;
+  line-height: 15px;
+  margin-top: 15px;
+}
+
+.activities {
+  display: flex;
+  flex-direction: column;
+  margin-top: 25px;
+}
+
+.text {
+  font-size: 12px;
+  line-height: 15px;
+  color: #10255e;
+}

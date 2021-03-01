@@ -1,0 +1,61 @@
+.container {
+  align-items: center;
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 0 95px;
+}
+
+.title {
+  font-size: 30px;
+  line-height: 37px;
+  text-align: center;
+  color: #10255e;
+  margin: 0;
+  margin-top: 42px;
+}
+
+.input {
+  width: 420px;
+  margin-top: 51px;
+}
+
+.link {
+  margin-top: 17px;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #10255e;
+}
+
+.subtitle {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 28px;
+  color: #10255e;
+  padding-top: 40px;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  height: 78px;
+  border-top: 2px solid rgba($color: #10255e, $alpha: 0.3);
+  padding: 0 15px;
+  margin-top: 56px;
+}
+
+.codeTitle {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 29px;
+  color: rgba($color: #10255e, $alpha: 0.4);
+}
+
+.codeValue {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 29px;
+  color: #10255e;
+}

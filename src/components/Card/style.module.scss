@@ -1,0 +1,33 @@
+.text_cont {
+  font-size: 18px;
+  line-height: 160%;
+  color: #10255e;
+  margin-bottom: 5px;
+}
+.cardContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 36px 36px 49px;
+  top: 240px;
+  border-radius: 16px;
+  height: fit-content;
+  margin: 15px 15px;
+  &:hover {
+    border: 3px solid #7ae6ff;
+  }
+  .textCard {
+    width: 100%;
+    flex: 1;
+  }
+  .titleContainer {
+    @extend .text_cont;
+    font-weight: bold;
+  }
+  .textContainer {
+    @extend .text_cont;
+  }
+  .logoContainer {
+    margin-right: 20px;
+  }
+}

@@ -1,0 +1,44 @@
+.modalContent {
+  position: absolute;
+  top: 19px;
+  left: 19px;
+  bottom: 0;
+  right: 19px;
+  z-index: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.chartContainer {
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f6fb;
+  position: relative;
+  flex: 1 1 0%;
+}
+
+.titre {
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 33px;
+  color: #ff458b;
+  margin-top: 49px;
+  margin-left: 64px;
+}
+
+.chart {
+  position: absolute;
+  top: 40px;
+  bottom: 40px;
+  left: 40px;
+  right: 40px;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sliderContent {
+}

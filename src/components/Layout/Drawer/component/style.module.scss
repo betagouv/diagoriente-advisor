@@ -1,0 +1,43 @@
+.currentStepContainer {
+  position: absolute;
+  top: 0px;
+  right: -220px;
+  display: flex;
+  align-items: center;
+  z-index: 3;
+  .currentStepCercle {
+    background: #ff458b;
+    border: none;
+    border-radius: 50%;
+    width: 6px;
+    height: 6px;
+    margin-right: 8px;
+  }
+  .currentStepRectangle {
+    width: fit-content;
+    height: 48px;
+    background: #ff458b;
+    border: none;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    padding: 0px 18px 0px 28px;
+    .currentNumber {
+      font-family: 'Ocean';
+      font-weight: 900;
+      font-size: 26px;
+      line-height: 26px;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      color: #ffffff;
+      margin-right: 20px;
+    }
+    .currentTitle {
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 15px;
+      color: #ffffff;
+    }
+  }
+}

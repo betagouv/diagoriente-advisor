@@ -1,0 +1,46 @@
+.container {
+  background-color: #fff;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  flex: 1 1 0%;
+  position: relative;
+}
+
+.absolute_fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  padding-top: 105px;
+}
+
+.title {
+  font-weight: 900;
+  font-size: 40px;
+  line-height: 40px;
+  text-transform: uppercase;
+  color: #ff458b;
+  font-family: ocean;
+}
+
+.subtitle {
+  text-align: center;
+  color: #10255e;
+  font-size: 16px;
+  max-width: 505px;
+  margin-top: 15px;
+}
+
+.add {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+}

@@ -1,0 +1,65 @@
+.container {
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f5f6fb;
+  padding-top: 90px;
+  padding-bottom: 100px;
+  overflow: auto;
+  .logoContainer {
+    position: absolute;
+    left: 42px;
+    top: 90px;
+  }
+  .boxLogin {
+    width: 700px;
+    height: fit-content;
+    background-color: #fff;
+    border-radius: 10px;
+    /* box-shadow: 0px 0px 6px -3px #000000; */
+
+    .content {
+      width: 100%;
+      height: fit-content;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 56px;
+      padding-bottom: 56px;
+
+      .title {
+        font-family: 'Montserrat';
+        font-weight: bold;
+        font-size: 30px;
+        line-height: 37px;
+        text-align: center;
+        color: #10255e;
+      }
+
+      .link {
+        text-decoration: none;
+        .linkLabel {
+          font-weight: 500;
+          font-size: 12px;
+          line-height: 15px;
+          text-align: center;
+          text-transform: uppercase;
+          color: #10255e;
+          margin-top: 17px;
+        }
+      }
+      .error {
+        margin-top: 15px;
+        color: #eb1c1c;
+      }
+      .formLogin {
+        margin-top: 50px;
+        width: 420px;
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+}

@@ -1,0 +1,203 @@
+.drawerContainer {
+  padding-top: 40px;
+  width: 270px;
+  position: fixed;
+  z-index: 2;
+  .wrapperSideBar {
+    position: relative;
+    top: 20px;
+    height: 100vh;
+    .drawerHeader {
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      .diagImg {
+        width: 52px;
+        height: 52px;
+        justify-content: center;
+        text-align: center;
+      }
+      .headerTextContainer {
+        font-weight: 500;
+        line-height: 20px;
+        font-size: 14px;
+        .headerText {
+          color: rgba(16, 37, 94, 0.6);
+          text-decoration: none;
+        }
+        .headerSpan {
+          font-size: 14px;
+          color: #ff458b;
+          text-decoration: none;
+          margin-bottom: 20px;
+        }
+        .progressDoneText {
+          color: #3ab8ba;
+        }
+        .progressDone {
+          background-color: #3ab8ba;
+        }
+      }
+      .menu {
+        display: none;
+      }
+    }
+    .drawerBody {
+      margin-top: 30px;
+      justify-content: center;
+      display: flex;
+      align-items: stretch;
+      flex-direction: column;
+
+      .listContainer {
+        margin-top: -1px;
+        text-decoration: none;
+        margin: 2px 20px;
+        height: 50px;
+        border-radius: 16px;
+
+        &:hover {
+          background-color: #eaedf6;
+        }
+
+        .linkContainer {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          text-decoration: none;
+          height: 100%;
+          padding: 0px 30px;
+          position: relative;
+          color: rgba(16, 37, 94, 0.6);
+          cursor: pointer;
+          .path {
+            font-weight: 500;
+            font-size: 14px;
+            margin-left: 15px;
+          }
+          .activeText {
+            font-weight: 500;
+            font-size: 14px;
+            width: 130px;
+            color: #10255e;
+          }
+          .iconStyle {
+            margin-right: 10px;
+            width: 26px;
+            height: 26px;
+          }
+        }
+      }
+      .selectedButton {
+        background-color: #7ae6ff;
+        &:hover {
+          background-color: #7ae6ff;
+        }
+      }
+    }
+    .drawerFooter {
+      position: absolute;
+      bottom: 100px;
+      left: 40px;
+      text-decoration: none;
+      .row {
+        display: flex;
+        align-items: center;
+        .logOutIcon {
+          margin-right: 10px;
+          width: 26px;
+          height: 26px;
+        }
+      }
+      .path {
+        text-decoration: none;
+        font-size: 14px;
+        color: rgba(16, 37, 94, 0.6);
+        cursor: pointer;
+      }
+    }
+  }
+}
+@media screen and (max-width: 1150px) {
+  .drawerContainer {
+    height: 100%;
+    width: 140px;
+    transition: width 0.6s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .wrapperSideBar {
+      .drawerHeader {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        .diagImg {
+          width: 52px;
+          height: 52px;
+          justify-content: center;
+          text-align: center;
+        }
+        .headerTextContainer {
+          display: none;
+        }
+        .menu {
+          display: inline;
+          width: 58px;
+          height: 48px;
+          background-color: #eaedf6;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 16px;
+          margin-bottom: 30px;
+          cursor: pointer;
+          .arrow {
+            transform: rotate(-90deg);
+            transition-duration: 0.8s;
+            transition-property: transform;
+          }
+          .closeArrow {
+            transform: rotate(90deg);
+            transition-duration: 0.8s;
+            transition-property: transform;
+          }
+        }
+      }
+      .drawerBody {
+        width: 100%;
+        align-items: center;
+        .listContainer {
+          margin: 0px;
+          padding: 4px;
+          .linkContainer {
+            padding: 3px 0px;
+            position: relative;
+            .openedText {
+              font-weight: 500;
+              font-size: 14px;
+              width: 110px;
+            }
+            .closedText {
+              display: none;
+            }
+          }
+        }
+      }
+      .drawerFooter {
+        .openedText {
+          font-weight: 500;
+          font-size: 14px;
+          width: 110px;
+        }
+        .closedText {
+          display: none;
+        }
+      }
+    }
+  }
+  .drawerContainerOpend {
+    width: 270px;
+    transition: width 0.6s;
+  }
+}

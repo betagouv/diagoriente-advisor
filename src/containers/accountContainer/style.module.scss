@@ -1,0 +1,52 @@
+.accountContainer {
+  width: 100%;
+  .accountBox {
+    width: 100%;
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 85px 0px 50px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 31px;
+    margin-bottom: 36px;
+    .error {
+      margin-bottom: 15px;
+      color: #eb1c1c;
+    }
+    .formLogin {
+      width: 420px;
+      display: flex;
+      flex-direction: column;
+      .twoInputs {
+        display: flex;
+        justify-content: space-between;
+        .miniInput {
+          width: 200px;
+        }
+      }
+      .divider {
+        width: 100%;
+        opacity: 0.3;
+        border-bottom: 1px solid #10255e;
+        margin: 18px 0px 41px 0px;
+      }
+      .rules {
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 19px;
+        color: rgba(16, 37, 94, 0.6);
+        margin-top: 0px;
+        margin-bottom: 14px;
+      }
+    }
+    .conditions {
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 15px;
+      color: rgba(16, 37, 94, 0.6);
+      margin-top: 17px;
+      text-transform: uppercase;
+    }
+  }
+}

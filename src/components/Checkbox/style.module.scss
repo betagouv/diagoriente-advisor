@@ -1,0 +1,35 @@
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+  cursor: pointer;
+  input[type='checkbox'] {
+    visibility: hidden;
+  }
+  .checked {
+    background: url(../../assets/svg/check.svg);
+    position: relative;
+    width: 32px;
+    height: 30px;
+    border: 1px solid rgba(16, 37, 94, 0.6);
+    border-radius: 8px;
+    background-color: #10255e;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .unchecked {
+    position: relative;
+    width: 32px;
+    height: 30px;
+    border: 1px solid rgba(16, 37, 94, 0.6);
+    border-radius: 8px;
+  }
+  .label {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 15px;
+    text-transform: uppercase;
+    color: rgba(16, 37, 94, 0.6);
+    margin-left: 15px;
+  }
+}
