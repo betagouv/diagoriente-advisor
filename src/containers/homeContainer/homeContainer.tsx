@@ -128,7 +128,7 @@ const HomeContainer = () => {
                à propos des personnes que vous suivez : activation des comptes,
                expériences ajoutées et les recherches métiers`
         }
-        data={[data?.length || 0, dataRecentSkills?.length || 0, dataJobs?.length || 0]}
+        data={[data?.length, dataRecentSkills?.length, dataJobs?.length]}
       />
       <div className={classes.box_container}>
         <Box

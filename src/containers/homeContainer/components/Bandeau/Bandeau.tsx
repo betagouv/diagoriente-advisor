@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useConfirmationAdvisor } from 'common/requests/user';
+import classesNames from 'common/utils/classNames';
 import ModalContainer from 'components/Modal/Modal';
 import Button from 'components/Button/Button';
 import Title from 'components/Title/Title';
@@ -22,6 +23,7 @@ const Bandeau = ({ warningMessage, img, title, description, data }: IProps) => {
     }
   }, [onUpdateState.data]);
   const textData = ['Nouveaux parcours', 'Nouvelles expériences', 'Nouveaux métiers'];
+  const empty = data?.every((e) => e === 0);
   return (
     <div className={classes.container}>
       <div className={classes.content}>
@@ -29,17 +31,21 @@ const Bandeau = ({ warningMessage, img, title, description, data }: IProps) => {
         <div className={classes.info_container_text}>
           {!warningMessage && (
             <div className={classes.infoDataContainer}>
-              <div className={classes.infoDataContainerText}>
+              <div
+                className={classesNames(!empty ? classes.infoDataContainerText : classes.infoDataContainerTextEmpty)}
+              >
                 <p className={classes.info_description}>{description}</p>
               </div>
-              <div className={classes.infoContainer}>
-                {data?.map((d, i) => (
-                  <div className={classes.info} key={`${d + textData[i]}`}>
-                    <span className={classes.titleInfo}>{d}</span>
-                    <span className={classes.descriptionInfo}>{textData[i]}</span>
-                  </div>
-                ))}
-              </div>
+              {!empty && (
+                <div className={classes.infoContainer}>
+                  {data?.map((d, i) => (
+                    <div className={classes.info} key={`${d + textData[i]}`}>
+                      <span className={classes.titleInfo}>{d}</span>
+                      <span className={classes.descriptionInfo}>{textData[i]}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
           {warningMessage && (
