@@ -124,7 +124,7 @@ const HomeContainer = () => {
         description={
           data?.length !== 0 || dataRecentSkills?.length !== 0 || dataJobs?.length !== 0
             ? `Voici les nouvelles à propos des personnes que vous suivez`
-            : `Bienvenue Vous recevrez dans ce tableau de bord les informations
+            : `Vous recevrez dans ce tableau de bord les informations
                à propos des personnes que vous suivez : activation des comptes,
                expériences ajoutées et les recherches métiers`
         }
