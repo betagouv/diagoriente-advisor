@@ -41,7 +41,7 @@ const Box = ({
     <div className={classes.box_container}>
       <div className={classes.header_box}>
         <div className={classes.title_box}>{title}</div>
-        {isActive && filters && (
+        {data.length !== 0 && isActive && filters && (
           <div className={classes.select_container}>
             <Select
               value={selectedFilter}
