@@ -180,7 +180,7 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
           ) : null}
         </div>
       </div>
-      <Modal wrapper={style.modal} isOpen={open} onClose={() => setOpen(false)}>
+      <Modal backdropClassName={style.modal} wrapper={style.modal} isOpen={open} onClose={() => setOpen(false)}>
         <ModalSkills userId={match.params.id} />
       </Modal>
     </div>
