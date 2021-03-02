@@ -15,7 +15,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 200px;
+  max-width: 200px;
   stroke: #10255e;
   -webkit-text-stroke-width: 0.5px;
 }
@@ -27,4 +27,7 @@
   font-weight: 500;
   line-height: 15px;
   text-align: left;
+}
+.tooltip {
+  max-width: 200px;
 }

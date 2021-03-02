@@ -1,15 +1,21 @@
-import { useContext, useEffect } from 'react';
+import { useState, useContext, useEffect, useRef } from 'react';
 import Title from 'components/Title/Title';
 
 import { useGetSelectedUserParcour } from 'common/requests/parcours';
 import { RouteComponentProps } from 'react-router-dom';
+import { useJobs } from 'common/requests/jobs';
+import Flicking from '@egjs/react-flicking';
 
 import arrow from 'assets/svg/arrowSelect.svg';
 import download from 'assets/svg/downloadArrow.svg';
 import visualisation from 'assets/svg/visualisation.svg';
-import { SkillType } from 'common/requests/types';
+import { Jobs, SkillType } from 'common/requests/types';
 import UserContext from 'common/contexts/UserContext';
 import moment from 'moment';
+import { Fade } from '@egjs/flicking-plugins';
+import classNames from 'common/utils/classNames';
+import ModalSkills from 'components/ModalSkills/ModalSkills';
+import Modal from 'components/Modal/Modal';
 import Progress1 from './components/progress/progress';
 import ActionCard from './components/ActionCard';
 import Card from './components/Card';
@@ -18,12 +24,21 @@ import Row from './components/Row';
 import Experience from './components/Experience';
 
 const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) => {
+  const [jobsListCall, jobsListState] = useJobs();
+  const [currentItem, setCurrentItem] = useState(0);
   const [getParcoursCall, getParcoursState] = useGetSelectedUserParcour();
   const { user } = useContext(UserContext);
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     getParcoursCall({ variables: { idUser: match.params.id } });
     // eslint-disable-next-line
   }, [match.params.id]);
+  useEffect(() => {
+    if (getParcoursState.data) {
+      jobsListCall({ variables: { parcourId: match.params.id } });
+    }
+    // eslint-disable-next-line
+  }, [getParcoursState.data, match.params.id]);
 
   function formatSkill(skill: Pick<SkillType, 'activities' | 'id' | 'theme' | 'createdAt' | 'engagement' | 'comment'>) {
     return {
@@ -53,6 +68,15 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
   const personal = filterAndFormatSkill('personal');
   const engagement = filterAndFormatSkill('engagement');
   const sport = filterAndFormatSkill('sport');
+  const plugins = [new Fade()];
+  const slider = useRef(null);
+
+  const jobs = jobsListState.data?.myJobs.reduce((result, row) => {
+    const lastRow = result[result.length - 1];
+    if (lastRow && lastRow.length < 4) lastRow.push(row);
+    else result.push([row]);
+    return result;
+  }, [] as Jobs[][]);
 
   const { logo, email, createdAt } = getParcoursState.data?.userParcour?.userId || {};
   const { firstName, lastName } = getParcoursState.data?.userParcour?.userId.profile || { firstName: '', lastName: '' };
@@ -63,20 +87,21 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
       <div className={style.content}>
         <div className={style.firstContent}>
           <div className={style.profilContainer}>
-            <img src={logo} height={210} width={210} alt="" />
+            {logo ? <img src={logo} height={210} width={210} alt="" /> : null}
             <div className={style.profilContent}>
               <div className={style.name}>{`${firstName}  ${lastName}`}</div>
               <div className={style.description}>
                 <Row title={email} />
                 <Row title={`${user?.profile.firstName} ${user?.profile.lastName}`} />
                 <Row title={`inscrit de puis le ${moment(createdAt).format(format)}`} />
-                <Row title="CAP" />
               </div>
             </div>
           </div>
           <div className={style.parcourContainer}>
             <div className={style.compContainer}>
-              <div className={style.titleExp}>Compétences transversales</div>
+              {getParcoursState.data?.userParcour.globalCompetences && (
+                <div className={style.titleExp}>Compétences transversales</div>
+              )}
               <div className={style.compContent}>
                 {getParcoursState.data?.userParcour.globalCompetences
                   .filter((c) => c.type === 'default')
@@ -87,7 +112,7 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
                     </div>
                   ))}
               </div>
-              <div className={style.titleExp}>Centres d’intérêt</div>
+              {families?.length ? <div className={style.titleExp}>Centres d’intérêt</div> : null}
               <div className={style.interestContainer}>
                 {families?.map((familyRow) => {
                   return familyRow.map((family) => (
@@ -115,6 +140,7 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
           <div className={style.title}>Action</div>
           <ActionCard srcStyle={style.srcStyle} title={'télécharger'.toUpperCase()} src={download} />
           <ActionCard
+            onClick={() => setOpen(true)}
             className={style.actionCard}
             srcStyle={style.srcSecondStyle}
             title={'Visualisation Diagoriente'.toUpperCase()}
@@ -127,25 +153,36 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
               <img src={arrow} alt="" />
             </div>
           </div>
-          <div className={style.cardRoot}>
-            <Card
-              title="Assistant/e commercial/e"
-              description="Traitement des commandes, facturation, tenue du fichier clients, surveillance des"
-              showView
-            />
-            <Card
-              title="Assistant/e commercial/e"
-              description="Traitement des commandes, facturation, tenue du fichier clients, surveillance des"
-              showView
-            />
-            <Card
-              title="Assistant/e commercial/e"
-              description="Traitement des commandes, facturation, tenue du fichier clients, surveillance des"
-              showView
-            />
-          </div>
+          {jobs && jobs.length ? (
+            <div className={style.sliderContainer}>
+              <Flicking
+                ref={slider}
+                onChange={(e) => setCurrentItem(e.index)}
+                gap={20}
+                circular
+                duration={100}
+                plugins={plugins}
+              >
+                {jobs.map((job) => (
+                  <div className={style.cardRoot}>
+                    {job.map((j) => (
+                      <Card title={j.title} description={j.description} />
+                    ))}
+                  </div>
+                ))}
+              </Flicking>
+              <div className={style.circleContainer}>
+                {jobs.map((j, index) => (
+                  <div className={classNames(style.circle, currentItem === index && style.secondCircle)} />
+                ))}
+              </div>
+            </div>
+          ) : null}
         </div>
       </div>
+      <Modal wrapper={style.modal} isOpen={open} onClose={() => setOpen(false)}>
+        <ModalSkills userId={match.params.id} />
+      </Modal>
     </div>
   );
 };

@@ -1,5 +1,7 @@
 import view from 'assets/svg/View.svg';
+import Tooltip from 'rc-tooltip';
 import style from './card.module.scss';
+import 'rc-tooltip/assets/bootstrap_white.css';
 
 interface Props {
   title: string;
@@ -10,8 +12,19 @@ const Card = ({ title, description, showView }: Props) => {
   return (
     <div className={style.container}>
       <div className={style.title}>{title}</div>
-      <div className={style.text}>{description}</div>
-      {!showView && <img src={view} alt="" className={style.viewIcon} />}
+
+      <Tooltip
+        overlayClassName={style.tooltip}
+        placement="bottom"
+        overlay={description}
+        arrowContent={<div className="rc-tooltip-arrow-inner" />}
+      >
+        <div className={style.text}>
+          {description.split(' ').slice(0, 10).join(' ')}
+          {description.length > 10 && <span>...</span>}
+        </div>
+      </Tooltip>
+      {showView && <img src={view} alt="" className={style.viewIcon} />}
     </div>
   );
 };

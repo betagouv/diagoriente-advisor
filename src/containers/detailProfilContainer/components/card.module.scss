@@ -1,17 +1,22 @@
 .container {
   display: flex;
   flex-direction: column;
-  width: 180px;
   background-color: #ffd27e;
   border-radius: 16px;
-  justify-content: center;
-  padding: 22px;
+  padding: 20px;
   position: relative;
+  height: 213px;
 }
 .title {
   font-size: 17px;
   color: #10255e;
   font-weight: 700;
+  max-width: 169px;
+  margin-top: 10px;
+  stroke: #10255e;
+  -webkit-text-stroke-width: 0.2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .text {
   font-weight: bold;
@@ -19,10 +24,15 @@
   color: #10255e;
   max-width: 169px;
   margin-top: 10px;
+  overflow: hidden;
 }
 
 .viewIcon {
   position: absolute;
   bottom: 10px;
   right: 10px;
+}
+.tooltip {
+  max-width: 200px;
+  z-index: 9999 !important;
 }
