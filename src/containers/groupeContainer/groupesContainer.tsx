@@ -92,7 +92,6 @@ const groupesContainer = () => {
         list={useGroups}
         create={useCreateGroup}
         modalProps={{ className: style.modal, body: style.modalBody }}
-        noPages
         className={style.crud}
         autoRedirect={false}
         formProps={{ lastCreatedId, onInvite: (group) => setSelectedGroup(group) }}
