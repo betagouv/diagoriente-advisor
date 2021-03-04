@@ -65,6 +65,7 @@ const Parcour = ({ history }: RouteComponentProps) => {
         title: 'CONNEXION',
         key: 'CONNEXION',
         render: (row) => {
+          console.log('user', row.userId);
           const date = row.userId.nbrLogin.length
             ? row.userId.nbrLogin[row.userId.nbrLogin.length - 1].date
             : row.userId.createdAt;
