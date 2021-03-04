@@ -114,6 +114,7 @@ const HomeContainer = () => {
   if (user.isActive && user.tutorialStep !== 5) {
     return <Redirect to="/tutorial" />;
   }
+  console.log('dataRecentSkills', dataRecentSkills);
   return (
     <div className={classNames(classes.container_home, !user.isActive && classes.addPadding)}>
       <Title title="Tableau de board" />
@@ -149,7 +150,7 @@ const HomeContainer = () => {
           descriptopn="Personne n’a encore jouté d’expérience."
           link="En savoir plus"
           image={Exp}
-          data={filtredSkills?.slice(filtredSkills?.length - 6) || []}
+          data={filtredSkills?.slice(filtredSkills?.length - 6).reverse() || []}
           message="a ajouté une expérience"
           filters={['TOUT', 'PROFESSIONNELLE', 'PERSONNELLE', 'ENGAGEMENT', 'SPORT']}
           SetelectedFilter={SetelectedFilter}
@@ -163,7 +164,7 @@ const HomeContainer = () => {
           link="En savoir plus"
           image={Jobs}
           message="a recherché"
-          data={filtredStat || []}
+          data={filtredStat?.slice(filtredStat?.length - 6).reverse() || []}
           filters={['TOUT', 'IMMERSION', 'APPRENTISSAGE']}
           SetelectedFilter={SetelectedFilter}
           selectedFilter={selectedFilter.title === 'Recherches' ? selectedFilter.text : 'Tout'}

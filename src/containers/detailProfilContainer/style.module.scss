@@ -61,7 +61,7 @@
 
 .cardRoot {
   display: grid;
-  grid-template-columns: 180px 180px;
+  grid-template-columns: 170px 170px;
   gap: 20px;
 }
 
@@ -193,4 +193,37 @@
   font-weight: 500;
   font-size: 12px;
   color: #10255e;
+}
+.slider {
+  display: flex;
+  flex: 1 0 auto;
+  width: 100%;
+}
+
+.sliderContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.circleContainer {
+  display: flex;
+  align-self: center;
+
+}
+.circle {
+  background-color: #b0b7cc;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  align-self: center;
+  margin-top: 20px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.secondCircle {
+  background-color: #10255e;
+}
+.modal{
+  z-index: 2001;
 }

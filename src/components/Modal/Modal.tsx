@@ -16,6 +16,7 @@ interface IProps {
   wrapper?: string;
   body?: string;
   close?: string;
+  backdropClassName?: string;
 }
 
 const ModalContainer = ({
@@ -28,6 +29,7 @@ const ModalContainer = ({
   bkground,
   wrapper,
   body,
+  backdropClassName,
   close,
 }: IProps) => {
   return createPortal(
@@ -38,6 +40,7 @@ const ModalContainer = ({
             className={classNames(
               style.backdrop,
               state === 'entered' ? style['backdrop-active'] : style['backdrop-exit'],
+              backdropClassName,
             )}
           />
         )}

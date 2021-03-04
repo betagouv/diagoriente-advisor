@@ -37,11 +37,27 @@ const Box = ({
   const onClickItem = (e: string) => {
     SetelectedFilter({ text: e, title });
   };
+  const traduireType = (text: string) => {
+    let res: string = '';
+    switch (text) {
+      case 'professional':
+        res = 'professionnelle';
+        break;
+      case 'personal':
+        res = 'personnelle';
+        break;
+      default: {
+        res = '';
+      }
+    }
+    return res;
+  };
+
   return (
     <div className={classes.box_container}>
       <div className={classes.header_box}>
         <div className={classes.title_box}>{title}</div>
-        {data.length !== 0 && isActive && filters && (
+        {isActive && filters && (
           <div className={classes.select_container}>
             <Select
               value={selectedFilter}
@@ -67,7 +83,7 @@ const Box = ({
                   </span>
                   <span>{message}</span>
                   <span className={classes.text_bold}>
-                    {` ${e.info.text || `${e.info.theme.type} ${e.info.theme.title}`}`}
+                    {` ${e.info.text || `${traduireType(e.info.theme.type)} ${e.info.theme.title}`}`}
                   </span>
                   <div>
                     <span className={classes.text_date}>
