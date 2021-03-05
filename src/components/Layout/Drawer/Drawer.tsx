@@ -30,6 +30,9 @@ const PrivateDrawer = () => {
   const handleListItemClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, index: number) => {
     setSelectedButton(index);
   };
+  const toggle = () => {
+    setSelectedButton(-1);
+  };
   useEffect(() => {
     window.localStorage.setItem('selectedButton', JSON.stringify(selectedButton));
   }, [selectedButton]);
@@ -89,7 +92,7 @@ const PrivateDrawer = () => {
   return (
     <div className={classNames(style.drawerContainer, open && style.drawerContainerOpend)}>
       <div className={style.wrapperSideBar}>
-        <div className={style.drawerHeader}>
+        <div className={style.drawerHeader} onClick={() => toggle()}>
           <div className={style.menu} onClick={() => setOpen(!open)}>
             <img src={Arrow} alt="arrow" className={open ? style.closeArrow : style.arrow} />
           </div>
