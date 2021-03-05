@@ -74,9 +74,9 @@ const ParcourFilter = ({ onChange, initialValues }: ParcourFilterProps) => {
         <Select
           classes={selectClasses}
           onClickItem={(e) => setCode(e)}
-          options={[{ value: '', label: 'FILTRE' }, ...groupes]}
+          options={[{ value: '', label: 'Tous les groupes' }, ...groupes]}
           value={code}
-          label="FILTRE"
+          label="Tous les groupes"
         />
         <Select
           classes={selectClasses}
