@@ -34,7 +34,7 @@ const ModalContainer = ({
 }: IProps) => {
   return createPortal(
     <>
-      <Transition in={isOpen} mountOnEnter unmountOnExit timeout={300}>
+      <Transition in={isOpen} mountOnEnter unmountOnExit timeout={50}>
         {(state) => (
           <div
             className={classNames(
@@ -45,7 +45,7 @@ const ModalContainer = ({
           />
         )}
       </Transition>
-      <Transition in={isOpen} timeout={300} mountOnEnter unmountOnExit>
+      <Transition in={isOpen} timeout={50} mountOnEnter unmountOnExit>
         {(state) => (
           <div
             className={classNames(
