@@ -1,4 +1,6 @@
 import useLogin from 'common/containers/useLogin';
+import React, { useState } from 'react';
+
 import { Redirect, RouteComponentProps, Link } from 'react-router-dom';
 import { decodeUri } from 'common/utils/url';
 import { useDidMount } from 'common/hooks/useLifeCycle';
@@ -10,7 +12,10 @@ import style from './style.module.scss';
 
 const LoginContainer = ({ location }: RouteComponentProps) => {
   const { user, errorForm, onSubmit, state, actions } = useLogin();
-
+  const [showPassword, setShowPassword] = useState(false);
+  const onShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
   useDidMount(() => {
     window.scrollTo({ top: 0, left: 0 });
   });
@@ -47,7 +52,8 @@ const LoginContainer = ({ location }: RouteComponentProps) => {
               onChange={actions.handleChange}
               value={state.values.password}
               placeholder="Mot de passe"
-              type="password"
+              showPassword={() => onShowPassword()}
+              type={!showPassword ? 'password' : 'text'}
               required
             />
             <Checkbox
