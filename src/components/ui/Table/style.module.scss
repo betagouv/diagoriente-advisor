@@ -15,8 +15,10 @@ $row-height: 64px;
 }
 
 .scroll {
-  overflow-x: auto;
-  position: absolute;
+  overflow-y: hidden;
+  overflow-x: hidden;
+
+  // position: absolute;
   top: 0;
   left: 0;
   right: 0;
