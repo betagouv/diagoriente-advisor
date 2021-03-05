@@ -76,25 +76,29 @@ const Pagination = ({ currentPage, totalPages, onPageChange, className }: Pagina
 
   return (
     <div className={classNames(classes.container, className)}>
-      <span
-        className={classNames(classes.arrow, classes.arrowFirst)}
-        onClick={() => {
-          onPageChange(1);
-        }}
-      >
-        <img alt="" src={ArrowLast} height={26} width={26} />
-      </span>
-      {totalPages > 1 && RenderArrow('left')}
+      {totalPages > NUMBER_OF_PAGES && currentPage > 1 && (
+        <span
+          className={classNames(classes.arrow, classes.arrowFirst)}
+          onClick={() => {
+            onPageChange(1);
+          }}
+        >
+          <img alt="" src={ArrowLast} height={26} width={26} />
+        </span>
+      )}
+      {totalPages > 1 && currentPage > 1 && RenderArrow('left')}
       <div className={classes.pages}>{pages.map(renderPage)}</div>
-      {totalPages > 1 && RenderArrow('right')}
-      <span
-        className={classNames(classes.arrow, classes.arrowLast)}
-        onClick={() => {
-          onPageChange(totalPages);
-        }}
-      >
-        <img alt="" src={ArrowLast} height={26} width={26} />
-      </span>
+      {totalPages > 1 && currentPage < totalPages && RenderArrow('right')}
+      {totalPages > NUMBER_OF_PAGES && currentPage < totalPages && (
+        <span
+          className={classNames(classes.arrow, classes.arrowLast)}
+          onClick={() => {
+            onPageChange(totalPages);
+          }}
+        >
+          <img alt="" src={ArrowLast} height={26} width={26} />
+        </span>
+      )}
     </div>
   );
 };
