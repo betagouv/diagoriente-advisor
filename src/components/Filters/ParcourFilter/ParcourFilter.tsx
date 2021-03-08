@@ -41,7 +41,6 @@ const ParcourFilter = ({ onChange, initialValues }: ParcourFilterProps) => {
       filter.code = code;
     }
     if (search) filter.search = search;
-
     onChange(filter);
   };
 
@@ -68,23 +67,24 @@ const ParcourFilter = ({ onChange, initialValues }: ParcourFilterProps) => {
           }}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          placeholder="Recherche"
         />
       </div>
       <div className={classes.row}>
         <Select
           classes={selectClasses}
           onClickItem={(e) => setCode(e)}
-          options={[{ value: '', label: 'FILTRE' }, ...groupes]}
+          options={[{ value: '', label: 'Tous les groupes' }, ...groupes]}
           value={code}
-          label="FILTRE"
+          label="Tous les groupes"
         />
         <Select
           classes={selectClasses}
           onClickItem={(e) => setCompleted(e)}
           options={[
             { value: '', label: 'Tous les états' },
-            { value: 'true', label: 'Compléte' },
-            { value: 'false', label: 'Non compléte' },
+            { value: 'true', label: 'Complété' },
+            { value: 'false', label: 'Non complété' },
           ]}
           value={completed}
           label="Tous les états"

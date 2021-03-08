@@ -21,12 +21,21 @@ const RegisterContainer = () => {
     confirmationPassword,
     onChangeConfirmationPassword,
     confirmationEmail,
+    showPasswordState,
+    onShowPassword,
+
     onChangeConfirmationEmail,
   } = useRegisterAdvisor();
   useDidMount(() => {
     window.scrollTo({ top: 0, left: 0 });
   });
   const [open, setOpen] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const onShowConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
+
   useEffect(() => {
     if (registerState.data) {
       setOpen(true);
@@ -88,7 +97,8 @@ const RegisterContainer = () => {
                 onChange={actions.handleChange}
                 value={values.password}
                 placeholder="Mot de passe"
-                type="password"
+                showPassword={() => onShowPassword()}
+                type={!showPasswordState ? 'password' : 'text'}
                 containerClassName={style.miniInput}
                 required
               />
@@ -99,7 +109,8 @@ const RegisterContainer = () => {
                 onChange={onChangeConfirmationPassword}
                 value={confirmationPassword}
                 placeholder="Confirmation"
-                type="password"
+                showPassword={() => onShowConfirmPassword()}
+                type={!showConfirmPassword ? 'password' : 'text'}
                 containerClassName={style.miniInput}
                 required
               />

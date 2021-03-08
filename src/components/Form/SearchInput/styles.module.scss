@@ -17,4 +17,10 @@
   &:focus {
     outline: none;
   }
+
 }
+.input::placeholder {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 15px;
+  color: rgba(16, 37, 94, 0.6);}

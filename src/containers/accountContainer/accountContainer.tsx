@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'common/hooks/useInputs';
 import { useUpdateUser } from 'common/requests/user';
 import userContext from 'common/contexts/UserContext';
@@ -12,6 +12,10 @@ import style from './style.module.scss';
 
 const AccountContainer = () => {
   const [errorMsg, setErrorMsg] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showOldPassword, setShowOldPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const [confirmEmail, setConfirmationEmail] = useState('');
   const [confirmPassword, setConfirmationPassword] = useState('');
   const { user } = useContext(userContext);
@@ -50,51 +54,44 @@ const AccountContainer = () => {
     setConfirmationPassword(value);
   };
   const { values } = state;
-  /*  useEffect(() => {
-    if (updateUserState.data) {
-      setUser(updateUserState.data.updateUser);
-    }
-    // eslint-disable-next-line
-  }, [updateUserState.data]); */
   useUpdateUserInfo(updateUserState.data?.updateUser);
+  const onShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+  const onShowOldPassword = () => {
+    setShowOldPassword(!showOldPassword);
+  };
+  const onShowConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
 
-  const callError = () => {
+  const callUpdate = () => {
+    if (
+      confirmEmail === '' &&
+      values.email === '' &&
+      values.lastName === '' &&
+      values.firstName === '' &&
+      values.password === '' &&
+      confirmPassword === '' &&
+      values.institution === ''
+    ) {
+      return setErrorMsg('tous les champs vide');
+    }
     if (confirmEmail !== '') {
       if (confirmEmail !== values.email) {
-        return setErrorMsg('email non conform');
+        return setErrorMsg('email non conforme');
       }
     }
     if (confirmPassword !== values.password) {
       return setErrorMsg('mot de passe non conforme');
     }
-    return setErrorMsg('');
+    if (values.oldPassword === values.password) {
+      return setErrorMsg("Le nouveau mot de passe et l'ancien ne peuvent pas être identiques");
+    }
+    updateUser({ variables: _.pickBy(values, (value) => value) });
+    return setErrorMsg('Vos modifications ont bien été enregistrées');
   };
 
-  const callUpdate = () => {
-    callError();
-  };
-  useEffect(() => {
-    if (errorMsg === '') {
-      updateUser({ variables: _.pickBy(values, (value) => value) });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [errorMsg]);
-  /* const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (actions.validateForm()) {
-      if (confirmEmail !== '') {
-        if (confirmEmail !== values.email) {
-          return setErrorMsg('email non conform');
-        }
-      }
-      if (confirmPassword !== values.password) {
-        return setErrorMsg('mot de pass non conforme');
-      }
-    } else {
-      actions.setAllTouched(true);
-    }
-    return '';
-  }; */
   return (
     <div className={style.accountContainer}>
       <Title title="Mon compte" />
@@ -144,7 +141,8 @@ const AccountContainer = () => {
             name="oldPassword"
             onChange={actions.handleChange}
             value={values.oldPassword}
-            type="password"
+            showPassword={() => onShowOldPassword()}
+            type={!showOldPassword ? 'password' : 'text'}
             containerClassName={style.miniInput}
           />
           <div className={style.twoInputs}>
@@ -152,8 +150,9 @@ const AccountContainer = () => {
               label="nouveau mot de passe"
               name="password"
               onChange={actions.handleChange}
+              showPassword={() => onShowPassword()}
               value={values.password}
-              type="password"
+              type={!showPassword ? 'password' : 'text'}
               containerClassName={style.miniInput}
             />
 
@@ -162,7 +161,8 @@ const AccountContainer = () => {
               name="confirmPassword"
               onChange={onChangeConfirmationPassword}
               value={confirmPassword}
-              type="password"
+              showPassword={() => onShowConfirmPassword()}
+              type={!showConfirmPassword ? 'password' : 'text'}
               containerClassName={style.miniInput}
             />
           </div>
