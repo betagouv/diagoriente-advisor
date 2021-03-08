@@ -12,17 +12,19 @@ interface Props {
 }
 const Card = ({ textCard, logo, className, backColor, logoLink, titleCard }: Props) => {
   return (
-    <div className={classNames(style.cardContainer, className)} style={{ backgroundColor: backColor }}>
-      <div className={style.logoContainer}>
-        <a href={logoLink} target="blank" download>
-          <img src={logo} alt=" " height={40} className={style.logo} />
-        </a>
-      </div>
-      <div className={style.textCard}>
-        <div className={style.titleContainer}>{titleCard}</div>
-        <div className={style.textContainer}>{textCard}</div>
-      </div>
-    </div>
+    <>
+      <a href={logoLink} target="blank" download className={style.linkContainer}>
+        <div className={classNames(style.cardContainer, className)} style={{ backgroundColor: backColor }}>
+          <div className={style.logoContainer}>
+            <img src={logo} alt=" " height={40} className={style.logo} />
+          </div>
+          <div className={style.textCard}>
+            <div className={style.titleContainer}>{titleCard}</div>
+            <div className={style.textContainer}>{textCard}</div>
+          </div>
+        </div>
+      </a>
+    </>
   );
 };
 export default Card;

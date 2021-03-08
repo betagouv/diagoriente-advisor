@@ -4,6 +4,9 @@
   color: #10255e;
   margin-bottom: 5px;
 }
+.linkContainer{
+  text-decoration: none;
+  cursor: pointer;
 .cardContainer {
   display: flex;
   flex-direction: row;
@@ -14,7 +17,12 @@
   height: fit-content;
   margin: 15px 15px;
   &:hover {
-    border: 3px solid #7ae6ff;
+    border: 3px solid #7ae6ff;   
+    overflow: hidden;
+     margin: calc(16px - 3px);
+
+
+
   }
   .textCard {
     width: 100%;
@@ -30,4 +38,5 @@
   .logoContainer {
     margin-right: 20px;
   }
+}
 }
