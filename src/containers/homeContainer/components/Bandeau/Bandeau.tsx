@@ -27,8 +27,8 @@ const Bandeau = ({ warningMessage, img, title, description, data }: IProps) => {
   return (
     <div className={classes.container}>
       <div className={classes.content}>
-        <span className={classes.title_bandeau}>{title}</span>
         <div className={classes.info_container_text}>
+          <span className={classes.title_bandeau}>{title}</span>
           {!warningMessage && (
             <div className={classes.infoDataContainer}>
               <div
@@ -36,24 +36,14 @@ const Bandeau = ({ warningMessage, img, title, description, data }: IProps) => {
               >
                 <p className={classes.info_description}>{description}</p>
               </div>
-              {!empty && (
-                <div className={classes.infoContainer}>
-                  {data?.map((d, i) => (
-                    <div className={classes.info} key={`${d + textData[i]}`}>
-                      <span className={classes.titleInfo}>{d}</span>
-                      <span className={classes.descriptionInfo}>{textData[i]}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
             </div>
           )}
           {warningMessage && (
             <div className={classes.warningContainer}>
-              <span className={classes.warning}>
+              <p className={classes.warning}>
                 Un e-mail a été envoyé a votre boite de réception. Si vous n&apos;avez pas reçu de mail, veuillez
                 cliquer ici pour envoyer un nouvel e-mail de vérification !
-              </span>
+              </p>
               <Button
                 label="Envoyer"
                 onClick={() => onUpdateCall({ variables: { isActive: true } })}
@@ -63,6 +53,16 @@ const Bandeau = ({ warningMessage, img, title, description, data }: IProps) => {
             </div>
           )}
         </div>
+        {!warningMessage && !empty && (
+          <div className={classes.statContainer}>
+            {data?.map((d, i) => (
+              <div className={classes.info} key={`${d + textData[i]}`}>
+                <span className={classes.titleInfo}>{d}</span>
+                <p className={classes.descriptionInfo}>{textData[i]}</p>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       <div className={classes.image_wrapper_bandeau}>
         <div className={classes.image_container_bandeau}>
