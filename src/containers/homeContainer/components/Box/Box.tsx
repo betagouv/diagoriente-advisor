@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import moment from 'moment';
 import 'moment/locale/fr';
 import Select from 'components/Form/Select/Select';
+import { useHistory } from 'react-router-dom';
+/* import { useDidMount } from 'common/hooks/useLifeCycle'; */
 import classes from './box.module.scss';
 
 interface IProps {
@@ -12,6 +14,7 @@ interface IProps {
   image: string;
   message: string;
   data?: any;
+  slicedData?: any;
   filters?: string[];
   SetelectedFilter: (e: { text: string; title: string }) => void;
   selectedFilter: string;
@@ -26,14 +29,21 @@ const Box = ({
   image,
   message,
   data,
+  slicedData,
   filters,
   selectedFilter,
   isActive,
   SetelectedFilter,
 }: IProps) => {
   moment.locale('fr');
+
   const [isOpen, setIsOpen] = useState(false);
+  const [seeAllParc, setSeeAllParc] = useState(false);
+  const [seeAllExp, setSeeAllExp] = useState(false);
+  const [seeAllRech, setSeeAllRech] = useState(false);
+  const [disData, setDisData] = useState([]);
   const onClickSelect = () => setIsOpen(!isOpen);
+  const history = useHistory();
   const onClickItem = (e: string) => {
     SetelectedFilter({ text: e, title });
   };
@@ -52,11 +62,41 @@ const Box = ({
     }
     return res;
   };
+  /*  useDidMount(() => {
+    setDisData(slicedData);
+  });
+ */
+  const onClickSeeAll = () => {
+    if (title === 'Parcours') setSeeAllParc(true);
+    else if (title === 'Expériences') setSeeAllExp(true);
+    else if (title === 'Recherches') setSeeAllRech(true);
+  };
+  useEffect(() => {
+    if (title === 'Parcours')
+      if (seeAllParc) setDisData(data);
+      else setDisData(slicedData);
+  });
+  useEffect(() => {
+    if (title === 'Expériences')
+      if (seeAllExp) setDisData(data);
+      else setDisData(slicedData);
+  });
+  useEffect(() => {
+    if (title === 'Recherches')
+      if (seeAllRech) setDisData(data);
+      else setDisData(slicedData);
+  });
 
   return (
     <div className={classes.box_container}>
-      <div className={classes.header_box}>
+      <div className={classes.header_box} style={{ justifyContent: title === 'Parcours' ? 'flex-start' : '' }}>
         <div className={classes.title_box}>{title}</div>
+        {isActive && title === 'Parcours' && data.length > 6 && disData !== data && (
+          <div className={classes.waiting_container}>
+            <span className={classes.divider} />
+            <span className={classes.nbre}>{`${data.length - slicedData.length} en attente`}</span>
+          </div>
+        )}
         {isActive && filters && (
           <div className={classes.select_container}>
             <Select
@@ -71,14 +111,14 @@ const Box = ({
         )}
       </div>
       <div className={classes.content_box}>
-        {data && data?.length !== 0 ? (
-          data.map((e: any, i: number) => (
+        {disData && disData?.length !== 0 ? (
+          disData.map((e: any, i: number) => (
             // eslint-disable-next-line react/no-array-index-key
             <div key={`${e.info.date}+${i}`} className={classes.rowInfo}>
               <img src={e.user.logo} alt="u" className={classes.logo_user} />
               <div className={classes.info_user}>
                 <div className={classes.text_user}>
-                  <span className={classes.text_bold}>
+                  <span className={classes.text_bold} onClick={() => history.push(`/parcour/${e.userId.id}`)}>
                     {`  ${e.user.profile.firstName} ${e.user.profile.lastName} `}
                   </span>
                   <span>{message}</span>
@@ -103,6 +143,17 @@ const Box = ({
           </>
         )}
       </div>
+      {disData &&
+        disData?.length !== 0 &&
+        ((title === 'Parcours' && !seeAllParc) ||
+          (title === 'Expériences' && !seeAllExp) ||
+          (title === 'Recherches' && !seeAllRech)) && (
+          <div className={classes.button_box}>
+            <div className={classes.seeAll} onClick={onClickSeeAll}>
+              voir tout
+            </div>
+          </div>
+        )}
     </div>
   );
 };

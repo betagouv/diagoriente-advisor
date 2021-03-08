@@ -2,7 +2,8 @@
   width: 32%;
   background: #ffffff;
   border-radius: 16px;
-  padding-bottom: 50px;
+  padding-bottom: 75px;
+  position: relative;
   .header_box {
     height: 40px;
     width: 100%;
@@ -17,6 +18,21 @@
       line-height: 16px;
       color: #10255e;
       margin-left: 32px;
+    }
+    .waiting_container {
+      .divider {
+        width: 32px;
+        height: 0px;
+        border: 1px solid #c1c1c5;
+        transform: rotate(-90deg);
+        margin: 0px 18px 0px 18px;
+      }
+      .nbre {
+        font-weight: 500;
+        font-size: 13px;
+        line-height: 16px;
+        color: #10255e;
+      }
     }
     .select_container {
       margin-right: 32px;
@@ -85,6 +101,31 @@
       font-size: 13px;
       color: rgba(16, 37, 94, 0.6);
       line-height: 20, 8px;
+    }
+  }
+  .button_box {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding: 0px 10px 10px 0px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    .seeAll {
+      width: 114px;
+      height: 48px;
+      background: #f5f6fb;
+      border-radius: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      font-size: 12px;
+      line-height: 15px;
+      text-align: center;
+      text-transform: uppercase;
+      color: #10255e;
+      cursor: pointer;
     }
   }
 }

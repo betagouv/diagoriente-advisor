@@ -30,6 +30,8 @@ const HomeContainer = () => {
   const { getRecentJoinedCall, data } = useRecentJoined();
   const { getListJobsStatCall, dataJobs } = useStatJobs();
   const { recentUserSkillsCall, dataRecentSkills } = useRecentSkills();
+  console.log('data', data);
+  console.log('dataJobs', dataJobs);
 
   useDidMount(() => {
     if (user) {
@@ -115,6 +117,7 @@ const HomeContainer = () => {
     return <Redirect to="/tutorial" />;
   }
   console.log('dataRecentSkills', dataRecentSkills);
+  console.log('user', user);
   return (
     <div className={classNames(classes.container_home, !user.isActive && classes.addPadding)}>
       <Title title="Tableau de board" />
@@ -139,6 +142,7 @@ const HomeContainer = () => {
           link="Envoyez des invitations"
           image={Invitation}
           data={data || []}
+          slicedData={data?.slice(data?.length - 6).reverse() || []}
           message="a rejoint le groupe"
           SetelectedFilter={SetelectedFilter}
           selectedFilter={selectedFilter.title === 'Parcours' ? selectedFilter.text : 'Tout'}
@@ -150,7 +154,8 @@ const HomeContainer = () => {
           descriptopn="Personne n’a encore jouté d’expérience."
           link="En savoir plus"
           image={Exp}
-          data={filtredSkills?.slice(filtredSkills?.length - 6).reverse() || []}
+          data={filtredSkills || []}
+          slicedData={filtredSkills?.slice(filtredSkills?.length - 6).reverse() || []}
           message="a ajouté une expérience"
           filters={['TOUT', 'PROFESSIONNELLE', 'PERSONNELLE', 'ENGAGEMENT', 'SPORT']}
           SetelectedFilter={SetelectedFilter}
@@ -164,7 +169,8 @@ const HomeContainer = () => {
           link="En savoir plus"
           image={Jobs}
           message="a recherché"
-          data={filtredStat?.slice(filtredStat?.length - 6).reverse() || []}
+          data={filtredStat || []}
+          slicedData={filtredStat?.slice(filtredStat?.length - 6).reverse() || []}
           filters={['TOUT', 'IMMERSION', 'APPRENTISSAGE']}
           SetelectedFilter={SetelectedFilter}
           selectedFilter={selectedFilter.title === 'Recherches' ? selectedFilter.text : 'Tout'}
