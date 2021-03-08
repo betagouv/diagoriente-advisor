@@ -13,6 +13,9 @@
   align-self: flex-end;
   cursor: pointer;
   text-decoration: none;
+  &:hover{
+    background-color: rgba(47, 80, 168 , 0.5);;
+  }
 }
 
 .icon {

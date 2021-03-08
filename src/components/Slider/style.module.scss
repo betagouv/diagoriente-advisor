@@ -14,6 +14,9 @@
   background: #ffffff;
   box-shadow: 2px 4px 10px rgba(16, 37, 94, 0.3);
   border-radius: 16px;
+  &:hover{
+    background-color:  rgba(47, 80, 168 , 0.5);
+  }
   .prevArrow {
     color: #011a5e;
     font-size: 33px;
@@ -36,6 +39,9 @@
   background: #ffffff;
   box-shadow: 2px 4px 10px rgba(16, 37, 94, 0.3);
   border-radius: 16px;
+  &:hover{
+    background-color:  rgba(47, 80, 168 , 0.5);
+  }
   .nextArrow {
     color: #011a5e;
     font-size: 33px;

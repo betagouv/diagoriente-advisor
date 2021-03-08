@@ -43,6 +43,9 @@ $arrow-margin: 10.25px;
   background: $background;
   border-radius: $border-radius;
   cursor: pointer;
+  &:hover{
+    background-color:  rgba(47, 80, 168 , 0.5);
+  }
 }
 
 .arrowLeft {
