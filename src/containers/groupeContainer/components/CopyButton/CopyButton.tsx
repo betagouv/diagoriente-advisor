@@ -21,7 +21,7 @@ const CopyButton = ({ code, ...props }: CopyButtonProps) => {
       {...props}
       onClick={() => {
         copyText(code);
-        open('copié!');
+        open('Le code a été copié avec succès');
       }}
       className={style.copy}
     >

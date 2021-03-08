@@ -6,7 +6,7 @@ $whiteColor: #ffffff;
     border-radius: 16px;
     background-color: $whiteColor;
     border-radius: 16px;
-    margin-top: 10px;
+    margin-top: 30px;
     width: clac(100vw - 24vw);
     padding: 30px 100px 30px 100px;
     .headerContainer {
@@ -35,6 +35,9 @@ $whiteColor: #ffffff;
           margin: 0px 5px;
           &:hover {
             border: 3px solid #7ae6ff;
+            margin: calc(16px - 16px);
+            overflow: hidden;
+
           }
         }
       }

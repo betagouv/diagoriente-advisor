@@ -6,7 +6,7 @@ import { useListParcour } from 'common/requests/parcours';
 import Crud, { CreateHeaderType } from 'components/ui/Crud/Crud';
 import { AdminParcourItem } from 'common/requests/types';
 import userContext from 'common/contexts/UserContext';
-import ViewParcourIcon from 'assets/svg/view-parcour-icon.svg';
+import ViewParcourIcon from 'assets/svg/Icon DIAGORIENTE.svg';
 import { useUpdateUser } from 'common/requests/user';
 import classNames from 'common/utils/classNames';
 import ParcourFilter from 'components/Filters/ParcourFilter/ParcourFilter';
@@ -31,7 +31,7 @@ const Parcour = ({ history }: RouteComponentProps) => {
       {
         title: '',
         render: (row) => (
-          <div className={classes.center}>
+          <div className={classes.avatarLogo}>
             <img className={classes.avatar} src={row.userId?.logo} alt="logo" />
           </div>
         ),
@@ -51,7 +51,10 @@ const Parcour = ({ history }: RouteComponentProps) => {
         ],
         render: (row) =>
           row.userId && [
-            `${row.userId.profile.firstName} ${row.userId.profile.lastName}`,
+            <div key="email" className={classes.name}>
+              <span className={classes.firstSpan}>{row.userId.profile.firstName}</span>
+              <span>{row.userId.profile.lastName}</span>
+            </div>,
             <span key="email" className={classes.email}>
               {row.userId.email}
             </span>,
