@@ -3,7 +3,6 @@ import moment from 'moment';
 import 'moment/locale/fr';
 import Select from 'components/Form/Select/Select';
 import { useHistory } from 'react-router-dom';
-/* import { useDidMount } from 'common/hooks/useLifeCycle'; */
 import classes from './box.module.scss';
 
 interface IProps {
@@ -75,17 +74,20 @@ const Box = ({
     if (title === 'Parcours')
       if (seeAllParc) setDisData(data);
       else setDisData(slicedData);
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [title]);
   useEffect(() => {
     if (title === 'Expériences')
       if (seeAllExp) setDisData(data);
       else setDisData(slicedData);
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [title]);
   useEffect(() => {
     if (title === 'Recherches')
       if (seeAllRech) setDisData(data);
       else setDisData(slicedData);
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [title]);
 
   return (
     <div className={classes.box_container}>
@@ -118,7 +120,7 @@ const Box = ({
               <img src={e.user.logo} alt="u" className={classes.logo_user} />
               <div className={classes.info_user}>
                 <div className={classes.text_user}>
-                  <span className={classes.text_bold} onClick={() => history.push(`/parcour/${e.userId.id}`)}>
+                  <span className={classes.text_bold} onClick={() => history.push(`/parcour/${e.user.id}`)}>
                     {`  ${e.user.profile.firstName} ${e.user.profile.lastName} `}
                   </span>
                   <span>{message}</span>
