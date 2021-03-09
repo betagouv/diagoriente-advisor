@@ -61,10 +61,6 @@ const Box = ({
     }
     return res;
   };
-  /*  useDidMount(() => {
-    setDisData(slicedData);
-  });
- */
   const onClickSeeAll = () => {
     if (title === 'Parcours') setSeeAllParc(true);
     else if (title === 'Expériences') setSeeAllExp(true);
@@ -74,20 +70,17 @@ const Box = ({
     if (title === 'Parcours')
       if (seeAllParc) setDisData(data);
       else setDisData(slicedData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [title]);
+  }, [title, data, seeAllParc, slicedData]);
   useEffect(() => {
     if (title === 'Expériences')
       if (seeAllExp) setDisData(data);
       else setDisData(slicedData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [title]);
+  }, [title, data, seeAllExp, slicedData]);
   useEffect(() => {
     if (title === 'Recherches')
       if (seeAllRech) setDisData(data);
       else setDisData(slicedData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [title]);
+  }, [title, data, seeAllRech, slicedData]);
 
   return (
     <div className={classes.box_container}>
@@ -147,6 +140,7 @@ const Box = ({
       </div>
       {disData &&
         disData?.length !== 0 &&
+        disData?.length > 6 &&
         ((title === 'Parcours' && !seeAllParc) ||
           (title === 'Expériences' && !seeAllExp) ||
           (title === 'Recherches' && !seeAllRech)) && (
