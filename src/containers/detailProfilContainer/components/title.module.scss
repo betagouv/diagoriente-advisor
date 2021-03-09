@@ -1,7 +1,7 @@
 .container {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: baseline;
   padding: 20px 0px;
 }
 .title {
@@ -11,11 +11,8 @@
   line-height: 21px;
   text-transform: uppercase;
   padding-right: 8px;
-
-  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 200px;
+  max-width: calc(100% - 56px);
   stroke: #10255e;
   -webkit-text-stroke-width: 0.5px;
 }
