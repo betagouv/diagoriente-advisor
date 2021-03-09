@@ -6,9 +6,12 @@
   border-radius: 16px;
   position: relative;
   width: 257px;
-  height: 256px;
   padding: 20px;
   background: #ffffff;
+
+  @media (min-height: 800px) {
+    height: 250px;
+  }
 }
 
 .pro {
@@ -44,6 +47,9 @@
   display: flex;
   flex-direction: column;
   margin-top: 25px;
+  @media (max-height: 800px) {
+    display: none;
+  }
 }
 
 .text {

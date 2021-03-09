@@ -1,9 +1,6 @@
 /* eslint-disable max-len */
 import React, { useRef } from 'react';
-import ReactDOM from 'react-dom';
 import Flicking from '@egjs/react-flicking';
-import { ChangeEvent } from '@egjs/flicking';
-import { Fade } from '@egjs/flicking-plugins';
 import classNames from 'common/utils/classNames';
 import prevIcon from 'assets/svg/prevArrow.svg';
 import nextIcon from 'assets/svg/nextArrow.svg';
@@ -13,45 +10,46 @@ import style from './style.module.scss';
 
 interface SliderProps {
   skills: Pick<SkillType, 'id' | 'theme' | 'activities' | 'createdAt' | 'engagement'>[];
-  onChange: (e: ChangeEvent) => void;
+  onChange: (index: number) => void;
   currentItem: number;
 }
 
 const Slider = ({ skills, onChange, currentItem }: SliderProps) => {
-  const plugins = [new Fade()];
-  const slider = useRef(null);
+  const slider = useRef<Flicking>(null);
 
   const goToNext = () => {
-    if (slider.current) {
-      (slider.current as any)?.next();
+    if (slider.current && currentItem < skills.length - 1) {
+      slider.current.moveTo(currentItem + 1);
     }
   };
   const goToPrevious = () => {
-    if (slider.current) {
-      (slider.current as any)?.prev();
+    if (slider.current && currentItem > 0) {
+      slider.current.moveTo(currentItem - 1);
     }
   };
   return (
     <div className={style.sliderContainer}>
       <div className={style.sliderContent}>
-        {ReactDOM.createPortal(
-          <div className={style.arrowRight}>
-            <img src={prevIcon} onClick={goToPrevious} alt="" height={24} width={26} className={style.prevArrow} />
-          </div>,
-          document.getElementById('root') as HTMLDivElement,
-        )}
+        <div onClick={goToPrevious} className={style.arrowRight}>
+          <img src={prevIcon} alt="" height={24} width={26} className={style.prevArrow} />
+        </div>
         <div className={style.sliderWrapper}>
           {skills.length ? (
-            <Flicking ref={slider} onChange={onChange} gap={0} circular duration={100} plugins={plugins}>
+            <Flicking ref={slider} onChange={(e) => onChange(e.index)} gap={0} duration={100}>
               {skills.map((skill, i: number) => {
+                const activities =
+                  skill.theme.type === 'engagement'
+                    ? skill.engagement?.options.map((o) => o.option.map((option) => option.title).join(' ')) || []
+                    : skill.activities.map((activity) => activity.title);
                 return (
                   <div key={skill.id} className={classNames(style.item, i === currentItem && style.current_item)}>
                     <Card
-                      activities={
-                        skill.theme.type === 'engagement'
-                          ? skill.engagement?.options.map((o) => o.option.map((option) => option.title).join(' ')) || []
-                          : skill.activities.map((activity) => activity.title)
-                      }
+                      onClick={() => {
+                        if (slider.current) {
+                          slider.current.moveTo(i);
+                        }
+                      }}
+                      activities={activities}
                       title={skill.theme.title}
                       date={skill.createdAt}
                     />
@@ -61,12 +59,9 @@ const Slider = ({ skills, onChange, currentItem }: SliderProps) => {
             </Flicking>
           ) : null}
         </div>
-        {ReactDOM.createPortal(
-          <div className={style.arrowLeft}>
-            <img src={nextIcon} onClick={goToNext} alt=" " height={24} width={26} className={style.nextArrow} />
-          </div>,
-          document.getElementById('root') as HTMLDivElement,
-        )}
+        <div onClick={goToNext} className={style.arrowLeft}>
+          <img src={nextIcon} alt=" " height={24} width={26} className={style.nextArrow} />
+        </div>
       </div>
     </div>
   );
