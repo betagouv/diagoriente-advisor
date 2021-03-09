@@ -8,6 +8,7 @@
     display: flex;
     padding: 30px 20px 15px 20px;
     flex: 1;
+    flex-wrap: wrap;
   }
   .title_bandeau {
     color: #ff458b;
@@ -87,6 +88,11 @@
   position: absolute;
   right: 50px;
   top: -45px;
+}
+@media (max-width:997px) {
+  .image_container_bandeau {
+    top: 35px;
+  }
 }
 .modal_confirmation {
   width: 50% !important;
