@@ -53,6 +53,7 @@ const ModalContainer = ({
               wrapper,
               state === 'entered' ? style['alert-active'] : style['alert-exit'],
             )}
+            onClick={onClose}
           >
             <div
               className={classNames(style.modalWrapper, className)}

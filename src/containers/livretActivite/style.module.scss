@@ -34,9 +34,10 @@ $whiteColor: #ffffff;
           font-size: 18px;
           margin: 0px 5px;
           &:hover {
-            border: 3px solid #7ae6ff;
-            margin: calc(16px - 16px);
-            overflow: hidden;
+       
+            box-shadow: inset 0px 0px 0px 3px #7ae6ff;
+            border: none;
+
 
           }
         }
