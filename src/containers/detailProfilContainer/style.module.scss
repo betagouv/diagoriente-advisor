@@ -117,19 +117,17 @@
   display: grid;
   grid-template-columns: 1fr 85px;
   align-items: center;
-  padding-right: 15px;
+  padding: 6px 15px 6px 0px;
   gap: 10px;
 }
 .comptitle {
   color: #10255e;
   font-size: 11px;
   font-weight: 500;
-  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
   stroke: #10255e;
   -webkit-text-stroke-width: 0.5px;
-  line-height: 20px;
+  line-height: 11px;
 }
 .compContent {
   display: flex;
@@ -208,7 +206,6 @@
 .circleContainer {
   display: flex;
   align-self: center;
-
 }
 .circle {
   background-color: #b0b7cc;
@@ -224,6 +221,6 @@
 .secondCircle {
   background-color: #10255e;
 }
-.modal{
+.modal {
   z-index: 2001;
 }
