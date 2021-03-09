@@ -30,9 +30,11 @@ const Slider = ({ skills, onChange, currentItem }: SliderProps) => {
   return (
     <div className={style.sliderContainer}>
       <div className={style.sliderContent}>
-        <div onClick={goToPrevious} className={style.arrowRight}>
-          <img src={prevIcon} alt="" height={24} width={26} className={style.prevArrow} />
-        </div>
+        {skills.length ? (
+          <div onClick={goToPrevious} className={style.arrowRight}>
+            <img src={prevIcon} alt="" height={24} width={26} className={style.prevArrow} />
+          </div>
+        ) : null}
         <div className={style.sliderWrapper}>
           {skills.length ? (
             <Flicking ref={slider} onChange={(e) => onChange(e.index)} gap={0} duration={100}>
@@ -59,9 +61,11 @@ const Slider = ({ skills, onChange, currentItem }: SliderProps) => {
             </Flicking>
           ) : null}
         </div>
-        <div onClick={goToNext} className={style.arrowLeft}>
-          <img src={nextIcon} alt=" " height={24} width={26} className={style.nextArrow} />
-        </div>
+        {skills.length ? (
+          <div onClick={goToNext} className={style.arrowLeft}>
+            <img src={nextIcon} alt=" " height={24} width={26} className={style.nextArrow} />
+          </div>
+        ) : null}
       </div>
     </div>
   );
