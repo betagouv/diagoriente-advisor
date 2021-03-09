@@ -51,7 +51,7 @@ const Parcour = ({ history }: RouteComponentProps) => {
         ],
         render: (row) =>
           row.userId && [
-            <div key="email" className={classes.name}>
+            <div key="email" className={classes.name} onClick={() => history.push(`/parcour/${row.userId.id}`)}>
               <span className={classes.firstSpan}>{row.userId.profile.firstName}</span>
               <span>{row.userId.profile.lastName}</span>
             </div>,
@@ -116,7 +116,6 @@ const Parcour = ({ history }: RouteComponentProps) => {
         Filter={ParcourFilter}
         createHeaders={createHeaders}
         list={useListParcour}
-        tableProps={{ onRowClick: (row) => history.push(`/parcour/${row.userId.id}`) }}
       />
       <Modal close={classes.close} isOpen={Boolean(selectedUser)} onClose={() => setSelectedUser('')}>
         <ModalSkills userId={selectedUser} />

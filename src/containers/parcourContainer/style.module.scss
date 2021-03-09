@@ -8,23 +8,23 @@
   height: 48px;
   background: #f5f6fb;
   border-radius: 16px;
-  &:hover{
-    background-color: rgba(47, 80, 168 , 0.5);
+  &:hover {
+    background-color: rgba(47, 80, 168, 0.5);
   }
 }
-.name{
+.name {
   display: inline-block;
   font-weight: bold;
- 
-  .firstSpan{
+  cursor: pointer;
+
+  .firstSpan {
     margin: 2px;
   }
   &:hover {
-    border-bottom: 1px solid #10255e ;
-
+    text-decoration: underline;
   }
 }
-.avatarLogo{
+.avatarLogo {
   display: flex;
   align-items: center;
   justify-content: center;

@@ -5,6 +5,9 @@
 /.pnp
 .pnp.js
 .gitlab-ci.yml
+.env.development
+.env.production
+.env.staging
 # testing
 /coverage
 
@@ -17,10 +20,6 @@
 .env.development.local
 .env.test.local
 .env.production.local
-.env.development
-.env.production
-.env.staging
-
 .eslintcache
 
 npm-debug.log*
