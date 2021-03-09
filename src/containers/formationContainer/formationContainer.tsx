@@ -29,7 +29,7 @@ const FormationContainer = () => {
           overflowY: 'hidden',
           border: 'none',
           borderRadius: 15,
-          marginTop: 10,
+          marginTop: 30,
         }}
       />
     </div>
