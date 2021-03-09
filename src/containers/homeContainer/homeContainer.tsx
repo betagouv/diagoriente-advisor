@@ -30,8 +30,6 @@ const HomeContainer = () => {
   const { getRecentJoinedCall, data } = useRecentJoined();
   const { getListJobsStatCall, dataJobs } = useStatJobs();
   const { recentUserSkillsCall, dataRecentSkills } = useRecentSkills();
-  console.log('data', data);
-  console.log('dataJobs', dataJobs);
 
   useDidMount(() => {
     if (user) {
@@ -103,7 +101,7 @@ const HomeContainer = () => {
           break;
         }
         default: {
-          console.log('default');
+          setFiltredSkills([]);
         }
       }
     }
@@ -116,8 +114,6 @@ const HomeContainer = () => {
   if (user.isActive && user.tutorialStep !== 5) {
     return <Redirect to="/tutorial" />;
   }
-  console.log('dataRecentSkills', dataRecentSkills);
-  console.log('user', user);
   return (
     <div className={classNames(classes.container_home, !user.isActive && classes.addPadding)}>
       <Title title="Tableau de board" />

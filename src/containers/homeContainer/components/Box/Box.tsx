@@ -3,7 +3,6 @@ import moment from 'moment';
 import 'moment/locale/fr';
 import Select from 'components/Form/Select/Select';
 import { useHistory } from 'react-router-dom';
-/* import { useDidMount } from 'common/hooks/useLifeCycle'; */
 import classes from './box.module.scss';
 
 interface IProps {
@@ -62,10 +61,6 @@ const Box = ({
     }
     return res;
   };
-  /*  useDidMount(() => {
-    setDisData(slicedData);
-  });
- */
   const onClickSeeAll = () => {
     if (title === 'Parcours') setSeeAllParc(true);
     else if (title === 'Expériences') setSeeAllExp(true);
@@ -75,17 +70,17 @@ const Box = ({
     if (title === 'Parcours')
       if (seeAllParc) setDisData(data);
       else setDisData(slicedData);
-  });
+  }, [title, data, seeAllParc, slicedData]);
   useEffect(() => {
     if (title === 'Expériences')
       if (seeAllExp) setDisData(data);
       else setDisData(slicedData);
-  });
+  }, [title, data, seeAllExp, slicedData]);
   useEffect(() => {
     if (title === 'Recherches')
       if (seeAllRech) setDisData(data);
       else setDisData(slicedData);
-  });
+  }, [title, data, seeAllRech, slicedData]);
 
   return (
     <div className={classes.box_container}>
@@ -97,7 +92,7 @@ const Box = ({
             <span className={classes.nbre}>{`${data.length - slicedData.length} en attente`}</span>
           </div>
         )}
-        {isActive && filters && (
+        {isActive && filters && data.length !== 0 && (
           <div className={classes.select_container}>
             <Select
               value={selectedFilter}
@@ -118,7 +113,7 @@ const Box = ({
               <img src={e.user.logo} alt="u" className={classes.logo_user} />
               <div className={classes.info_user}>
                 <div className={classes.text_user}>
-                  <span className={classes.text_bold} onClick={() => history.push(`/parcour/${e.userId.id}`)}>
+                  <span className={classes.text_bold} onClick={() => history.push(`/parcour/${e.user.id}`)}>
                     {`  ${e.user.profile.firstName} ${e.user.profile.lastName} `}
                   </span>
                   <span>{message}</span>
@@ -145,6 +140,7 @@ const Box = ({
       </div>
       {disData &&
         disData?.length !== 0 &&
+        disData?.length > 6 &&
         ((title === 'Parcours' && !seeAllParc) ||
           (title === 'Expériences' && !seeAllExp) ||
           (title === 'Recherches' && !seeAllRech)) && (

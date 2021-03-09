@@ -43,7 +43,9 @@ const ParcourFilter = ({ onChange, initialValues }: ParcourFilterProps) => {
     if (search) filter.search = search;
     onChange(filter);
   };
-
+  useEffect(() => {
+    if (search === '') handleChange();
+  }, [search]);
   useEffect(() => {
     handleChange();
     // eslint-disable-next-line
