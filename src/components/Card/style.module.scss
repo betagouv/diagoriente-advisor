@@ -12,16 +12,21 @@
   flex-direction: row;
   align-items: flex-start;
   padding: 36px 36px 49px;
-  top: 240px;
   border-radius: 16px;
   height: fit-content;
   margin: 15px 15px;
+  position: relative;
   &:hover {
-    box-shadow: inset 0px 0px 0px 3px #7ae6ff;
-
-
-
-
+    &::after {
+      content: '';
+      border: 3px solid #7ae6ff;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 16px;
+    }
   }
   .textCard {
     width: 100%;
