@@ -42,7 +42,19 @@ const ModalSkills = ({ userId }: IProps) => {
   const currentSkill = useMemo(() => {
     return skills[currentItem];
   }, [skills, currentItem]);
-
+  const renderText = (cp: string[], n: number) => {
+    const description = competences?.competences?.data
+      .filter((c) => {
+        return c.title === cp.join(' ');
+      })
+      .filter(
+        (el) =>
+          (el.type === 'engagement' && currentSkill.theme.type === 'engagement') ||
+          (el.type === 'default' && currentSkill.theme.type === 'personal') ||
+          (el.type === 'default' && currentSkill.theme.type === 'professional'),
+      )[0].niveau[n];
+    return description;
+  };
   const state = {
     series: [
       {
@@ -99,6 +111,21 @@ const ModalSkills = ({ userId }: IProps) => {
             rotate: -40,
             fontSize: '8px',
           },
+        },
+      },
+      tooltip: {
+        custom: ({ series, seriesIndex, dataPointIndex, w }: any) => {
+          const res = renderText(w.globals.labels[dataPointIndex], series[seriesIndex][dataPointIndex]);
+          if (res) {
+            return `<div style="padding:5px">
+            <p style="padding-left:5"><b>${res?.title}</b></p>
+            <p style="padding-left:5">${res?.sub_title}</p>
+            </div>`;
+          }
+          return `<div style="padding:5px">
+          <p style="padding-left:5"><b>${w.globals.labels[dataPointIndex]}</b></p>
+          <p style="padding-left:5">niveau: ${series[seriesIndex][dataPointIndex]}</p>
+          </div>`;
         },
       },
       colors: ['#F12872'],

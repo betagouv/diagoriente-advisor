@@ -133,6 +133,10 @@
       text-transform: uppercase;
       color: #10255e;
       cursor: pointer;
+      &:hover {
+        background-color: rgba(47, 80, 168 , 0.5);
+
+      }
     }
   }
 }
