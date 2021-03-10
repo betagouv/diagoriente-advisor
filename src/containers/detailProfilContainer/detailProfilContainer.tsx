@@ -153,11 +153,7 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
                 slicedData={engagement?.slice(engagement?.length - 3).reverse() || []}
                 title="Expériences d’engagement"
               />
-              <Experience
-                data={sport}
-                slicedData={sport?.slice(sport?.length - 3).reverse() || []}
-                title="Expériences sportives"
-              />
+              <Experience data={sport} slicedData={sport?.slice(sport?.length - 3).reverse() || []} title="Sport" />
             </div>
           </div>
         </div>
