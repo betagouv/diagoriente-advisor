@@ -86,12 +86,12 @@ const Box = ({
     <div className={classes.box_container}>
       <div className={classes.header_box} style={{ justifyContent: title === 'Parcours' ? 'flex-start' : '' }}>
         <div className={classes.title_box}>{title}</div>
-        {isActive && title === 'Parcours' && data.length > 6 && disData !== data && (
+        {/* {isActive && title === 'Parcours' && data.length > 6 && disData !== data && (
           <div className={classes.waiting_container}>
             <span className={classes.divider} />
             <span className={classes.nbre}>{`${data.length - slicedData.length} en attente`}</span>
           </div>
-        )}
+        )} */}
         {isActive && filters && data.length >= 0 && (
           <div className={classes.select_container}>
             <Select
