@@ -136,8 +136,12 @@ const HomeContainer = () => {
           descriptopn="Personne n’a encore accepté d’invitation à rejoindre le groupe."
           link="Envoyez des invitations"
           image={Invitation}
-          data={data || []}
-          slicedData={data?.slice(data?.length - 6).reverse() || []}
+          data={data?.slice().reverse() || []}
+          slicedData={
+            data?.length && data?.length > 6
+              ? data?.slice(data?.length - 6).reverse() || []
+              : data?.slice().reverse() || []
+          }
           message="a rejoint le groupe"
           SetelectedFilter={SetelectedFilter}
           selectedFilter={selectedFilter.title === 'Parcours' ? selectedFilter.text : 'Tout'}
@@ -149,8 +153,12 @@ const HomeContainer = () => {
           descriptopn="Personne n’a encore ajouté d’expérience."
           link="En savoir plus"
           image={Exp}
-          data={filtredSkills || []}
-          slicedData={filtredSkills?.slice(filtredSkills?.length - 6).reverse() || []}
+          data={filtredSkills?.slice().reverse() || []}
+          slicedData={
+            filtredSkills?.length && filtredSkills?.length > 6
+              ? filtredSkills?.slice(filtredSkills?.length - 6).reverse() || []
+              : filtredSkills?.slice().reverse() || []
+          }
           message="a ajouté une expérience"
           filters={['TOUT', 'PROFESSIONNELLE', 'PERSONNELLE', 'ENGAGEMENT', 'SPORT']}
           SetelectedFilter={SetelectedFilter}
@@ -164,8 +172,12 @@ const HomeContainer = () => {
           link="En savoir plus"
           image={Jobs}
           message="a recherché"
-          data={filtredStat || []}
-          slicedData={filtredStat?.slice(filtredStat?.length - 6).reverse() || []}
+          data={filtredStat?.slice().reverse() || []}
+          slicedData={
+            filtredStat?.length && filtredStat?.length > 6
+              ? filtredStat?.slice(filtredStat?.length - 6).reverse() || []
+              : filtredStat?.slice().reverse() || []
+          }
           filters={['TOUT', 'IMMERSION', 'APPRENTISSAGE']}
           SetelectedFilter={SetelectedFilter}
           selectedFilter={selectedFilter.title === 'Recherches' ? selectedFilter.text : 'Tout'}

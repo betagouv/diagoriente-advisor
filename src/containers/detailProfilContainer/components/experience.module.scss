@@ -41,11 +41,34 @@
   align-items: center;
   padding-left: 2px;
   padding-bottom: 10px;
+  cursor: pointer;
 }
 .icon {
-  height: 15px;
+  /* height: 15px; */
   width: 18px;
 }
 .tooltip {
   max-width: 200px;
+}
+.button_box {
+  display: flex;
+  width: fit-content;
+  padding: 0px 10px 10px 0px;
+
+  .seeAll {
+    width: 114px;
+    height: 48px;
+    background: #f5f6fb;
+    border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 15px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #10255e;
+    cursor: pointer;
+  }
 }
