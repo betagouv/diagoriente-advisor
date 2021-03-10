@@ -58,7 +58,7 @@ const TutorialContainer = () => {
             {doneTutorial ? 'Bravo!' : 'Bienvenue'}
           </div>
           <p className={style.subTitle}>
-            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
+            Avant de démarrer, voici un court tutoriel qui vous aidera à prendre en main l’espace pro de Diagoriente.
           </p>
           <div className={style.stepsContainer}>
             {steps.map((step) => {
