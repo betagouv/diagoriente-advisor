@@ -17,7 +17,7 @@ const Button = ({ label, containerStyle, className, outlined, disable, onClick, 
     <div className={classNames(containerStyle, style.buttonContainer)}>
       <button
         type={type || 'submit'}
-        className={classNames(className, !outlined ? style.filledButton : style.outlinedButton)}
+        className={classNames(className, containerStyle, !outlined ? style.filledButton : style.outlinedButton)}
         onClick={onClick}
         disabled={disable}
       >
