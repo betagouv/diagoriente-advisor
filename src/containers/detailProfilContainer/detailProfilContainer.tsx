@@ -6,7 +6,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { useJobs } from 'common/requests/jobs';
 import Flicking from '@egjs/react-flicking';
 
-import arrow from 'assets/svg/arrowSelect.svg';
+/* import arrow from 'assets/svg/arrowSelect.svg'; */
 import download from 'assets/svg/downloadArrow.svg';
 import visualisation from 'assets/svg/visualisation.svg';
 import { Jobs, SkillType } from 'common/requests/types';
@@ -140,22 +140,30 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
             <div className={style.experienceContainer}>
               <Experience
                 data={prof}
-                slicedData={prof?.slice(prof?.length - 3).reverse() || []}
+                slicedData={prof?.length && prof.length > 3 ? prof?.slice(prof?.length - 3) || [] : prof || []}
                 title="Expériences professionnelles"
               />
               <Experience
                 data={personal}
-                slicedData={personal?.slice(personal?.length - 3).reverse() || []}
+                slicedData={
+                  personal?.length && personal.length > 3 ? personal?.slice(personal?.length - 3) || [] : personal || []
+                }
                 title="Expériences personnelles"
               />
               <Experience
                 data={engagement}
-                slicedData={engagement?.slice(engagement?.length - 3).reverse() || []}
+                slicedData={
+                  engagement?.length && engagement.length > 3
+                    ? engagement?.slice(engagement?.length - 3) || []
+                    : engagement || []
+                }
                 title="Expériences d’engagement"
               />
               <Experience
                 data={sport}
-                slicedData={sport?.slice(sport?.length - 3).reverse() || []}
+                slicedData={
+                  sport?.length && sport.length > 3 ? sport?.slice(sport?.length - 3).reverse() || [] : sport || []
+                }
                 title="Expériences sportives"
               />
             </div>
@@ -173,10 +181,10 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
           />
           <div className={style.cardContainer}>
             <div className={style.cardTitle}>Recherches</div>
-            <div className={style.secondCol}>
+            {/*  <div className={style.secondCol}>
               <div className={style.cardTitle}>FILTRE</div>
               <img src={arrow} alt="" />
-            </div>
+            </div> */}
           </div>
           {jobs && jobs.length ? (
             <div className={style.sliderContainer}>
