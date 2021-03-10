@@ -20,8 +20,9 @@ const Card = ({ title, description, showView }: Props) => {
         arrowContent={<div className="rc-tooltip-arrow-inner" />}
       >
         <div className={style.text}>
-          {description.split(' ').slice(0, 10).join(' ')}
-          {description.length > 10 && <span>...</span>}
+          {/* {description.split(' ').slice(0, 10).join(' ')}
+          {description.length > 10 && <span>...</span>} */}
+          {description}
         </div>
       </Tooltip>
       {showView && <img src={view} alt="" className={style.viewIcon} />}
