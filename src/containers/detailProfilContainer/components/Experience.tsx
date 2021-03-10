@@ -27,6 +27,7 @@ interface Props {
 const format = 'MMM YYYY';
 
 const Experience = ({ data, title }: Props) => {
+  console.log('dataExperience', data);
   return (
     <div className={style.container}>
       {data?.length ? <div className={style.title}>{title}</div> : null}
@@ -36,19 +37,22 @@ const Experience = ({ data, title }: Props) => {
           <>
             <div key={j.id} className={style.row}>
               <TitleRow title={j.title} date={moment(j.createdAt).format(format)} />
-              {j.comment?.map((c) => (
-                <div className={style.recommendation}>
-                  <img className={style.icon} src={recommendation} alt="" />
-                  <Tooltip
-                    overlayClassName={style.tooltip}
-                    placement="bottom"
-                    overlay={c.commentText}
-                    arrowContent={<div className="rc-tooltip-arrow-inner" />}
-                  >
-                    <span className={style.text}>{`Recommandé par ${c.firstName} ${c.lastName}`}</span>
-                  </Tooltip>
-                </div>
-              ))}
+              {j.comment?.map(
+                (c) =>
+                  c.status === 'accepted' && (
+                    <div className={style.recommendation}>
+                      <img className={style.icon} src={recommendation} alt="" />
+                      <Tooltip
+                        overlayClassName={style.tooltip}
+                        placement="bottom"
+                        overlay={c.commentText}
+                        arrowContent={<div className="rc-tooltip-arrow-inner" />}
+                      >
+                        <span className={style.text}>{`Recommandé par ${c.firstName} ${c.lastName}`}</span>
+                      </Tooltip>
+                    </div>
+                  ),
+              )}
               <div className={style.description}>
                 {j.description.map((description) => (
                   <div className={style.descriptionContent}>{description}</div>
