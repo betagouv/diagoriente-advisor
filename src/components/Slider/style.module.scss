@@ -14,8 +14,9 @@
   background: #ffffff;
   box-shadow: 2px 4px 10px rgba(16, 37, 94, 0.3);
   border-radius: 16px;
-  &:hover{
-    background-color:  rgba(47, 80, 168 , 0.5);
+  z-index: 2001;
+  &:hover {
+    background-color: rgba(47, 80, 168, 0.8);
   }
   .prevArrow {
     color: #011a5e;
@@ -39,8 +40,9 @@
   background: #ffffff;
   box-shadow: 2px 4px 10px rgba(16, 37, 94, 0.3);
   border-radius: 16px;
-  &:hover{
-    background-color:  rgba(47, 80, 168 , 0.5);
+  z-index: 2001;
+  &:hover {
+    background-color: rgba(47, 80, 168, 0.8);
   }
   .nextArrow {
     color: #011a5e;
