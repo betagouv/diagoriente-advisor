@@ -116,17 +116,16 @@ const HomeContainer = () => {
   }
   return (
     <div className={classNames(classes.container_home, !user.isActive && classes.addPadding)}>
-      <Title title="Tableau de board" />
+      <Title title="Tableau de bord" />
       <Bandeau
         warningMessage={!user?.isActive}
         img={LookUp}
-        title="Bienvenu"
+        title="Bienvenue"
         description={
           data?.length !== 0 || dataRecentSkills?.length !== 0 || dataJobs?.length !== 0
             ? `Voici les nouvelles à propos des personnes que vous suivez`
-            : `Vous recevrez dans ce tableau de bord les informations
-               à propos des personnes que vous suivez : activation des comptes,
-               expériences ajoutées et les recherches métiers`
+            : `Vous pouvez suivre les personnes que vous accompagnez 
+            depuis cet espace (comptes activés, expériences ajoutées et recherches de métiers ou de formations).`
         }
         data={[data?.length, dataRecentSkills?.length, dataJobs?.length]}
       />
@@ -147,7 +146,7 @@ const HomeContainer = () => {
         <Box
           title="Expériences"
           bigTitle="Vide"
-          descriptopn="Personne n’a encore jouté d’expérience."
+          descriptopn="Personne n’a encore ajouté d’expérience."
           link="En savoir plus"
           image={Exp}
           data={filtredSkills || []}

@@ -11,10 +11,11 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   onChange?: (e: ChangeEvent<any>) => void;
   placeholder?: string;
   containerClassName?: string;
+  war?: string;
   required?: boolean;
   type?: string;
 }
-const Input = ({ label, containerClassName, required, showPassword, ...rest }: Props) => {
+const Input = ({ label, containerClassName, war, required, showPassword, ...rest }: Props) => {
   return (
     <div className={classNames(containerClassName, style.inputContainer)}>
       {label && (
@@ -25,8 +26,8 @@ const Input = ({ label, containerClassName, required, showPassword, ...rest }: P
           </div>
         </div>
       )}
-      <div className={style.wrapperInput}>
-        <input {...rest} required={required} className={style.input} />
+      <div className={classNames(style.wrapperInput)}>
+        <input {...rest} required={required} className={classNames(style.input, war)} />
         {showPassword ? (
           <img src={passwordEye} alt="view" onClick={showPassword} className={style.showPasswordImage} />
         ) : (
