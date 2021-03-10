@@ -92,7 +92,7 @@ const Box = ({
             <span className={classes.nbre}>{`${data.length - slicedData.length} en attente`}</span>
           </div>
         )} */}
-        {isActive && filters && data.length >= 0 && (
+        {isActive && filters && data.length > 0 && (
           <div className={classes.select_container}>
             <Select
               value={selectedFilter}
