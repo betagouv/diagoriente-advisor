@@ -77,17 +77,19 @@ const ModalSkills = ({ userId }: IProps) => {
       },
       xaxis: {
         categories:
-          competences?.competences.data.map((c) => {
-            const s = c.title.split(' ');
-            return s
-              .reduce((result, row) => {
-                const lastRow = result[result.length - 1];
-                if (lastRow && lastRow.length < 3) lastRow.push(row);
-                else result.push([row]);
-                return result;
-              }, [] as string[][])
-              .map((r) => r.join(' '));
-          }) || [],
+          competences?.competences.data
+            .filter((c) => c.type === (currentSkill?.theme.type === 'engagement' ? 'engagement' : 'default'))
+            .map((c) => {
+              const s = c.title.split(' ');
+              return s
+                .reduce((result, row) => {
+                  const lastRow = result[result.length - 1];
+                  if (lastRow && lastRow.length < 3) lastRow.push(row);
+                  else result.push([row]);
+                  return result;
+                }, [] as string[][])
+                .map((r) => r.join(' '));
+            }) || [],
         labels: {
           show: true,
           style: {
