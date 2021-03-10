@@ -8,23 +8,31 @@
   height: 213px;
 }
 .title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
   font-size: 14px;
   color: #10255e;
   font-weight: 700;
   max-width: 169px;
   margin-top: 10px;
+  line-height: 18px;
+  max-height: 54px;
+  -webkit-line-clamp: 3;
   stroke: #10255e;
   -webkit-text-stroke-width: 0.2px;
   overflow: hidden;
 }
 .text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  max-height: 100px;
   font-weight: bold;
   font-size: 12px;
-  line-height: 19px;
+  line-height: 20px;
   color: #10255e;
   max-width: 169px;
   margin-top: 10px;
-  margin-bottom: 10px;
   overflow: hidden;
   text-overflow: ellipsis;
   flex: 1 1 auto;
