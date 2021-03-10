@@ -151,7 +151,12 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
         </div>
         <div className={style.secondContent}>
           <div className={style.title}>Action</div>
-          <ActionCard srcStyle={style.srcStyle} title={'télécharger'.toUpperCase()} src={download} />
+          <ActionCard
+            srcStyle={style.srcStyle}
+            title={'télécharger'.toUpperCase()}
+            src={download}
+            className={style.actionCard}
+          />
           <ActionCard
             onClick={() => setOpen(true)}
             className={style.actionCard}
