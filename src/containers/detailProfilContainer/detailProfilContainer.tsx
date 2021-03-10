@@ -153,13 +153,22 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
                 slicedData={engagement?.slice(engagement?.length - 3).reverse() || []}
                 title="Expériences d’engagement"
               />
-              <Experience data={sport} slicedData={sport?.slice(sport?.length - 3).reverse() || []} title="Sport" />
+              <Experience
+                data={sport}
+                slicedData={sport?.slice(sport?.length - 3).reverse() || []}
+                title="Expériences sportives"
+              />
             </div>
           </div>
         </div>
         <div className={style.secondContent}>
           <div className={style.title}>Action</div>
-          <ActionCard srcStyle={style.srcStyle} title={'télécharger'.toUpperCase()} src={download} />
+          <ActionCard
+            srcStyle={style.srcStyle}
+            title={'télécharger'.toUpperCase()}
+            src={download}
+            className={style.actionCard}
+          />
           <ActionCard
             onClick={() => setOpen(true)}
             className={style.actionCard}

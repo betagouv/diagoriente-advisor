@@ -67,8 +67,8 @@ const PrivateDrawer = () => {
       id: 3,
     },
     {
-      text: 'Livret d’activité',
-      path: '/livretActivite',
+      text: 'Ressources',
+      path: '/Ressources',
       svg: <LivretActivite color={selectedButton === 4 ? '#10255e' : 'rgba(16, 37, 94, 0.6)'} />,
       id: 4,
     },

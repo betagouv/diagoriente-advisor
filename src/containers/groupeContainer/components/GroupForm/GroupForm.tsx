@@ -61,6 +61,7 @@ const GroupForm = ({ onSubmit, data, lastCreatedId, onInvite }: GroupFormProps) 
           onChange={handleChange}
           label="Nom du groupe"
           name="title"
+          war={style.war}
           containerClassName={style.input}
           required
         />

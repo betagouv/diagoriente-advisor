@@ -32,7 +32,7 @@ const RootContainer = () => {
           <Route footer path="/login" exact component={LoginContainer} />
           <Route footer path="/register" exact component={RegisterContainer} />
           <Route protected footer path="/formation" exact component={FormationContainer} />
-          <Route protected footer path="/livretActivite" exact component={LivretActiviteContainer} />
+          <Route protected footer path="/Ressources" exact component={LivretActiviteContainer} />
           <Route protected footer path="/parcour/:id" exact component={detailProfilContainer} />
           <Route protected footer path="/parcours" exact component={ParcourContainer} />
           <Route protected footer path="/groupes" component={groupesContainer} />
