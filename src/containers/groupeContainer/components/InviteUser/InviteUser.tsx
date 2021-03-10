@@ -20,7 +20,7 @@ const InviteUser = ({ group, onRequestClose }: GroupFormProps) => {
   const [updateTutoCall, updateTutoState] = useUpdateUser();
   const { open } = useSnackBar();
   const [state, actions] = useForm({ initialValues: { email: '' } });
-  const [inviteToGroup, { data }] = useInviteToGroup();
+  const [inviteToGroup, inviteToGroupState] = useInviteToGroup();
   const { values } = state;
   const { handleChange } = actions;
 
@@ -33,13 +33,14 @@ const InviteUser = ({ group, onRequestClose }: GroupFormProps) => {
   };
 
   useEffect(() => {
-    if (data && onRequestClose) {
-      open(data.inviteToGroup, 'success');
+    if (inviteToGroupState.data && onRequestClose) {
+      open(inviteToGroupState.data.inviteToGroup, 'success');
       onRequestClose();
     }
     // eslint-disable-next-line
-  }, [data]);
+  }, [inviteToGroupState.data]);
   useUpdateUserInfo(updateTutoState.data?.updateUser);
+  console.log('data', inviteToGroupState);
 
   return (
     <div className={style.container}>
@@ -54,7 +55,7 @@ const InviteUser = ({ group, onRequestClose }: GroupFormProps) => {
           containerClassName={style.input}
           required
         />
-        <Button label="valider" className={style.validerButton} />
+        <Button label="valider" disable={inviteToGroupState.loading} />
       </form>
     </div>
   );
