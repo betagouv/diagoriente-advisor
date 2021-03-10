@@ -48,6 +48,9 @@ const Box = ({
   const onClickItem = (e: string) => {
     SetelectedFilter({ text: e, title });
   };
+  const onClickLink = (l: string) => {
+    if (l === 'Envoyez des invitations') history.push(`/groupes`);
+  };
   const traduireType = (text: string) => {
     let res: string = '';
     switch (text) {
@@ -135,7 +138,11 @@ const Box = ({
           <>
             <p className={classes.big_title_box}>{bigTitle}</p>
             <p className={classes.description_box}>{descriptopn}</p>
-            {isActive && <p className={classes.link_box}>{link}</p>}
+            {isActive && (
+              <p className={classes.link_box} onClick={() => onClickLink(link)}>
+                {link}
+              </p>
+            )}
             <img src={image} alt="d" />
           </>
         )}
