@@ -111,7 +111,7 @@ const annex = [
 const LivretActiviteContainer = () => {
   return (
     <div className={style.layout}>
-      <Title title="Livret d’activité" />
+      <Title title="Ressources" />
       <div className={style.livretActiviteContainer}>
         <div className={style.headerContainer}>
           <div className={style.titleContainer}>Téléchargez</div>
