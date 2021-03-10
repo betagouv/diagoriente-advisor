@@ -30,6 +30,9 @@
 .secondCol {
   display: flex;
   flex-direction: row;
+  &:hover{
+    cursor: pointer;
+  }
 }
 .col {
   display: flex;
@@ -53,10 +56,17 @@
 .actionCard {
   margin-top: 20px;
   margin-bottom: 50px;
+  &:hover{
+    background-color: rgba(47, 80, 168 , 0.5);
+    cursor: pointer;
+  }
 }
 .srcSecondStyle {
   height: 20px;
   width: 20px;
+  &:hover{
+    cursor: pointer;
+  }
 }
 
 .cardRoot {
@@ -91,6 +101,7 @@
   color: #10255e;
   font-size: 30px;
   padding-bottom: 20px;
+  white-space: pre-wrap;
 }
 
 .description {

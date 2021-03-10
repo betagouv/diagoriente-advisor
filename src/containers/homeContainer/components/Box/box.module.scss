@@ -92,9 +92,15 @@
       color: #10255e;
     }
     .text_bold {
+      font-size: 14px;
+      color: #10255e;
+   
+    }
+    .text_bold_cur {
       font-weight: bold;
       font-size: 14px;
       color: #10255e;
+      font-weight: bold;
       cursor: pointer;
     }
     .text_date {

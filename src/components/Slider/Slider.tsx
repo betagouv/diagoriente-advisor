@@ -54,6 +54,7 @@ const Slider = ({ skills, onChange, currentItem }: SliderProps) => {
                       activities={activities}
                       title={skill.theme.title}
                       date={skill.createdAt}
+                      type={skill.theme.type}
                     />
                   </div>
                 );
