@@ -136,7 +136,7 @@ const HomeContainer = () => {
           descriptopn="Personne n’a encore accepté d’invitation à rejoindre le groupe."
           link="Envoyez des invitations"
           image={Invitation}
-          data={data || []}
+          data={data?.slice().reverse() || []}
           slicedData={data?.slice(data?.length - 6).reverse() || []}
           message="a rejoint le groupe"
           SetelectedFilter={SetelectedFilter}
@@ -149,7 +149,7 @@ const HomeContainer = () => {
           descriptopn="Personne n’a encore ajouté d’expérience."
           link="En savoir plus"
           image={Exp}
-          data={filtredSkills || []}
+          data={filtredSkills?.slice().reverse() || []}
           slicedData={filtredSkills?.slice(filtredSkills?.length - 6).reverse() || []}
           message="a ajouté une expérience"
           filters={['TOUT', 'PROFESSIONNELLE', 'PERSONNELLE', 'ENGAGEMENT', 'SPORT']}
@@ -164,7 +164,7 @@ const HomeContainer = () => {
           link="En savoir plus"
           image={Jobs}
           message="a recherché"
-          data={filtredStat || []}
+          data={filtredStat?.slice().reverse() || []}
           slicedData={filtredStat?.slice(filtredStat?.length - 6).reverse() || []}
           filters={['TOUT', 'IMMERSION', 'APPRENTISSAGE']}
           SetelectedFilter={SetelectedFilter}
