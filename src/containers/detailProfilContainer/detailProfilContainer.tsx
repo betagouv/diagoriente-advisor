@@ -26,6 +26,7 @@ import Experience from './components/Experience';
 const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) => {
   const [jobsListCall, jobsListState] = useJobs();
   const [currentItem, setCurrentItem] = useState(0);
+
   const [getParcoursCall, getParcoursState] = useGetSelectedUserParcour();
   const { user } = useContext(UserContext);
   const [open, setOpen] = useState(false);
@@ -81,6 +82,14 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
   const { logo, email, createdAt } = getParcoursState.data?.userParcour?.userId || {};
   const { firstName, lastName } = getParcoursState.data?.userParcour?.userId.profile || { firstName: '', lastName: '' };
   const format = 'DD/MM/YYYY';
+
+  const change = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, index: number) => {
+    if (slider.current) {
+      (slider.current as any)?.moveTo(index);
+    }
+    // setCurrentItem(index);
+  };
+
   return (
     <div className={style.container}>
       <Title title="Fiche profil" />
@@ -162,6 +171,10 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
                 circular
                 duration={100}
                 plugins={plugins}
+                draggable
+                pageDots
+                zIndex={0}
+                moveType={{ type: 'snap', count: 1 }}
               >
                 {jobs.map((job) => (
                   <div className={style.cardRoot}>
@@ -172,8 +185,11 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
                 ))}
               </Flicking>
               <div className={style.circleContainer}>
-                {jobs.map((j, index) => (
-                  <div className={classNames(style.circle, currentItem === index && style.secondCircle)} />
+                {jobs.map((e, index) => (
+                  <div
+                    className={classNames(style.circle, currentItem === index && style.secondCircle)}
+                    onClick={(event) => change(event, index)}
+                  />
                 ))}
               </div>
             </div>
