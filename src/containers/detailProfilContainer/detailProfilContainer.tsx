@@ -141,7 +141,11 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
               <Experience data={prof} title="Expériences professionnelles" />
               <Experience data={personal} title="Expériences personnelles" />
               <Experience data={engagement} title="Expériences d’engagement" />
-              <Experience data={sport} title="Sport" />
+              <Experience
+                data={sport}
+                title="Expériences sportives
+"
+              />
             </div>
           </div>
         </div>

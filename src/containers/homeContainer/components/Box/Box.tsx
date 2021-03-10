@@ -56,7 +56,7 @@ const Box = ({
         res = 'personnelle';
         break;
       default: {
-        res = '';
+        res = 'engagement';
       }
     }
     return res;
@@ -92,7 +92,7 @@ const Box = ({
             <span className={classes.nbre}>{`${data.length - slicedData.length} en attente`}</span>
           </div>
         )}
-        {isActive && filters && data.length !== 0 && (
+        {isActive && filters && data.length >= 0 && (
           <div className={classes.select_container}>
             <Select
               value={selectedFilter}
@@ -100,7 +100,7 @@ const Box = ({
               isOpen={isOpen}
               onClickSelect={onClickSelect}
               onClickItem={onClickItem}
-              label="filter"
+              label="filtre"
             />
           </div>
         )}
@@ -113,7 +113,7 @@ const Box = ({
               <img src={e.user.logo} alt="u" className={classes.logo_user} />
               <div className={classes.info_user}>
                 <div className={classes.text_user}>
-                  <span className={classes.text_bold} onClick={() => history.push(`/parcour/${e.user.id}`)}>
+                  <span className={classes.text_bold_cur} onClick={() => history.push(`/parcour/${e.user.id}`)}>
                     {`  ${e.user.profile.firstName} ${e.user.profile.lastName} `}
                   </span>
                   <span>{message}</span>
