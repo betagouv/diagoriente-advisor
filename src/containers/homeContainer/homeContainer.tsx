@@ -147,7 +147,7 @@ const HomeContainer = () => {
         <Box
           title="Expériences"
           bigTitle="Vide"
-          descriptopn="Personne n’a encore jouté d’expérience."
+          descriptopn="Personne n’a encore ajouté d’expérience."
           link="En savoir plus"
           image={Exp}
           data={filtredSkills || []}
