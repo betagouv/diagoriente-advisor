@@ -138,25 +138,32 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
               </div>
             </div>
             <div className={style.experienceContainer}>
-              <Experience data={prof} title="Expériences professionnelles" />
-              <Experience data={personal} title="Expériences personnelles" />
-              <Experience data={engagement} title="Expériences d’engagement" />
+              <Experience
+                data={prof}
+                slicedData={prof?.slice(prof?.length - 3).reverse() || []}
+                title="Expériences professionnelles"
+              />
+              <Experience
+                data={personal}
+                slicedData={personal?.slice(personal?.length - 3).reverse() || []}
+                title="Expériences personnelles"
+              />
+              <Experience
+                data={engagement}
+                slicedData={engagement?.slice(engagement?.length - 3).reverse() || []}
+                title="Expériences d’engagement"
+              />
               <Experience
                 data={sport}
-                title="Expériences sportives
-"
+                slicedData={sport?.slice(sport?.length - 3).reverse() || []}
+                title="Expériences sportives"
               />
             </div>
           </div>
         </div>
         <div className={style.secondContent}>
           <div className={style.title}>Action</div>
-          <ActionCard
-            srcStyle={style.srcStyle}
-            title={'télécharger'.toUpperCase()}
-            src={download}
-            className={style.actionCard}
-          />
+          <ActionCard srcStyle={style.srcStyle} title={'télécharger'.toUpperCase()} src={download} />
           <ActionCard
             onClick={() => setOpen(true)}
             className={style.actionCard}
