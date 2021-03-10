@@ -18,6 +18,7 @@ interface IProps {
   SetelectedFilter: (e: { text: string; title: string }) => void;
   selectedFilter: string;
   isActive: boolean;
+  isEmpty?: boolean;
 }
 
 const Box = ({
@@ -32,6 +33,7 @@ const Box = ({
   filters,
   selectedFilter,
   isActive,
+  isEmpty,
   SetelectedFilter,
 }: IProps) => {
   moment.locale('fr');
@@ -45,6 +47,9 @@ const Box = ({
   const history = useHistory();
   const onClickItem = (e: string) => {
     SetelectedFilter({ text: e, title });
+  };
+  const onClickLink = (l: string) => {
+    if (l === 'Envoyez des invitations') history.push(`/groupes`);
   };
   const traduireType = (text: string) => {
     let res: string = '';
@@ -92,7 +97,7 @@ const Box = ({
             <span className={classes.nbre}>{`${data.length - slicedData.length} en attente`}</span>
           </div>
         )} */}
-        {isActive && filters && data.length > 0 && (
+        {isActive && filters && data.length >= 0 && !isEmpty && (
           <div className={classes.select_container}>
             <Select
               value={selectedFilter}
@@ -133,7 +138,11 @@ const Box = ({
           <>
             <p className={classes.big_title_box}>{bigTitle}</p>
             <p className={classes.description_box}>{descriptopn}</p>
-            {isActive && <p className={classes.link_box}>{link}</p>}
+            {isActive && (
+              <p className={classes.link_box} onClick={() => onClickLink(link)}>
+                {link}
+              </p>
+            )}
             <img src={image} alt="d" />
           </>
         )}

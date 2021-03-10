@@ -26,6 +26,8 @@ const HomeContainer = () => {
   const [selectedFilter, SetelectedFilter] = useState<{ text: string; title: string }>({ text: '', title: '' });
   const [filtredStat, setFiltredStat] = useState<any[] | undefined>([]);
   const [filtredSkills, setFiltredSkills] = useState<any[] | undefined>([]);
+  const [isEmptyStat, setIsEmptyStat] = useState(true);
+  const [isEmptySKills, setIsEmptySKills] = useState(true);
 
   const { getRecentJoinedCall, data } = useRecentJoined();
   const { getListJobsStatCall, dataJobs } = useStatJobs();
@@ -114,6 +116,16 @@ const HomeContainer = () => {
   if (user.isActive && user.tutorialStep !== 5) {
     return <Redirect to="/tutorial" />;
   }
+  useEffect(() => {
+    if (dataJobs?.length === 0) {
+      setIsEmptyStat(true);
+    } else setIsEmptyStat(false);
+  }, [dataJobs]);
+  useEffect(() => {
+    if (dataRecentSkills?.length === 0) {
+      setIsEmptySKills(true);
+    } else setIsEmptySKills(false);
+  }, [dataRecentSkills]);
   return (
     <div className={classNames(classes.container_home, !user.isActive && classes.addPadding)}>
       <Title title="Tableau de bord" />
@@ -163,6 +175,7 @@ const HomeContainer = () => {
           filters={['TOUT', 'PROFESSIONNELLE', 'PERSONNELLE', 'ENGAGEMENT', 'SPORT']}
           SetelectedFilter={SetelectedFilter}
           isActive={user.isActive}
+          isEmpty={isEmptySKills}
           selectedFilter={selectedFilter.title === 'Expériences' ? selectedFilter.text : 'Tout'}
         />
         <Box
@@ -182,6 +195,7 @@ const HomeContainer = () => {
           SetelectedFilter={SetelectedFilter}
           selectedFilter={selectedFilter.title === 'Recherches' ? selectedFilter.text : 'Tout'}
           isActive={user.isActive}
+          isEmpty={isEmptyStat}
         />
       </div>
     </div>
