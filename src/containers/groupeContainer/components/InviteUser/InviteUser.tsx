@@ -43,13 +43,14 @@ const InviteUser = ({ group, onRequestClose }: GroupFormProps) => {
 
   return (
     <div className={style.container}>
-      <h2 className={style.title}>{`Inviter au ${group.title}`}</h2>
+      <h2 className={style.title}>{`Inviter dans le groupe ${group.title}`}</h2>
       <form onSubmit={handleSubmit} className={style.inputGroupeStyle}>
         <Input
           value={values.email}
           onChange={handleChange}
           label="Email"
           name="email"
+          war={style.war}
           containerClassName={style.input}
           required
         />
