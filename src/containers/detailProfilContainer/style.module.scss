@@ -30,6 +30,9 @@
 .secondCol {
   display: flex;
   flex-direction: row;
+  &:hover{
+    cursor: pointer;
+  }
 }
 .col {
   display: flex;

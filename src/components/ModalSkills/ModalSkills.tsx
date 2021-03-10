@@ -110,7 +110,7 @@ const ModalSkills = ({ userId }: IProps) => {
       case 'engagement':
         return "Expériences d'engagement";
       default:
-        return 'Expériences personnel';
+        return 'Expériences personnelles';
     }
   };
 
