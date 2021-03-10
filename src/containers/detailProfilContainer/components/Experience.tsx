@@ -7,65 +7,77 @@ import 'rc-tooltip/assets/bootstrap_white.css';
 import style from './experience.module.scss';
 import TitleRow from './Title';
 
-interface Props {
-  data?: {
+interface PropsSkill {
+  id: string;
+  title: string;
+  description: string[];
+  createdAt: string;
+  comment?: {
     id: string;
-    title: string;
-    description: string[];
-    createdAt: string;
-    comment?: {
-      id: string;
-      lastName: string;
-      firstName: string;
-      commentText: string;
-      status: 'pending' | 'accepted' | 'refused';
-      email: string;
-      institution: string;
-      location: string;
-    }[];
+    lastName: string;
+    firstName: string;
+    commentText: string;
+    status: 'pending' | 'accepted' | 'refused';
+    email: string;
+    institution: string;
+    location: string;
   }[];
-  slicedData?: any;
+}
+interface Props {
+  data?: PropsSkill[];
+  slicedData?: PropsSkill[];
   title: string;
 }
 const format = 'MMM YYYY';
 
 const Experience = ({ data, slicedData, title }: Props) => {
-  const [seeAllPro, setSeeAllPro] = useState(true);
+  const [seeAllPro, setSeeAllPro] = useState(false);
   const [seeAllPerso, setSeeAllPerso] = useState(false);
   const [seeAllEng, setSeeAllEng] = useState(false);
-  const [displayedData, setDisplayedData] = useState([]);
-  const dataArray: any = [data];
-  const seeAllArray: any = [];
-  console.log('dataExperience', data);
-  console.log('array', dataArray);
-  console.log('displayedData', displayedData);
+  const [seeAllSport, setSeeAllSport] = useState(false);
+  const [displayedData, setDisplayedData] = useState<PropsSkill[] | undefined>([]);
+
   const onClickSeeAll = () => {
     if (title === 'Expériences professionnelles') {
       setSeeAllPro(true);
-      seeAllArray.push('pro');
     } else if (title === 'Expériences personnelles') {
       setSeeAllPerso(true);
-      seeAllArray.push('perso');
     } else if (title === 'Expériences d’engagement') {
       setSeeAllEng(true);
-      seeAllArray.push('eng');
+    } else if (title === 'Expériences sportives') {
+      setSeeAllSport(true);
     }
   };
 
   useEffect(() => {
-    if (title === 'Expériences professionnelles') if (!seeAllPro) setDisplayedData(slicedData);
+    if (title === 'Expériences professionnelles') {
+      if (seeAllPro) setDisplayedData(data);
+      else setDisplayedData(slicedData);
+    }
   }, [title, data, seeAllPro]);
   useEffect(() => {
-    if (title === 'Expériences personnelles') if (!seeAllPerso) setDisplayedData(slicedData);
+    if (title === 'Expériences personnelles') {
+      if (seeAllPerso) setDisplayedData(data);
+      else setDisplayedData(slicedData);
+    }
   }, [title, data, seeAllPerso]);
   useEffect(() => {
-    if (title === 'Expériences d’engagement') if (!seeAllEng) setDisplayedData(slicedData);
+    if (title === 'Expériences d’engagement') {
+      if (seeAllEng) setDisplayedData(data);
+      else setDisplayedData(slicedData);
+    }
   }, [title, data, seeAllEng]);
+  useEffect(() => {
+    if (title === 'Expériences sportives') {
+      if (seeAllSport) setDisplayedData(data);
+      else setDisplayedData(slicedData);
+    }
+  }, [title, data, seeAllSport]);
   return (
     <div className={style.container}>
-      {data?.length ? <div className={style.title}>{title}</div> : null}
+      {displayedData?.length ? <div className={style.title}>{title}</div> : null}
 
-      {data?.slice(0, 3).map((j) => {
+      {displayedData?.map((j) => {
         return (
           <>
             <div key={j.id} className={style.row}>
@@ -99,13 +111,19 @@ const Experience = ({ data, slicedData, title }: Props) => {
           </>
         );
       })}
-      {data && data?.length > 3 && (
-        <div className={style.button_box}>
-          <div className={style.seeAll} onClick={onClickSeeAll}>
-            voir tout
+      {displayedData &&
+        displayedData?.length !== 0 &&
+        slicedData?.length === 3 &&
+        ((title === 'Expériences professionnelles' && !seeAllPro) ||
+          (title === 'Expériences personnelles' && !seeAllPerso) ||
+          (title === 'Expériences d’engagement' && !seeAllEng) ||
+          (title === 'Expériences sportives' && !seeAllSport)) && (
+          <div className={style.button_box}>
+            <div className={style.seeAll} onClick={onClickSeeAll}>
+              voir tout
+            </div>
           </div>
-        </div>
-      )}
+        )}
     </div>
   );
 };
