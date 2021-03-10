@@ -19,3 +19,10 @@ body {
 button:focus {
   outline: none;
 }
+
+.apexcharts-tooltip {
+  transform: scale(0.75);
+  @media (max-width: 900px) {
+    transform: scale(1);
+  }
+}

@@ -34,7 +34,7 @@ const ModalContainer = ({
 }: IProps) => {
   return createPortal(
     <>
-      <Transition in={isOpen} mountOnEnter unmountOnExit timeout={50}>
+      {/* <Transition in={isOpen} timeout={50} mountOnEnter unmountOnExit>
         {(state) => (
           <div
             className={classNames(
@@ -42,9 +42,10 @@ const ModalContainer = ({
               state === 'entered' ? style['backdrop-active'] : style['backdrop-exit'],
               backdropClassName,
             )}
+            onClick={() => console.log('clik')}
           />
         )}
-      </Transition>
+      </Transition> */}
       <Transition in={isOpen} timeout={50} mountOnEnter unmountOnExit>
         {(state) => (
           <div
@@ -53,8 +54,15 @@ const ModalContainer = ({
               wrapper,
               state === 'entered' ? style['alert-active'] : style['alert-exit'],
             )}
-            onClick={onClose}
           >
+            <div
+              className={classNames(
+                style.backdrop,
+                state === 'entered' ? style['backdrop-active'] : style['backdrop-exit'],
+                backdropClassName,
+              )}
+              onClick={onClose}
+            />
             <div
               className={classNames(style.modalWrapper, className)}
               style={{ width: widthSize, height: heightSize, backgroundColor: bkground }}

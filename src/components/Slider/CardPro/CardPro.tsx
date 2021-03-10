@@ -7,10 +7,11 @@ interface Props {
   activities: string[];
   title?: string;
   date?: string;
+  onClick?: () => void;
 }
-const CardPro = ({ activities, date, className, title }: Props) => {
+const CardPro = ({ activities, date, className, title, onClick }: Props) => {
   return (
-    <div className={classNames(style.cardContainer, className)}>
+    <div onClick={onClick} className={classNames(style.cardContainer, className)}>
       <div className={style.pro}>Pro</div>
       <div className={style.title}>{title}</div>
       <div className={style.date}>{moment(date).format('DD/MM/YYYY')}</div>

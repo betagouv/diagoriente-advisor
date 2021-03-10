@@ -23,6 +23,7 @@ const ModalSkills = ({ userId }: IProps) => {
     // eslint-disable-next-line
   }, [userId]);
 
+  // eslint-disable-next-line
   useEffect(() => {
     const { height, width } = chartContainerRef.current?.getBoundingClientRect() || {};
     if (height && chartHeight !== height) {
@@ -91,10 +92,10 @@ const ModalSkills = ({ userId }: IProps) => {
           show: true,
           style: {
             colors: competences?.competences.data.map(() => '#10255E') || [],
-            fontSize: '10px',
             fontWeight: 'bold',
             fontStyle: 'Montserrat',
             rotate: -40,
+            fontSize: '8px',
           },
         },
       },
@@ -123,14 +124,14 @@ const ModalSkills = ({ userId }: IProps) => {
               options={state.options}
               series={state.series}
               type="radar"
-              height={Math.max(chartHeight, 357)}
-              width={Math.max(chartWidth, 500)}
+              height={chartHeight * 0.75}
+              width={chartWidth * 0.75}
             />
           </div>
         )}
       </div>
       <div className={style.sliderContent}>
-        <Slider currentItem={currentItem} onChange={(e) => setCurrentItem(e.index)} skills={skills} />
+        <Slider currentItem={currentItem} onChange={setCurrentItem} skills={skills} />
       </div>
     </div>
   );
