@@ -140,7 +140,6 @@ const Box = ({
       </div>
       {disData &&
         disData?.length !== 0 &&
-        disData?.length > 6 &&
         ((title === 'Parcours' && !seeAllParc) ||
           (title === 'Expériences' && !seeAllExp) ||
           (title === 'Recherches' && !seeAllRech)) && (
