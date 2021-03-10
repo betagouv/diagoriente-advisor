@@ -18,6 +18,7 @@ interface IProps {
   SetelectedFilter: (e: { text: string; title: string }) => void;
   selectedFilter: string;
   isActive: boolean;
+  isEmpty?: boolean;
 }
 
 const Box = ({
@@ -32,6 +33,7 @@ const Box = ({
   filters,
   selectedFilter,
   isActive,
+  isEmpty,
   SetelectedFilter,
 }: IProps) => {
   moment.locale('fr');
@@ -92,7 +94,7 @@ const Box = ({
             <span className={classes.nbre}>{`${data.length - slicedData.length} en attente`}</span>
           </div>
         )} */}
-        {isActive && filters && data.length > 0 && (
+        {isActive && filters && data.length >= 0 && !isEmpty && (
           <div className={classes.select_container}>
             <Select
               value={selectedFilter}
