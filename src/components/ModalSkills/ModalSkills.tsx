@@ -142,7 +142,6 @@ const ModalSkills = ({ userId }: IProps) => {
         return 'Expériences personnelles';
     }
   };
-
   return (
     <div className={style.modalContent}>
       <div className={style.chartContainer}>
@@ -153,8 +152,8 @@ const ModalSkills = ({ userId }: IProps) => {
               options={state.options}
               series={state.series}
               type="radar"
-              height={chartHeight * 0.75}
-              width={chartWidth * 0.75}
+              height={Math.min(chartHeight * 0.75, 600)}
+              width={Math.min(chartWidth * 0.75, 600)}
             />
           </div>
         )}

@@ -1,4 +1,4 @@
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 import Button from 'components/Button/Button';
 import Input from 'components/Form/Input/Input';
 
@@ -24,10 +24,14 @@ const GroupForm = ({ onSubmit, data, lastCreatedId, onInvite }: GroupFormProps) 
 
   const { values } = state;
   const { handleChange } = actions;
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit(values);
+    if (values.title.length < 3) {
+      setErrorMsg('Le nom du groupe doit contenir au moins 3 lettres');
+    }
   };
 
   if (data && data.createGroup.id !== lastCreatedId) {
@@ -55,6 +59,8 @@ const GroupForm = ({ onSubmit, data, lastCreatedId, onInvite }: GroupFormProps) 
   return (
     <div className={style.container}>
       <h2 className={style.title}>Ajouter groupe</h2>
+      <div className={style.error}>{errorMsg}</div>
+
       <form onSubmit={handleSubmit} className={style.inputGroupeStyle}>
         <Input
           value={values.title}

@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react';
-import { useConfirmationAdvisor } from 'common/requests/user';
+import { useState, useEffect, useContext } from 'react';
+import { useResendEmailActivation } from 'common/requests/user';
+import userContext from 'common/contexts/UserContext';
 import classesNames from 'common/utils/classNames';
 import ModalContainer from 'components/Modal/Modal';
+import localforage from 'localforage';
 import Button from 'components/Button/Button';
 import Title from 'components/Title/Title';
 import classes from './bandeau.module.scss';
@@ -13,15 +15,30 @@ interface IProps {
   description: string;
   data?: number[] | null;
 }
+const getToken = async () => {
+  const token: string | null = await localforage.getItem('auth');
+  const parsedToken = token ? JSON.parse(token) : '';
+  return parsedToken.token.accessToken;
+};
 
 const Bandeau = ({ warningMessage, img, title, description, data }: IProps) => {
-  const [onUpdateCall, onUpdateState] = useConfirmationAdvisor();
+  const { user } = useContext(userContext);
+  const [onUpdateCall, onUpdateState] = useResendEmailActivation();
   const [open, setOpen] = useState(false);
+
   useEffect(() => {
     if (onUpdateState.data) {
       setOpen(true);
     }
   }, [onUpdateState.data]);
+
+  const onClickSend = async () => {
+    if (user) {
+      const token = await getToken();
+      if (token) onUpdateCall({ variables: { token } });
+    }
+  };
+
   const textData = ['Nouveaux parcours', 'Nouvelles expériences', 'Nouveaux métiers'];
   const empty = data?.every((e) => e === 0);
   return (
@@ -44,12 +61,7 @@ const Bandeau = ({ warningMessage, img, title, description, data }: IProps) => {
                 Un e-mail a été envoyé a votre boite de réception. Si vous n&apos;avez pas reçu de mail, veuillez
                 cliquer ici pour envoyer un nouvel e-mail de vérification !
               </p>
-              <Button
-                label="Envoyer"
-                onClick={() => onUpdateCall({ variables: { isActive: true } })}
-                disable={onUpdateState.loading}
-                className={classes.btn}
-              />
+              <Button label="Envoyer" onClick={onClickSend} disable={onUpdateState.loading} className={classes.btn} />
             </div>
           )}
         </div>

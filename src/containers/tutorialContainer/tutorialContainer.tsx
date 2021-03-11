@@ -48,7 +48,7 @@ const TutorialContainer = () => {
 
   return (
     <div className={style.tutorialContainer}>
-      <Title title="Tableau de board" />
+      <Title title="Tableau de bord" />
       <div className={style.tutorialBox}>
         <div className={style.tutorialContent}>
           <div className={style.logo}>
@@ -58,7 +58,8 @@ const TutorialContainer = () => {
             {doneTutorial ? 'Bravo!' : 'Bienvenue'}
           </div>
           <p className={style.subTitle}>
-            Avant de démarrer, voici un court tutoriel qui vous aidera à prendre en main l’espace pro de Diagoriente.
+            Merci d`&lsquo;`avoir suivi le tutoriel, vous pouvez désormais consulter librement l`&lsquo;`ensemble de
+            l`&lsquo;`espace pro
           </p>
           <div className={style.stepsContainer}>
             {steps.map((step) => {
