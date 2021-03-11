@@ -7,12 +7,14 @@ interface Props {
   containerStyle?: string;
   className?: string;
   outlined?: boolean;
+  loader?: boolean;
+
   disable?: boolean;
   onClick?: () => void;
   logo?: string;
   type?: 'button' | 'submit' | 'reset';
 }
-const Button = ({ label, containerStyle, className, outlined, disable, onClick, logo, type }: Props) => {
+const Button = ({ label, containerStyle, className, outlined, disable, onClick, loader, logo, type }: Props) => {
   return (
     <div className={classNames(containerStyle, style.buttonContainer)}>
       <button
@@ -24,6 +26,7 @@ const Button = ({ label, containerStyle, className, outlined, disable, onClick, 
         {logo && <img src={logo} alt=" " height={26} className={style.logo} />}
 
         {label}
+        {loader && <div className={style.loaderContainer} />}
       </button>
     </div>
   );
