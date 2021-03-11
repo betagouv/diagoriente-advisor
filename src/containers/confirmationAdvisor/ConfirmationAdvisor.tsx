@@ -29,7 +29,7 @@ const ConfirmationAdvisor = () => {
   };
 
   useDidMount(() => {
-    opUpdateCall({ variables: { isActive: true } });
+    opUpdateCall();
   });
   useEffect(() => {
     if (onUpdateState.data) {

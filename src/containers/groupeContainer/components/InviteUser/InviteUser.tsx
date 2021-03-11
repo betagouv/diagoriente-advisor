@@ -40,7 +40,6 @@ const InviteUser = ({ group, onRequestClose }: GroupFormProps) => {
     // eslint-disable-next-line
   }, [inviteToGroupState.data]);
   useUpdateUserInfo(updateTutoState.data?.updateUser);
-  console.log('data', inviteToGroupState);
 
   return (
     <div className={style.container}>
