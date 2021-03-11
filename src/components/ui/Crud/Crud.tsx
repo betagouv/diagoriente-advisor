@@ -286,8 +286,7 @@ const Crud = <
     });
   }
 
-  console.log(data);
-
+ 
   return (
     <>
       <div className={classNames(classes.container, className)}>
@@ -305,7 +304,7 @@ const Crud = <
           />
         )}
 
-        {list.data && <Table {...tableProps} classes={tableClasses} headers={headers} data={data} />}
+        {list.data && <Table {...tableProps} classes={tableClasses} headers={headers} data={data.filter((e)=>e.userId !== null)} />}
         {totalPages && !noPages ? (
           <Pagination
             className={classes.pagination}
