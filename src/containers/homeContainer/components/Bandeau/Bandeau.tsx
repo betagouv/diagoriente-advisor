@@ -25,6 +25,7 @@ const Bandeau = ({ warningMessage, img, title, description, data }: IProps) => {
   const { user } = useContext(userContext);
   const [onUpdateCall, onUpdateState] = useResendEmailActivation();
   const [open, setOpen] = useState(false);
+
   useEffect(() => {
     if (onUpdateState.data) {
       setOpen(true);
