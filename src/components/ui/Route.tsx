@@ -28,6 +28,7 @@ const Route = ({ protected: protectedProp, footer, header, authorizedRole, ...re
   const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
 
   function renderHeader(components: { private: JSX.Element }) {
+    console.log('user....route', user);
     if (!user || !user?.isActive) return null;
     return components.private;
   }
