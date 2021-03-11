@@ -101,8 +101,8 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
               <div className={style.name}>{`${firstName}  ${lastName}`}</div>
               <div className={style.description}>
                 <Row title={email} />
-                <Row title={`${user?.profile.firstName} ${user?.profile.lastName}`} />
-                <Row title={`inscrit de puis le ${moment(createdAt).format(format)}`} />
+                <Row title={`suivi par ${user?.profile.firstName} ${user?.profile.lastName}`} />
+                <Row title={`inscrit depuis le ${moment(createdAt).format(format)}`} />
               </div>
             </div>
           </div>
