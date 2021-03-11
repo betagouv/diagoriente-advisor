@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import moment from 'moment';
 import recommendation from 'assets/svg/recommendation.svg';
 import recommendationH from 'assets/svg/recommendationHand.svg';
-import Tooltip from 'rc-tooltip';
+import useOnclickOutside from 'common/hooks/useOnclickOutside';
+/* import Tooltip from 'rc-tooltip'; */
 import 'rc-tooltip/assets/bootstrap_white.css';
 import style from './experience.module.scss';
 import TitleRow from './Title';
@@ -36,6 +37,9 @@ const Experience = ({ data, slicedData, title }: Props) => {
   const [seeAllEng, setSeeAllEng] = useState(false);
   const [seeAllSport, setSeeAllSport] = useState(false);
   const [displayedData, setDisplayedData] = useState<PropsSkill[] | undefined>([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const divTooltip = useRef<HTMLDivElement>(null);
+  useOnclickOutside(divTooltip, () => setIsOpen(false));
 
   const onClickSeeAll = () => {
     if (title === 'Expériences professionnelles') {
@@ -85,20 +89,25 @@ const Experience = ({ data, slicedData, title }: Props) => {
               {j.comment?.map(
                 (c) =>
                   c.status === 'accepted' && (
-                    <div className={style.recommendation}>
+                    <div className={style.recommendation} onClick={() => setIsOpen(true)}>
                       <img
                         className={style.icon}
                         src={title === 'Expériences d’engagement' ? recommendation : recommendationH}
                         alt=""
                       />
-                      <Tooltip
+                      {/*   <Tooltip
                         overlayClassName={style.tooltip}
-                        placement="bottom"
+                        placement="top"
                         overlay={c.commentText}
                         arrowContent={<div className="rc-tooltip-arrow-inner" />}
-                      >
-                        <span className={style.text}>{`Recommandé par ${c.firstName} ${c.lastName}`}</span>
-                      </Tooltip>
+                      > */}
+                      <span className={style.text}>{`Recommandé par ${c.firstName} ${c.lastName}`}</span>
+                      {/* </Tooltip> */}
+                      {isOpen && (
+                        <div className={style.tooltip} ref={divTooltip}>
+                          {c.commentText}
+                        </div>
+                      )}
                     </div>
                   ),
               )}
