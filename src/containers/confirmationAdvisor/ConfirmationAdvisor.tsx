@@ -3,10 +3,11 @@ import UserContext from 'common/contexts/UserContext';
 import { useConfirmationAdvisor } from 'common/requests/user';
 import { useDidMount } from 'common/hooks/useLifeCycle';
 import localforage from 'localforage';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useLocation } from 'react-router-dom';
 import { User } from 'common/requests/types';
 
 const ConfirmationAdvisor = () => {
+  const location = useLocation();
   const { setUser } = useContext(UserContext);
   const [opUpdateCall, onUpdateState] = useConfirmationAdvisor();
   const [updated, setUpdate] = useState(false);
@@ -29,7 +30,7 @@ const ConfirmationAdvisor = () => {
   };
 
   useDidMount(() => {
-    opUpdateCall();
+    opUpdateCall({ variables: { token: location.search.slice(7) } });
   });
   useEffect(() => {
     if (onUpdateState.data) {
