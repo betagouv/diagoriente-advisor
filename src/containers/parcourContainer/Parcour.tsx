@@ -71,7 +71,7 @@ const Parcour = ({ history }: RouteComponentProps) => {
           const date = row.userId?.nbrLogin.length
             ? row.userId.nbrLogin[row.userId.nbrLogin.length - 1].date
             : row.userId?.createdAt;
-          return date?moment(date).fromNow():'-';
+          return date ? moment(date).fromNow() : '-';
         },
       },
       {
