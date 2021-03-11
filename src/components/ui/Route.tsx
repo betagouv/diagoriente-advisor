@@ -25,6 +25,8 @@ const Route = ({ protected: protectedProp, footer, header, authorizedRole, ...re
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const { user } = useContext(UserContext);
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
+
   function renderHeader(components: { private: JSX.Element }) {
     if (!user || !user?.isActive) return null;
     return components.private;
@@ -38,6 +40,9 @@ const Route = ({ protected: protectedProp, footer, header, authorizedRole, ...re
       return <Redirect to="/" />;
     }
   }
+  if (user && isAuthPage) {
+    return <Redirect to="/" />;
+  }
   function renderRoute() {
     if ((!user || user.role === 'user') && authorizedRole === 'admin') {
       return <NotFoundPage />;
@@ -48,7 +53,6 @@ const Route = ({ protected: protectedProp, footer, header, authorizedRole, ...re
 
     return <BaseRoute {...rest} />;
   }
-  const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
   return (
     <DrawerContext.Provider value={{ open, setOpen }}>
       <div className={classNames(header && classes.container, classes.row)}>
