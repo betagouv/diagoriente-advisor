@@ -46,7 +46,7 @@ const Bandeau = ({ warningMessage, img, title, description, data }: IProps) => {
               </p>
               <Button
                 label="Envoyer"
-                onClick={() => onUpdateCall({ variables: { isActive: true } })}
+                onClick={() => onUpdateCall()}
                 disable={onUpdateState.loading}
                 className={classes.btn}
               />
