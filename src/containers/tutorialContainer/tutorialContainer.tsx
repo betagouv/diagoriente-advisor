@@ -48,7 +48,7 @@ const TutorialContainer = () => {
 
   return (
     <div className={style.tutorialContainer}>
-      <Title title="Tableau de board" />
+      <Title title="Tableau de bord" />
       <div className={style.tutorialBox}>
         <div className={style.tutorialContent}>
           <div className={style.logo}>
