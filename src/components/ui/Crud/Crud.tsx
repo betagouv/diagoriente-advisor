@@ -286,7 +286,8 @@ const Crud = <
     });
   }
 
-console.log(data);
+  console.log(data);
+
   return (
     <>
       <div className={classNames(classes.container, className)}>
