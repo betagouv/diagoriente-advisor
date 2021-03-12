@@ -57,10 +57,18 @@ const TutorialContainer = () => {
           <div className={style.title} style={{ color: doneTutorial ? '#3AB8BA' : '' }}>
             {doneTutorial ? 'Bravo!' : 'Bienvenue'}
           </div>
-          <p className={style.subTitle}>
-            Merci d`&lsquo;`avoir suivi le tutoriel, vous pouvez désormais consulter librement l`&lsquo;`ensemble de
-            l`&lsquo;`espace pro
-          </p>
+          {doneTutorial ? (
+            <p className={style.subTitle}>
+              Merci d&lsquo;avoir suivi le tutoriel, vous pouvez désormais consulter librement l&lsquo;ensemble de
+              l&lsquo;espace pro
+            </p>
+          ) : (
+            <p className={style.subTitle}>
+              Avant de démarrer, voici un court tutoriel qui vous aidera à prendre en main l&lsquo;espace pro de
+              Diagoriente.
+            </p>
+          )}
+
           <div className={style.stepsContainer}>
             {steps.map((step) => {
               return (

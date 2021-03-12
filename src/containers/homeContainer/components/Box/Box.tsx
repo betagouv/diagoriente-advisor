@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import moment from 'moment';
 import 'moment/locale/fr';
 import Select from 'components/Form/Select/Select';
 import { useHistory } from 'react-router-dom';
+import useOnclickOutside from 'common/hooks/useOnclickOutside';
 import classes from './box.module.scss';
 
 interface IProps {
@@ -43,6 +44,8 @@ const Box = ({
   const [seeAllExp, setSeeAllExp] = useState(false);
   const [seeAllRech, setSeeAllRech] = useState(false);
   const [disData, setDisData] = useState([]);
+  const refSelect = useRef<HTMLDivElement>(null);
+  useOnclickOutside(refSelect, () => setIsOpen(false));
   const onClickSelect = () => setIsOpen(!isOpen);
   const history = useHistory();
   const onClickItem = (e: string) => {
@@ -98,7 +101,7 @@ const Box = ({
           </div>
         )} */}
         {isActive && filters && data.length >= 0 && !isEmpty && (
-          <div className={classes.select_container}>
+          <div className={classes.select_container} ref={refSelect}>
             <Select
               value={selectedFilter}
               options={filters.map((e) => ({ value: e, label: e }))}

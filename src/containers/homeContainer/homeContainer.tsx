@@ -142,11 +142,13 @@ const HomeContainer = () => {
   return (
     <div className={classNames(classes.container_home, !user.isActive && classes.addPadding)}>
       <Title title="Tableau de bord" />
-      <div className={classes.btn_container}>
-        <button className={classes.btnLogout} onClick={logout}>
-          <span className={classes.spanBtn}>Se Déconnecter</span>
-        </button>
-      </div>
+      {!user.isActive && (
+        <div className={classes.btn_container}>
+          <button className={classes.btnLogout} onClick={logout}>
+            <span className={classes.spanBtn}>Se Déconnecter</span>
+          </button>
+        </div>
+      )}
 
       {/*       <Button label="Se Déconnecter" onClick={logout} className={classes.btnLogout} />
        */}
