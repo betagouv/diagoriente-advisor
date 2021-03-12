@@ -4,6 +4,8 @@ import useRecentJoined from 'common/containers/groupe/RecentJoined';
 import useRecentSkills from 'common/containers/parcours/recentSkills';
 import useStatJobs from 'common/containers/statistique/useStatJobs';
 import classNames from 'common/utils/classNames';
+import Logout from 'assets/svg/logout.svg';
+
 // hooks
 import { useDidMount } from 'common/hooks/useLifeCycle';
 // context
@@ -144,14 +146,10 @@ const HomeContainer = () => {
       <Title title="Tableau de bord" />
       {!user.isActive && (
         <div className={classes.btn_container}>
-          <button className={classes.btnLogout} onClick={logout}>
-            <span className={classes.spanBtn}>Se Déconnecter</span>
-          </button>
+          <img src={Logout} alt="logout" className={classes.logOutIcon} onClick={logout} />
         </div>
       )}
 
-      {/*       <Button label="Se Déconnecter" onClick={logout} className={classes.btnLogout} />
-       */}
       <Bandeau
         warningMessage={!user?.isActive}
         img={LookUp}
