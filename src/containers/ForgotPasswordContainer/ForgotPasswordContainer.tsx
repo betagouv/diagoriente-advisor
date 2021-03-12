@@ -28,7 +28,7 @@ const ForgotPassword = () => {
   }, [forgotState.data]);
   const callError = () => {
     if (state.errors.email !== '') setError(state.errors.email);
-    else if (error === '') setError('');
+    else setError("l'adresse e-mail est invalide");
   };
 
   return (
