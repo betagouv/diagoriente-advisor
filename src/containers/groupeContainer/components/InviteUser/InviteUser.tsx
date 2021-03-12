@@ -42,13 +42,13 @@ const InviteUser = ({ group, onRequestClose }: GroupFormProps) => {
     } else setErrorMsg(' Votre adresse e-mail doit contenir @');
 
     inviteToGroup({ variables: { code: group.code, email: values.email.trim() } });
-    if (user?.tutorialStep === 2) {
-      updateTutoCall({ variables: { tutorialStep: 3 } });
-    }
   };
 
   useEffect(() => {
     if (inviteToGroupState.data && onRequestClose) {
+      if (user?.tutorialStep === 2) {
+        updateTutoCall({ variables: { tutorialStep: 3 } });
+      }
       open(inviteToGroupState.data.inviteToGroup, 'success');
       onRequestClose();
     }
