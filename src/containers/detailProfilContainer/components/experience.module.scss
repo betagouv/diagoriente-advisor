@@ -49,6 +49,7 @@
   position: relative;
   width: fit-content;
   padding-right: 150px;
+  min-width: 300px;
 }
 .icon {
   /* height: 15px; */
@@ -66,7 +67,7 @@
   padding: 10px;
   position: absolute;
   bottom: 40px;
-  left: 150px;
+  left: calc(100% - 300px);
 }
 .button_box {
   display: flex;
