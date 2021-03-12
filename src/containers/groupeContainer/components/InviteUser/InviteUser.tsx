@@ -35,7 +35,6 @@ const InviteUser = ({ group, onRequestClose }: GroupFormProps) => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     inviteToGroup({ variables: { code: group.code, email: values.email.trim() } });
   };
   const callError = () => {
@@ -44,13 +43,25 @@ const InviteUser = ({ group, onRequestClose }: GroupFormProps) => {
   };
   useEffect(() => {
     if (inviteToGroupState.data && onRequestClose) {
+      open(inviteToGroupState.data.inviteToGroup, 'success');
+    }
+  }, [inviteToGroupState, onRequestClose, open]);
+
+  useEffect(() => {
+    if (inviteToGroupState.data) {
       if (user?.tutorialStep === 2) {
         updateTutoCall({ variables: { tutorialStep: 3 } });
       }
-      open(inviteToGroupState.data.inviteToGroup, 'success');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inviteToGroupState.data]);
+  useEffect(() => {
+    if (updateTutoState.data && onRequestClose) {
       onRequestClose();
     }
-  }, [inviteToGroupState.data]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [updateTutoState.data]);
+
   useUpdateUserInfo(updateTutoState.data?.updateUser);
 
   return (
