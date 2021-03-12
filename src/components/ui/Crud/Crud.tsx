@@ -304,7 +304,7 @@ const Crud = <
           />
         )}
 
-        {list.data && <Table {...tableProps} classes={tableClasses} headers={headers} data={data.filter((e)=>e.userId !== null)} />}
+        {list.data && <Table {...tableProps} classes={tableClasses} headers={headers} data={data} />}
         {totalPages && !noPages ? (
           <Pagination
             className={classes.pagination}
