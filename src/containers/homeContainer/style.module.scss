@@ -8,6 +8,12 @@
     justify-content: flex-end;
     margin-top: -30px;
     margin-bottom: 10px;
+    .logOutIcon {
+      margin-right: 10px;
+      width: 26px;
+      height: 26px;
+      cursor: pointer;
+    }
 
     .btnLogout {
       width: 180px;

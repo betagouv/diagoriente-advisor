@@ -10,6 +10,8 @@ import LivretActiviteContainer from 'containers/livretActivite/livretActivite';
 import LoginContainer from 'containers/loginContainer';
 import detailProfilContainer from 'containers/detailProfilContainer/detailProfilContainer';
 import RegisterContainer from 'containers/registerContainer';
+import ForgotPasswordContainer from 'containers/ForgotPasswordContainer/ForgotPasswordContainer';
+
 import FormationContainer from 'containers/formationContainer/formationContainer';
 import AccountContainer from 'containers/accountContainer/accountContainer';
 import ConfirmationAdvisor from 'containers/confirmationAdvisor/';
@@ -31,6 +33,8 @@ const RootContainer = () => {
           <Route protected footer path="/tutorial" exact component={TutorialContainer} />
           <Route footer path="/login" exact component={LoginContainer} />
           <Route footer path="/register" exact component={RegisterContainer} />
+          <Route footer path="/forgotPassword" exact component={ForgotPasswordContainer} />
+
           <Route protected footer path="/formation" exact component={FormationContainer} />
           <Route protected footer path="/Ressources" exact component={LivretActiviteContainer} />
           <Route protected footer path="/parcour/:id" exact component={detailProfilContainer} />
@@ -38,6 +42,7 @@ const RootContainer = () => {
           <Route protected footer path="/groupes" component={groupesContainer} />
           <Route protected footer path="/detail-profil" exact component={detailProfilContainer} />
           <Route protected footer path="/account" exact component={AccountContainer} />
+          <Route footer path="/forgotPassword" exact component={ForgotPasswordContainer} />
           <Route path="/confirmationAdvisor" component={ConfirmationAdvisor} />
         </Switch>
         <SnackBar

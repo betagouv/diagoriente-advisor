@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'common/hooks/useInputs';
 import { useUpdateUser } from 'common/requests/user';
 import userContext from 'common/contexts/UserContext';
@@ -91,11 +91,6 @@ const AccountContainer = () => {
     updateUser({ variables: _.pickBy(values, (value) => value) });
     return setErrorMsg('Vos modifications ont bien été enregistrées');
   };
-  useEffect(() => {
-    if (updateUserState.error) {
-      setErrorMsg(updateUserState.error.message);
-    }
-  }, [updateUserState.error]);
 
   return (
     <div className={style.accountContainer}>
