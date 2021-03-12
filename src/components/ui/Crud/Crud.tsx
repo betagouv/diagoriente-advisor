@@ -285,8 +285,6 @@ const Crud = <
         : tableClassesProps[key];
     });
   }
-
- 
   return (
     <>
       <div className={classNames(classes.container, className)}>
