@@ -68,10 +68,10 @@ const Parcour = ({ history }: RouteComponentProps) => {
         title: 'CONNEXION',
         key: 'CONNEXION',
         render: (row) => {
-          const date = row.userId.nbrLogin.length
+          const date = row.userId?.nbrLogin.length
             ? row.userId.nbrLogin[row.userId.nbrLogin.length - 1].date
-            : row.userId.createdAt;
-          return moment(date).fromNow();
+            : row.userId?.createdAt;
+          return date ? moment(date).fromNow() : '-';
         },
       },
       {

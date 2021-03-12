@@ -10,10 +10,16 @@ import { useDidMount } from 'common/hooks/useLifeCycle';
 import userContext from 'common/contexts/UserContext';
 // components
 import Title from 'components/Title/Title';
+// import Button from 'components/Button/Button';
+
 // assets
 import Invitation from 'assets/svg/invitationWomen.svg';
 import Jobs from 'assets/svg/jobsHome.svg';
 import Exp from 'assets/svg/expHome.svg';
+// ez
+
+import { setAuthorizationBearer, client } from 'common/requests/client';
+import localforage from 'localforage';
 // local component
 import { Redirect } from 'react-router-dom';
 import LookUp from 'assets/svg/lookUp.svg';
@@ -22,7 +28,7 @@ import Box from './components/Box/Box';
 import classes from './style.module.scss';
 
 const HomeContainer = () => {
-  const { user } = useContext(userContext);
+  const { user, setUser } = useContext(userContext);
   const [selectedFilter, SetelectedFilter] = useState<{ text: string; title: string }>({ text: '', title: '' });
   const [filtredStat, setFiltredStat] = useState<any[] | undefined>([]);
   const [filtredSkills, setFiltredSkills] = useState<any[] | undefined>([]);
@@ -110,12 +116,6 @@ const HomeContainer = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedFilter.text]);
 
-  if (!user) {
-    return <Redirect to="/login" />;
-  }
-  if (user.isActive && user.tutorialStep !== 5) {
-    return <Redirect to="/tutorial" />;
-  }
   useEffect(() => {
     if (dataJobs?.length === 0) {
       setIsEmptyStat(true);
@@ -126,9 +126,32 @@ const HomeContainer = () => {
       setIsEmptySKills(true);
     } else setIsEmptySKills(false);
   }, [dataRecentSkills]);
+  const logout = () => {
+    localforage.removeItem('auth');
+    setAuthorizationBearer('');
+    setUser(null);
+    localStorage.clear();
+    client.clearStore();
+  };
+  if (!user) {
+    return <Redirect to="/login" />;
+  }
+  if (user.isActive && user.tutorialStep !== 5) {
+    return <Redirect to="/tutorial" />;
+  }
   return (
     <div className={classNames(classes.container_home, !user.isActive && classes.addPadding)}>
       <Title title="Tableau de bord" />
+      {!user.isActive && (
+        <div className={classes.btn_container}>
+          <button className={classes.btnLogout} onClick={logout}>
+            <span className={classes.spanBtn}>Se Déconnecter</span>
+          </button>
+        </div>
+      )}
+
+      {/*       <Button label="Se Déconnecter" onClick={logout} className={classes.btnLogout} />
+       */}
       <Bandeau
         warningMessage={!user?.isActive}
         img={LookUp}
