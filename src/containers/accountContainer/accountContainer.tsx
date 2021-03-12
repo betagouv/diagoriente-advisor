@@ -75,17 +75,29 @@ const AccountContainer = () => {
       confirmPassword === '' &&
       values.institution === ''
     ) {
-      return setErrorMsg('tous les champs vide');
+      return setErrorMsg('tous les champs vides');
+    }
+    if (state.errors.firstName !== '') {
+      return setErrorMsg(state.errors.firstName);
+    }
+    if (state.errors.lastName !== '') {
+      return setErrorMsg(state.errors.lastName);
+    }
+    if (state.errors.email !== '') {
+      return setErrorMsg(state.errors.email);
+    }
+    if (state.errors.institution !== '') {
+      return setErrorMsg(state.errors.institution);
     }
     if (confirmEmail !== '') {
       if (confirmEmail !== values.email) {
         return setErrorMsg('email non conforme');
       }
-    }
+    } else return setErrorMsg('Confirmation email est requise');
     if (confirmPassword !== values.password) {
       return setErrorMsg('mot de passe non conforme');
     }
-    if (values.oldPassword === values.password) {
+    if (values.oldPassword === values.password && values.oldPassword !== '' && values.password !== '') {
       return setErrorMsg("Le nouveau mot de passe et l'ancien ne peuvent pas être identiques");
     }
     updateUser({ variables: _.pickBy(values, (value) => value) });
