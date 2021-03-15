@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react';
 
 import { Link } from 'react-router-dom';
@@ -7,7 +6,6 @@ import { useDidMount } from 'common/hooks/useLifeCycle';
 import Input from 'components/Form/Input/Input';
 import useForgotPassword from 'common/containers/useForgotPassword';
 import Button from 'components/Button/Button';
-import ModalContainer from 'components/Modal/Modal';
 
 import Logo from '../../assets/svg/diagoriente_logo.svg';
 import style from './style.module.scss';
@@ -33,9 +31,11 @@ const ForgotPassword = () => {
 
   return (
     <div className={style.container}>
-      <div className={style.logoContainer}>
-        <img src={Logo} alt="logo" />
-      </div>
+      <a href="https://diagoriente.beta.gouv.fr/" className={style.logoContainer}>
+        <div>
+          <img src={Logo} alt="logo" />
+        </div>
+      </a>
       <div className={style.boxLogin}>
         {!open ? (
           <div className={style.content}>

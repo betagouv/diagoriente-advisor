@@ -27,9 +27,11 @@ const LoginContainer = ({ location }: RouteComponentProps) => {
 
   return (
     <div className={style.container}>
-      <div className={style.logoContainer}>
-        <img src={Logo} alt="logo" />
-      </div>
+      <a href="https://diagoriente.beta.gouv.fr/" className={style.logoContainer}>
+        <div>
+          <img src={Logo} alt="logo" />
+        </div>
+      </a>
       <div className={style.boxLogin}>
         <div className={style.content}>
           <div className={style.title}>Connexion</div>
