@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useDidMount } from 'common/hooks/useLifeCycle';
 import { RouteComponentProps, Redirect } from 'react-router-dom';
@@ -14,6 +14,7 @@ const RenewPasswordContainer = ({ location }: RouteComponentProps) => {
   const { state, actions, resetStateAdvisor, onSubmit } = useRenewPassword(location);
   const [error, setError] = useState<string>('');
   const [showPassword, setShowPassword] = useState(false);
+  const [errorCount, setErrorCount] = useState(0);
 
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -26,10 +27,30 @@ const RenewPasswordContainer = ({ location }: RouteComponentProps) => {
   useDidMount(() => {
     window.scrollTo({ top: 0, left: 0 });
   });
+  useEffect(() => {
+    if (resetStateAdvisor.error?.graphQLErrors.length !== 0) {
+      if (
+        resetStateAdvisor.error?.graphQLErrors[0].message &&
+        typeof resetStateAdvisor.error?.graphQLErrors[0].message === 'object'
+      ) {
+        setError((resetStateAdvisor.error?.graphQLErrors[0].message as any).message);
+      } else if (
+        resetStateAdvisor.error?.graphQLErrors[0].message &&
+        typeof resetStateAdvisor.error?.graphQLErrors[0].message === 'string'
+      ) {
+        setErrorCount(errorCount + 1);
 
+        setError(resetStateAdvisor.error?.graphQLErrors[0].message);
+      }
+    }
+    if (resetStateAdvisor.error?.message && resetStateAdvisor.error?.graphQLErrors.length === 0) {
+      setError(resetStateAdvisor.error?.message);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resetStateAdvisor.error]);
   const callError = () => {
     if (state.errors.password !== '') setError(state.errors.password);
-    else setError('password est invalide');
+    else setError('');
   };
 
   if (resetStateAdvisor.data && !resetStateAdvisor.error) {
