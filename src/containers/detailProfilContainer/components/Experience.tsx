@@ -36,10 +36,10 @@ const Experience = ({ data, slicedData, title }: Props) => {
   const [seeAllEng, setSeeAllEng] = useState(false);
   const [seeAllSport, setSeeAllSport] = useState(false);
   const [displayedData, setDisplayedData] = useState<PropsSkill[] | undefined>([]);
-  const [isOpen, setIsOpen] = useState(false);
+  /*  const [isOpen, setIsOpen] = useState(false); */
   const [isHover, setIsHover] = useState(false);
   const divTooltip = useRef<HTMLDivElement>(null);
-  useOnclickOutside(divTooltip, () => setIsOpen(false));
+  useOnclickOutside(divTooltip, () => setIsHover(false));
 
   const onClickSeeAll = () => {
     if (title === 'Expériences professionnelles') {
@@ -94,7 +94,7 @@ const Experience = ({ data, slicedData, title }: Props) => {
                       className={style.recommendation}
                       onMouseEnter={() => setIsHover(true)}
                       onMouseLeave={() => setIsHover(false)}
-                      onClick={() => setIsOpen(true)}
+                      /* onClick={() => setIsOpen(true)} */
                     >
                       <RecomIcon width="16px" height="18px" color={isHover ? '#4b6bc4' : '#10255E'} />
                       {/*   <Tooltip
@@ -110,7 +110,7 @@ const Experience = ({ data, slicedData, title }: Props) => {
                         {`Recommandé par ${c.firstName} ${c.lastName}`}
                       </span>
                       {/* </Tooltip> */}
-                      {isOpen && (
+                      {isHover && (
                         <div className={style.tooltip} ref={divTooltip}>
                           {c.commentText}
                         </div>
