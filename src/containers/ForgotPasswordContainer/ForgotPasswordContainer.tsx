@@ -22,11 +22,13 @@ const ForgotPassword = () => {
   useEffect(() => {
     if (forgotState.data) {
       setOpen(true);
-    } else setError("l'adresse e-mail est invalide");
+    }
   }, [forgotState.data]);
   const callError = () => {
     if (state.errors.email !== '') setError(state.errors.email);
-    else setError('');
+    if (!forgotState.error) {
+      setError("l'adresse e-mail est invalide");
+    } else setError('');
   };
 
   return (
