@@ -58,25 +58,25 @@ const Experience = ({ data, slicedData, title }: Props) => {
       if (seeAllPro) setDisplayedData(data);
       else setDisplayedData(slicedData);
     }
-  }, [title, data, seeAllPro]);
+  }, [title, data, seeAllPro, slicedData]);
   useEffect(() => {
     if (title === 'Expériences personnelles') {
       if (seeAllPerso) setDisplayedData(data);
       else setDisplayedData(slicedData);
     }
-  }, [title, data, seeAllPerso]);
+  }, [title, data, seeAllPerso, slicedData]);
   useEffect(() => {
     if (title === 'Expériences d’engagement') {
       if (seeAllEng) setDisplayedData(data);
       else setDisplayedData(slicedData);
     }
-  }, [title, data, seeAllEng]);
+  }, [title, data, seeAllEng, slicedData]);
   useEffect(() => {
     if (title === 'Expériences sportives') {
       if (seeAllSport) setDisplayedData(data);
       else setDisplayedData(slicedData);
     }
-  }, [title, data, seeAllSport]);
+  }, [title, data, seeAllSport, slicedData]);
 
   return (
     <div className={style.container}>
