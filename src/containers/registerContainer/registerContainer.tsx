@@ -43,9 +43,11 @@ const RegisterContainer = () => {
   }, [registerState.data]);
   return (
     <div className={style.container}>
-      <div className={style.logoContainer}>
-        <img src={Logo} alt="logo" />
-      </div>
+      <a href="https://diagoriente.beta.gouv.fr/" className={style.logoContainer}>
+        <div>
+          <img src={Logo} alt="logo" />
+        </div>
+      </a>
       <div className={style.boxRegister}>
         <div className={style.content}>
           <div className={style.title}>Création de compte</div>
