@@ -1,9 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import moment from 'moment';
-import recomm from 'assets/svg/recommendation.svg';
-import recomHover from 'assets/svg/recommendationHover.svg';
-import recomHand from 'assets/svg/recommendationHand.svg';
-import recomHandHover from 'assets/svg/recommendationHandHover.svg';
+import RecomIcon from 'assets/svg/Recommendation';
 import useOnclickOutside from 'common/hooks/useOnclickOutside';
 /* import Tooltip from 'rc-tooltip'; */
 import 'rc-tooltip/assets/bootstrap_white.css';
@@ -99,27 +96,19 @@ const Experience = ({ data, slicedData, title }: Props) => {
                       onMouseLeave={() => setIsHover(false)}
                       onClick={() => setIsOpen(true)}
                     >
-                      <img
-                        className={style.icon}
-                        src={
-                          // eslint-disable-next-line
-                          title === 'Expériences d’engagement'
-                            ? !isHover
-                              ? recomm
-                              : recomHover
-                            : !isHover
-                            ? recomHand
-                            : recomHandHover
-                        }
-                        alt=""
-                      />
+                      <RecomIcon width="16px" height="18px" color={isHover ? '#4b6bc4' : '#10255E'} />
                       {/*   <Tooltip
                         overlayClassName={style.tooltip}
                         placement="top"
                         overlay={c.commentText}
                         arrowContent={<div className="rc-tooltip-arrow-inner" />}
                       > */}
-                      <span className={style.text}>{`Recommandé par ${c.firstName} ${c.lastName}`}</span>
+                      <span
+                        className={style.text}
+                        style={{ color: isHover ? '#4b6bc4' : '', stroke: isHover ? '#4b6bc4' : '' }}
+                      >
+                        {`Recommandé par ${c.firstName} ${c.lastName}`}
+                      </span>
                       {/* </Tooltip> */}
                       {isOpen && (
                         <div className={style.tooltip} ref={divTooltip}>
