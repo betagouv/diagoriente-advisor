@@ -30,7 +30,7 @@ const groupesContainer = () => {
     if (location.pathname === '/groupes' && crudRef.current?.createState?.data) {
       crudRef.current.list.refetch();
       setLastCreatedId(crudRef.current.createState.data.createGroup.id);
-      if (user?.isActive && user.tutorialStep === 1) {
+      if (user?.tutorialStep === 1) {
         updateTutoCall({ variables: { tutorialStep: 2 } });
       }
     }
