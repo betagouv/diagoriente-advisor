@@ -11,7 +11,7 @@ import LoginContainer from 'containers/loginContainer';
 import detailProfilContainer from 'containers/detailProfilContainer/detailProfilContainer';
 import RegisterContainer from 'containers/registerContainer';
 import ForgotPasswordContainer from 'containers/ForgotPasswordContainer/ForgotPasswordContainer';
-
+import RenewPasswordContainer from 'containers/RenewPasswordContainer/RenewPasswordContainer';
 import FormationContainer from 'containers/formationContainer/formationContainer';
 import AccountContainer from 'containers/accountContainer/accountContainer';
 import ConfirmationAdvisor from 'containers/confirmationAdvisor/';
@@ -43,6 +43,8 @@ const RootContainer = () => {
           <Route protected footer path="/detail-profil" exact component={detailProfilContainer} />
           <Route protected footer path="/account" exact component={AccountContainer} />
           <Route footer path="/forgotPassword" exact component={ForgotPasswordContainer} />
+          <Route footer path="/reset" exact component={RenewPasswordContainer} />
+
           <Route path="/confirmationAdvisor" component={ConfirmationAdvisor} />
         </Switch>
         <SnackBar

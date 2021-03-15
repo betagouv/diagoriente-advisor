@@ -217,6 +217,10 @@
 .circleContainer {
   display: flex;
   align-self: center;
+  &:hover{
+    cursor: pointer;
+
+  }
 }
 .circle {
   background-color: #b0b7cc;
