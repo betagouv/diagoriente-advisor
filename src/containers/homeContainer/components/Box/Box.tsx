@@ -63,6 +63,9 @@ const Box = ({
       case 'personal':
         res = 'personnelle';
         break;
+      case 'sport':
+        res = 'sportive';
+        break;
       default: {
         res = 'engagement';
       }
