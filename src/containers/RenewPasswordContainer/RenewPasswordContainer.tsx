@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { useDidMount } from 'common/hooks/useLifeCycle';
 import { RouteComponentProps, Redirect } from 'react-router-dom';
@@ -11,7 +11,7 @@ import Logo from '../../assets/svg/diagoriente_logo.svg';
 import style from './style.module.scss';
 
 const RenewPasswordContainer = ({ location }: RouteComponentProps) => {
-  const { state, actions, resetState, onSubmit } = useRenewPassword(location);
+  const { state, actions, resetStateAdvisor, onSubmit } = useRenewPassword(location);
   const [error, setError] = useState<string>('');
   const [showPassword, setShowPassword] = useState(false);
 
@@ -27,16 +27,14 @@ const RenewPasswordContainer = ({ location }: RouteComponentProps) => {
     window.scrollTo({ top: 0, left: 0 });
   });
 
-  useEffect(() => {
-    if (resetState.data) {
-      <Redirect to="/login" />;
-    }
-  }, [resetState.data]);
   const callError = () => {
     if (state.errors.password !== '') setError(state.errors.password);
     else setError('password est invalide');
   };
 
+  if (resetStateAdvisor.data && !resetStateAdvisor.error) {
+    return <Redirect to="/login" />;
+  }
   return (
     <div className={style.container}>
       <a href="https://diagoriente.beta.gouv.fr/" className={style.logoContainer}>
