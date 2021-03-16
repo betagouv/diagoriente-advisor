@@ -17,6 +17,7 @@ const Card = ({ title, description, showView }: Props) => {
         overlayClassName={style.tooltip}
         placement="top"
         overlay={description}
+        overlayStyle={{ borderRadius: '10px', border: 'none' }}
         overlayInnerStyle={{
           backgroundColor: '#10255e',
           borderRadius: '10px',
