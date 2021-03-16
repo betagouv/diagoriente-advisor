@@ -11,7 +11,7 @@ import Logo from '../../assets/svg/diagoriente_logo.svg';
 import style from './style.module.scss';
 
 const LoginContainer = ({ location }: RouteComponentProps) => {
-  const { user, errorForm, onSubmit, state, actions } = useLogin();
+  const { user, errors, errorForm, onSubmit, state, actions } = useLogin();
   const [showPassword, setShowPassword] = useState(false);
   const onShowPassword = () => {
     setShowPassword(!showPassword);
@@ -24,6 +24,7 @@ const LoginContainer = ({ location }: RouteComponentProps) => {
     const { from } = decodeUri(location.search);
     return <Redirect to={from || '/'} />;
   }
+  console.log('errorForm', errorForm, 'errors', errors);
 
   return (
     <div className={style.container}>
@@ -38,7 +39,9 @@ const LoginContainer = ({ location }: RouteComponentProps) => {
           <Link to="/register" className={style.link}>
             <div className={style.linkLabel}>vous n’avez pas de compte ?</div>
           </Link>
-          <div className={style.error}>{errorForm}</div>
+          <div className={style.errorContainer}>
+            <p className={style.error}>{errorForm || Object.values(errors).filter((e) => e !== '')[0]}</p>
+          </div>
           <form className={style.formLogin} onSubmit={onSubmit}>
             <Input
               label="Email"

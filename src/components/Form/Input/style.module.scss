@@ -1,5 +1,6 @@
 .inputContainer {
   width: 100%;
+  margin-bottom: 24px;
   .labelContainer {
     .label {
       font-family: Montserrat;
@@ -18,14 +19,13 @@
     justify-content: center;
     align-items: baseline;
     position: relative;
-    .showPasswordImage{
-      position: absolute ;   
-      bottom:36px;
-      right:5px;
-      width:24px;
-      height:24px;;
+    .showPasswordImage {
+      position: absolute;
+      bottom: 13px;
+      right: 5px;
+      width: 24px;
+      height: 24px;
       cursor: pointer;
-
     }
     .input {
       width: -webkit-fill-available;
@@ -39,12 +39,19 @@
       line-height: 30px;
       color: #10255e;
       padding-left: 24px;
-      margin-bottom: 24px;
+
       &:focus {
         outline: none;
         border: 1px solid #10255e;
       }
-     
+    }
+    .inputError {
+      border-radius: 16px;
+      border: 1px solid red !important;
+    }
+    .inputErrorText {
+      color: red;
+      font-size: 14px;
     }
     .input::placeholder {
       font-weight: 500;
@@ -56,5 +63,9 @@
     .input::-moz-placeholder {
       line-height: 48px;
     }
+  }
+  .inputErrorText {
+    color: red;
+    font-size: 14px;
   }
 }
