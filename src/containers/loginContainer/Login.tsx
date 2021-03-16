@@ -24,8 +24,6 @@ const LoginContainer = ({ location }: RouteComponentProps) => {
     const { from } = decodeUri(location.search);
     return <Redirect to={from || '/'} />;
   }
-  console.log('errorForm', errorForm, 'errors', errors);
-
   return (
     <div className={style.container}>
       <a href="https://diagoriente.beta.gouv.fr/" className={style.logoContainer}>
