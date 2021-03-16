@@ -87,7 +87,6 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
     if (slider.current) {
       (slider.current as any)?.moveTo(index);
     }
-    // setCurrentItem(index);
   };
 
   return (
@@ -171,7 +170,12 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
         </div>
         <div className={style.secondContent}>
           <div className={style.title}>Action</div>
-          <ActionCard srcStyle={style.srcStyle} title={'télécharger'.toUpperCase()} src={download} />
+          <ActionCard
+            srcStyle={style.srcStyle}
+            title={'télécharger'.toUpperCase()}
+            src={download}
+            className={style.actionCard}
+          />
           <ActionCard
             onClick={() => setOpen(true)}
             className={style.actionCard}
@@ -181,10 +185,6 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
           />
           <div className={style.cardContainer}>
             <div className={style.cardTitle}>Recherches</div>
-            {/*  <div className={style.secondCol}>
-              <div className={style.cardTitle}>FILTRE</div>
-              <img src={arrow} alt="" />
-            </div> */}
           </div>
           {jobs && jobs.length ? (
             <div className={style.sliderContainer}>

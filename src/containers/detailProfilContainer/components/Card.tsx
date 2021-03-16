@@ -15,15 +15,19 @@ const Card = ({ title, description, showView }: Props) => {
 
       <Tooltip
         overlayClassName={style.tooltip}
-        placement="bottom"
+        placement="top"
         overlay={description}
+        overlayInnerStyle={{
+          backgroundColor: '#10255e',
+          borderRadius: '10px',
+          color: '#ffffff',
+          fontSize: '12px',
+          padding: '10',
+          cursor: 'pointer',
+        }}
         arrowContent={<div className="rc-tooltip-arrow-inner" />}
       >
-        <div className={style.text}>
-          {/* {description.split(' ').slice(0, 10).join(' ')}
-          {description.length > 10 && <span>...</span>} */}
-          {description}
-        </div>
+        <div className={style.text}>{description}</div>
       </Tooltip>
       {showView && <img src={view} alt="" className={style.viewIcon} />}
     </div>

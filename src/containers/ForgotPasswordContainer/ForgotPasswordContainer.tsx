@@ -14,19 +14,41 @@ const ForgotPassword = () => {
   const { forgotState, onSubmit, state, actions } = useForgotPassword();
   const [error, setError] = useState<string>('');
   const [open, setOpen] = useState(false);
+  const [errorCount, setErrorCount] = useState(0);
 
   useDidMount(() => {
     window.scrollTo({ top: 0, left: 0 });
   });
+  useEffect(() => {
+    if (forgotState.error?.graphQLErrors.length !== 0) {
+      if (
+        forgotState.error?.graphQLErrors[0].message &&
+        typeof forgotState.error?.graphQLErrors[0].message === 'object'
+      ) {
+        setError((forgotState.error?.graphQLErrors[0].message as any).message);
+      } else if (
+        forgotState.error?.graphQLErrors[0].message &&
+        typeof forgotState.error?.graphQLErrors[0].message === 'string'
+      ) {
+        setErrorCount(errorCount + 1);
 
+        setError(forgotState.error?.graphQLErrors[0].message);
+      }
+    }
+    if (forgotState.error?.message && forgotState.error?.graphQLErrors.length === 0) {
+      setError(forgotState.error?.message);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [forgotState.error]);
   useEffect(() => {
     if (forgotState.data) {
+      setError('');
       setOpen(true);
     }
   }, [forgotState.data]);
   const callError = () => {
     if (state.errors.email !== '') setError(state.errors.email);
-    else setError("l'adresse e-mail est invalide");
+    else setError('');
   };
 
   return (

@@ -6,6 +6,7 @@
   padding: 20px;
   position: relative;
   height: 213px;
+ 
 }
 .title {
   display: -webkit-box;
@@ -46,4 +47,6 @@
 .tooltip {
   max-width: 200px;
   z-index: 9999 !important;
+  width: 300px;
+
 }
