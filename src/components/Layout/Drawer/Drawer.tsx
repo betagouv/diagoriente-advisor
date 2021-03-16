@@ -13,7 +13,7 @@ import LivretActivite from 'assets/svg/drawer/DrawerAcitivite';
 import Profil from 'assets/svg/drawer/DrawerProfil';
 import Logout from 'assets/svg/logout.svg';
 import Arrow from 'assets/svg/download.svg';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, NavLink } from 'react-router-dom';
 import classNames from 'common/utils/classNames';
 import ProgressBar from 'containers/detailProfilContainer/components/progress/progress';
 import StepContainer from './component/StepTooltip';
@@ -23,6 +23,7 @@ const PrivateDrawer = () => {
   const location = useLocation();
   const initialSelected = () => Number(window.localStorage.getItem('selectedButton') || -1);
   const [selectedButton, setSelectedButton] = useState(initialSelected);
+
   const { open, setOpen } = useContext(DrawerContext);
   const { setUser, user } = useContext(userContext);
   const isActive = user?.isActive;
@@ -68,7 +69,7 @@ const PrivateDrawer = () => {
     },
     {
       text: 'Ressources',
-      path: '/Ressources',
+      path: '/ressources',
       svg: <LivretActivite color={selectedButton === 4 ? '#10255e' : 'rgba(16, 37, 94, 0.6)'} />,
       id: 4,
     },
@@ -88,7 +89,23 @@ const PrivateDrawer = () => {
     if (id === 0 && idLink === 3) res = <StepContainer currentStepIndex={id + 1} stepsTitle="Suivez la formation" />;
     return res;
   };
-
+  useEffect(() => {
+    if (window.location.pathname === '/parcours' || window.location.pathname.slice(0, 9) === '/parcours') {
+      setSelectedButton(1);
+    }
+    if (window.location.pathname === '/groupes') {
+      setSelectedButton(2);
+    }
+    if (window.location.pathname === '/formation') {
+      setSelectedButton(3);
+    }
+    if (window.location.pathname === '/ressources') {
+      setSelectedButton(4);
+    }
+    if (window.location.pathname === '/account') {
+      setSelectedButton(5);
+    }
+  }, [selectedButton, window.location.pathname]);
   return (
     <div className={classNames(style.drawerContainer, open && style.drawerContainerOpend)}>
       <div className={style.wrapperSideBar}>
@@ -125,27 +142,31 @@ const PrivateDrawer = () => {
           </div>
         </div>
         <div className={style.drawerBody}>
-          {Links.map((e) => (
-            <div
-              key={e.id}
-              onClick={(event) => handleListItemClick(event, e.id)}
-              className={classNames(style.listContainer, e.id === selectedButton && style.selectedButton)}
-            >
-              <Link key={e.path} to={e.path} className={style.linkContainer}>
-                {e.svg}
-                <span
-                  className={classNames(
-                    style.path,
-                    e.id === selectedButton && style.activeText,
-                    open ? style.openedText : style.closedText,
-                  )}
-                >
-                  {e.text}
-                </span>
-                {location.pathname === '/tutorial' && renderTooltip(e.id)}
-              </Link>
-            </div>
-          ))}
+          {Links.map((e) => {
+            const p = window && window.location.pathname === e.path;
+
+            return (
+              <div
+                key={e.id}
+                onClick={(event) => handleListItemClick(event, e.id)}
+                className={classNames(style.listContainer, e.id === selectedButton && style.selectedButton)}
+              >
+                <NavLink key={e.path} to={e.path} className={style.linkContainer} exact strict>
+                  {e.svg}
+                  <span
+                    className={classNames(
+                      style.path,
+                      e.id === selectedButton && p && style.activeText,
+                      open ? style.openedText : style.closedText,
+                    )}
+                  >
+                    {e.text}
+                  </span>
+                  {location.pathname === '/tutorial' && renderTooltip(e.id)}
+                </NavLink>
+              </div>
+            );
+          })}
         </div>
         <div className={style.drawerFooter}>
           <p className={classNames(style.path, style.row)} onClick={logout}>
