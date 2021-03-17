@@ -48,6 +48,11 @@
           margin-top: 17px;
         }
       }
+      .errorContainer {
+        width: 100%;
+        text-align: center;
+        padding: 0px 20px;
+      }
       .error {
         margin-top: 15px;
         color: #eb1c1c;
@@ -71,6 +76,9 @@
           color: rgba(16, 37, 94, 0.6);
           margin-top: 0px;
           margin-bottom: 36px;
+        }
+        .ErrorRules {
+          color: red;
         }
       }
       .conditions {

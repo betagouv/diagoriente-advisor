@@ -39,10 +39,11 @@ const InviteUser = ({ group, onRequestClose }: GroupFormProps) => {
   };
   const callError = () => {
     if (state.errors.email !== '') setError(state.errors.email);
-    else if (error === '') setError('');
   };
   useEffect(() => {
     if (inviteToGroupState.data && onRequestClose) {
+      onRequestClose();
+
       open(inviteToGroupState.data.inviteToGroup, 'success');
     }
   }, [inviteToGroupState, onRequestClose, open]);
@@ -55,12 +56,6 @@ const InviteUser = ({ group, onRequestClose }: GroupFormProps) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inviteToGroupState.data]);
-  useEffect(() => {
-    if (updateTutoState.data && onRequestClose) {
-      onRequestClose();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [updateTutoState.data]);
 
   useUpdateUserInfo(updateTutoState.data?.updateUser);
 

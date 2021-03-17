@@ -38,10 +38,8 @@ const AccountContainer = () => {
       lastName: isStringEmpty,
       email: validateEmail,
       password: validatePassword,
-      oldPassword: isStringEmpty,
+      oldPassword: validatePassword,
       institution: isStringEmpty,
-      logo: isStringEmpty,
-      location: isStringEmpty,
     },
     required: ['firstName', 'lastName', 'email', 'institution'],
   });
@@ -53,7 +51,7 @@ const AccountContainer = () => {
     const { value } = e.target;
     setConfirmationPassword(value);
   };
-  const { values } = state;
+  const { values, errors } = state;
   useUpdateUserInfo(updateUserState.data?.updateUser);
   const onShowPassword = () => {
     setShowPassword(!showPassword);
@@ -64,8 +62,8 @@ const AccountContainer = () => {
   const onShowConfirmPassword = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
-
   const callUpdate = () => {
+    const error = Object.values(errors).filter((e) => e !== '')[0];
     if (
       confirmEmail === '' &&
       values.email === '' &&
@@ -79,14 +77,19 @@ const AccountContainer = () => {
     }
     if (confirmEmail !== '') {
       if (confirmEmail !== values.email) {
-        return setErrorMsg('email non conforme');
+        return setErrorMsg('Email et confirmation Email ne correspondent pas');
       }
     }
     if (confirmPassword !== values.password) {
-      return setErrorMsg('mot de passe non conforme');
+      return setErrorMsg('Mot de passe et confirmation mot de passe ne correspondent pas');
     }
-    if (values.oldPassword === values.password) {
-      return setErrorMsg("Le nouveau mot de passe et l'ancien ne peuvent pas être identiques");
+    if (values.oldPassword !== '' && values.password !== '') {
+      if (values.oldPassword === values.password) {
+        return setErrorMsg("Le nouveau mot de passe et l'ancien ne peuvent pas être identiques");
+      }
+    }
+    if (error) {
+      return setErrorMsg(error);
     }
     updateUser({ variables: _.pickBy(values, (value) => value) });
     return setErrorMsg('Vos modifications ont bien été enregistrées');
