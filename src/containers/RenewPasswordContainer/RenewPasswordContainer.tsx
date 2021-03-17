@@ -11,7 +11,7 @@ import Logo from '../../assets/svg/diagoriente_logo.svg';
 import style from './style.module.scss';
 
 const RenewPasswordContainer = ({ location }: RouteComponentProps) => {
-  const { state, actions, resetStateAdvisor, onSubmit } = useRenewPassword(location);
+  const { state, actions, errorForm, resetStateAdvisor, onSubmit } = useRenewPassword(location);
   const [error, setError] = useState<string>('');
   const [showPassword, setShowPassword] = useState(false);
   const [errorCount, setErrorCount] = useState(0);
@@ -65,7 +65,9 @@ const RenewPasswordContainer = ({ location }: RouteComponentProps) => {
       <div className={style.boxLogin}>
         <div className={style.content}>
           <div className={style.title}>Mot de passe oublié</div>
-          <div className={style.error}>{error}</div>
+          <div className={style.errorContainer}>
+            <p className={style.error}>{error || errorForm}</p>
+          </div>
 
           <div className={style.linkLabel}>Entre ton nouveau mot de passe</div>
           <form className={style.formLogin} onSubmit={onSubmit}>
