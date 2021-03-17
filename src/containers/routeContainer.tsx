@@ -19,6 +19,8 @@ import groupesContainer from 'containers/groupeContainer/groupesContainer';
 
 import ParcourContainer from 'containers/parcourContainer/Parcour';
 import SnackBar from 'components/ui/SnackBar/SnackBar';
+import ReferenceContainer from './referenceContainer/Reference';
+import AddReferenceContainer from './addReferenceContainer/AddReference';
 
 const RootContainer = () => {
   const { startupEnd, user, setUser } = useRoot();
@@ -44,7 +46,8 @@ const RootContainer = () => {
           <Route protected footer path="/account" exact component={AccountContainer} />
           <Route footer path="/forgotPassword" exact component={ForgotPasswordContainer} />
           <Route footer path="/reset" exact component={RenewPasswordContainer} />
-
+          <Route protected path="/references" exact component={ReferenceContainer} />
+          <Route protected path="/reference/add" exact component={AddReferenceContainer} />
           <Route path="/confirmationAdvisor" component={ConfirmationAdvisor} />
         </Switch>
         <SnackBar
