@@ -51,7 +51,7 @@ const Parcour = ({ history }: RouteComponentProps) => {
         ],
         render: (row) =>
           row.userId && [
-            <div key="name" className={classes.name} onClick={() => history.push(`/parcour/${row.userId.id}`)}>
+            <div key="name" className={classes.name} onClick={() => history.push(`/parcours/${row.userId.id}`)}>
               <span className={classes.firstSpan}>{row.userId.profile.firstName}</span>
               <span>{row.userId.profile.lastName}</span>
             </div>,

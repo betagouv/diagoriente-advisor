@@ -54,7 +54,9 @@ const RegisterContainer = () => {
           <Link to="/login" className={style.link}>
             <div className={style.linkLabel}>vous avez déjà un compte ?</div>
           </Link>
-          <div className={style.error}>{errorForm || errorFormObject.value}</div>
+          <div className={style.errorContainer}>
+            <p className={style.error}>{errorForm || errorFormObject.value}</p>
+          </div>
           <form className={style.formLogin} onSubmit={onSubmit}>
             <div className={style.twoInputs}>
               <Input

@@ -50,7 +50,6 @@ const RenewPasswordContainer = ({ location }: RouteComponentProps) => {
   }, [resetStateAdvisor.error]);
   const callError = () => {
     if (state.errors.password !== '') setError(state.errors.password);
-    else setError('');
   };
 
   if (resetStateAdvisor.data && !resetStateAdvisor.error) {

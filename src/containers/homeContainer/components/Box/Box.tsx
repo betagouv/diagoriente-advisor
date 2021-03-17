@@ -97,12 +97,7 @@ const Box = ({
     <div className={classes.box_container}>
       <div className={classes.header_box} style={{ justifyContent: title === 'Parcours' ? 'flex-start' : '' }}>
         <div className={classes.title_box}>{title}</div>
-        {/* {isActive && title === 'Parcours' && data.length > 6 && disData !== data && (
-          <div className={classes.waiting_container}>
-            <span className={classes.divider} />
-            <span className={classes.nbre}>{`${data.length - slicedData.length} en attente`}</span>
-          </div>
-        )} */}
+
         {isActive && filters && data.length >= 0 && !isEmpty && (
           <div className={classes.select_container} ref={refSelect}>
             <Select
@@ -124,7 +119,7 @@ const Box = ({
               <img src={e.user.logo} alt="u" className={classes.logo_user} />
               <div className={classes.info_user}>
                 <div className={classes.text_user}>
-                  <span className={classes.text_bold_cur} onClick={() => history.push(`/parcour/${e.user.id}`)}>
+                  <span className={classes.text_bold_cur} onClick={() => history.push(`/parcours/${e.user.id}`)}>
                     {`  ${e.user.profile.firstName} ${e.user.profile.lastName} `}
                   </span>
                   <span>{message}</span>

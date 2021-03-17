@@ -4,7 +4,7 @@ import Title from 'components/Title/Title';
 import Crud, { ApisRef, CreateHeaderType } from 'components/ui/Crud/Crud';
 import { Group } from 'common/requests/types';
 import { useCreateGroup, useGroups } from 'common/requests/groupes';
-import { useLocation } from 'react-router-dom';
+import { useLocation, RouteComponentProps } from 'react-router-dom';
 import Modal from 'components/Modal/Modal';
 import userContext from 'common/contexts/UserContext';
 import { useUpdateUser } from 'common/requests/user';
@@ -14,11 +14,12 @@ import AddGroup from './components/AddGroup/AddGroup';
 import GroupForm from './components/GroupForm/GroupForm';
 import CopyButton from './components/CopyButton/CopyButton';
 import InviteButton from './components/InviteButton/InviteButton';
+
 import InviteUser from './components/InviteUser/InviteUser';
 
 import style from './style.module.scss';
 
-const groupesContainer = () => {
+const groupesContainer = ({ history }: RouteComponentProps) => {
   const location = useLocation();
   const { user } = useContext(userContext);
   const [updateTutoCall, updateTutoState] = useUpdateUser();
@@ -54,7 +55,9 @@ const groupesContainer = () => {
         ),
         render: (row) => (
           <>
-            <span className={style.groupTitle}>{row.title}</span>
+            <span className={style.groupTitle} onClick={() => history.push(`/parcours?code=${row.code}`)}>
+              {row.title}
+            </span>
             <span className={style.groupDetail}>{`${row.users.length} membres`}</span>
             <span className={style.groupDetail}>{`créé le ${moment(row.createdAt).format('DD/MM/YYYY')}`}</span>
           </>
