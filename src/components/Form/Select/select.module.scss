@@ -22,7 +22,9 @@
     top: 30px;
     right: 0px;
     width: auto;
-    height: auto;
+    max-height: auto;
+    height: 140px;
+    overflow-y: auto;
     border-radius: 5px;
     padding: 5px;
     background-color: #fff;
