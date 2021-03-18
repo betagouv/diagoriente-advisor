@@ -11,7 +11,11 @@ const selectClasses = {
   options: classes.selectOptions,
   option: classes.selectOption,
 };
-
+const selectClassesGroupe = {
+  options: classes.selectOptionsGroupe,
+  option: classes.selectOption,
+  container: classes.select,
+};
 interface ParcourFilterProps {
   onChange: (filter: { completed?: string; code?: string; search?: string }) => void;
   initialValues: { completed?: boolean; code?: string; search?: string };
@@ -74,7 +78,7 @@ const ParcourFilter = ({ onChange, initialValues }: ParcourFilterProps) => {
       </div>
       <div className={classes.row}>
         <Select
-          classes={selectClasses}
+          classes={selectClassesGroupe}
           onClickItem={(e) => setCode(e)}
           options={[{ value: '', label: 'Tous les groupes' }, ...groupes]}
           value={code}
