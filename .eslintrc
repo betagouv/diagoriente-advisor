@@ -1,0 +1,58 @@
+{
+  "parserOptions": {
+    "project": [
+      "./tsconfig.json"
+    ]
+  },
+  "extends": [
+    "airbnb-typescript",
+    "prettier/@typescript-eslint",
+    // Silence Prettier conflicting rules
+    // This has to be the last entry
+    "plugin:prettier/recommended"
+  ],
+  "plugins": [
+    "import",
+    "react-hooks",
+    "prettier"
+  ],
+  "rules": {
+    "react/button-has-type": 0,
+    "prefer-arrow-callback": 1,
+    "func-names": 0,
+    "import/prefer-default-export": 0,
+    "implicit-arrow-linebreak": 0,
+    "import/no-unresolved": 0,
+    "no-underscore-dangle": 0,
+    "jsx-a11y/click-events-have-key-events": 0,
+    "jsx-a11y/interactive-supports-focus": 0,
+    "jsx-a11y/no-noninteractive-element-interactions": 0,
+    "react/jsx-props-no-spreading": 0,
+    "jsx-a11y/no-static-element-interactions": 0,
+    "arrow-parens": [
+      "error",
+      "always"
+    ],
+    "max-len": [
+      "error",
+      120
+    ],
+    "react-hooks/exhaustive-deps": 1,
+    "react/require-default-props": 0,
+    "react/prop-types": 0,
+    "react/react-in-jsx-scope": 0,
+    "react/default-props-match-prop-types": 0,
+    "react/jsx-curly-newline": 0,
+    "react/jsx-one-expression-per-line": 0
+  },
+  "env": {
+    "browser": true,
+    "jest": true
+  },
+  "settings": {
+    "import/resolver": {
+      "node": true,
+      "typescript": {}
+    }
+  }
+}

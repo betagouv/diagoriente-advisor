@@ -1,0 +1,25 @@
+.add {
+  padding: 11px 20px 11px 17px;
+  background-color: #ff458b;
+  border-radius: 16px;
+  align-items: center;
+  color: #fff;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 15px;
+  text-transform: uppercase;
+  display: flex;
+  border: none;
+  align-self: flex-end;
+  cursor: pointer;
+  text-decoration: none;
+  &:hover{
+    background-color: rgba(47, 80, 168 , 0.5);;
+  }
+}
+
+.icon {
+  width: 26px;
+  height: 26px;
+  margin: 0px 10px;
+}
