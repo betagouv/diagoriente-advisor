@@ -1,0 +1,30 @@
+.container {
+  align-items: center;
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 0 95px;
+  .error {
+    margin-top: 15px;
+    color: #eb1c1c;
+  }
+}
+
+.title {
+  font-size: 30px;
+  line-height: 37px;
+  text-align: center;
+  color: #10255e;
+  margin: 0;
+  margin-top: 42px;
+}
+
+.input {
+  width: 420px;
+  margin-top: 51px;
+
+  .war{
+    border : 1px solid #10255e !important;
+    outline: none;
+  }
+}

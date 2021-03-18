@@ -1,0 +1,37 @@
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.container {
+  justify-content: space-between;
+  margin-bottom: 21px;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 22px;
+  line-height: 27px;
+  color: #10255e;
+  margin: 0;
+  margin-right: 34px;
+}
+
+.select {
+  width: auto;
+  margin-right: 25px;
+}
+
+.selectOptions {
+  width: 200px !important;
+  // height: 80px !important;
+}
+.selectOptionsGroupe{
+    height: 250px !important;
+    width: 200px !important;
+
+}
+.selectOption {
+  text-align: center !important;
+}

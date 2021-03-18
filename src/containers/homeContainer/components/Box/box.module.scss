@@ -1,0 +1,142 @@
+.box_container {
+  width: 32%;
+  background: #ffffff;
+  border-radius: 16px;
+  padding-bottom: 75px;
+  position: relative;
+  .header_box {
+    height: 40px;
+    width: 100%;
+    padding-top: 26px;
+    padding-bottom: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .title_box {
+      font-weight: bold;
+      font-size: 13px;
+      line-height: 16px;
+      color: #10255e;
+      margin-left: 32px;
+    }
+    .waiting_container {
+      .divider {
+        width: 32px;
+        height: 0px;
+        border: 1px solid #c1c1c5;
+        transform: rotate(-90deg);
+        margin: 0px 18px 0px 18px;
+      }
+      .nbre {
+        font-weight: 500;
+        font-size: 13px;
+        line-height: 16px;
+        color: #10255e;
+      }
+    }
+    .select_container {
+      margin-right: 32px;
+    }
+  }
+  .content_box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    .big_title_box {
+      font-family: ocean;
+      font-weight: 900;
+      font-size: 40px;
+      line-height: 40px;
+      color: #10255e;
+    }
+    .description_box {
+      font-size: 16px;
+      line-height: 27.5px;
+      color: #10255e;
+      font-weight: 500;
+      text-align: center;
+      width: 60%;
+    }
+    .link_box {
+      font-size: 16px;
+      line-height: 27.5px;
+      color: #10255e;
+      font-weight: 700;
+      text-decoration: underline;
+      text-align: center;
+      cursor: pointer;
+    }
+    .rowInfo {
+      display: flex;
+      align-items: flex-start;
+      width: 100%;
+      margin-bottom: 20px;
+      padding: 0px 20px;
+    }
+    .logo_user {
+      width: 46px;
+      height: 46px;
+      margin-left: 25px;
+    }
+    .info_user {
+      display: flex;
+      flex-direction: column;
+      width: 70%;
+      margin-left: 25px;
+    }
+    .text_user {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 22px;
+      color: #10255e;
+    }
+    .text_bold {
+      font-size: 14px;
+      color: #10255e;
+   
+    }
+    .text_bold_cur {
+      font-weight: bold;
+      font-size: 14px;
+      color: #10255e;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .text_date {
+      font-weight: 500;
+      font-size: 13px;
+      color: rgba(16, 37, 94, 0.6);
+      line-height: 20, 8px;
+    }
+  }
+  .button_box {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding: 0px 10px 10px 0px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    .seeAll {
+      width: 114px;
+      height: 48px;
+      background: #f5f6fb;
+      border-radius: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      font-size: 12px;
+      line-height: 15px;
+      text-align: center;
+      text-transform: uppercase;
+      color: #10255e;
+      cursor: pointer;
+      &:hover {
+        background-color: rgba(47, 80, 168 , 0.5);
+
+      }
+    }
+  }
+}

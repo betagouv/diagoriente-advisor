@@ -1,0 +1,55 @@
+$blueColor: #10255e;
+$whiteColor: #ffffff;
+.layout {
+  overflow: auto;
+  .livretActiviteContainer {
+    border-radius: 16px;
+    background-color: $whiteColor;
+    border-radius: 16px;
+    margin-top: 30px;
+    width: clac(100vw - 24vw);
+    padding: 30px 100px 30px 100px;
+    .headerContainer {
+      .CardContainer {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+
+        .Card {
+          display: flex;
+          flex-direction: column;
+          width: 50%;
+        }
+      }
+    }
+    .footerContainer {
+      .cardFooterContainer {
+        display: grid;
+        grid-template-columns: repeat(2, auto);
+        grid-gap: 20px;
+
+        .cardItem {
+          border: solid 1px $blueColor;
+          font-weight: bold;
+          font-size: 18px;
+          margin: 0px 5px;
+          padding: 36px 36px 49px;
+          &:hover {
+            box-shadow: inset 0px 0px 0px 3px #7ae6ff;
+            border: none;
+            margin: 0px 5px;
+            padding: 37px 37px 50px;
+          }
+        }
+      }
+    }
+  }
+}
+.titleContainer {
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 37px;
+  text-transform: uppercase;
+  color: $blueColor;
+  margin: 50px 0px 20px 10px;
+}

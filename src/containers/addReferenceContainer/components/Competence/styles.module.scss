@@ -1,0 +1,151 @@
+.containerAdd {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+}
+.headerRef {
+  display: flex;
+  align-items: center;
+}
+.inputAdd {
+  height: 48px;
+  width: 300px;
+  background-color: transparent;
+  border: none;
+  margin-left: 20px;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 27px;
+  outline: 0;
+  &::-webkit-input-placeholder {
+    color: rgba(16, 37, 94, 0.6);
+  }
+  &::-moz-placeholder {
+    color: rgba(16, 37, 94, 0.6);
+  }
+}
+.bodyContent {
+  background-color: #fff;
+  flex: 1 1 0;
+  width: 100%;
+  padding: 38px 35px;
+}
+
+.competenceHeader {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  padding: 10px 20px;
+  background: #f5f6fb;
+}
+.competence {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  padding: 10px 20px;
+}
+.text {
+  font-weight: 800;
+  font-size: 12px;
+  line-height: 19px;
+}
+.headerArray {
+  @extend .text;
+  font-family: 'Montserrat-bold';
+  text-transform: uppercase;
+  color: #10255e;
+}
+.rowCompetenceContainer {
+  display: flex;
+  align-items: center;
+  height: 51px;
+  border-top: 1px solid #c7ccdc;
+}
+.rowCompetence {
+  font-family: 'Montserrat-bold';
+  font-size: 18px;
+  line-height: 29px;
+  text-transform: uppercase;
+  padding: 16px 22px;
+}
+.indicateur {
+  width: 6px;
+  height: 29px;
+}
+.img {
+  padding-top: 3px;
+  padding-left: 4px;
+}
+.btnAdd {
+  width: 32px;
+  height: 28px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: width 0.2s;
+  overflow: hidden;
+  &:hover {
+    width: 100px;
+    transition: width 0.2s;
+  }
+}
+.textAdd {
+  font-family: 'Montserrat-bold';
+  font-size: 12px;
+  line-height: 19px;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin-left: 10px;
+  padding-bottom: 2px;
+}
+.title {
+  text-transform: uppercase;
+  font-family: 'Montserrat-bold';
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 29px;
+  text-align: center;
+}
+
+.niveau {
+  @extend .text;
+  color: #10255e;
+}
+
+.modal {
+  width: 405px;
+  display: flex;
+  flex-direction: column;
+}
+.bodyModal {
+  margin-top: 10px !important;
+}
+.labelInput {
+  font-family: Montserrat;
+  font-size: 12px;
+  line-height: 15px;
+  text-transform: uppercase;
+  color: rgba(16, 37, 94, 0.6);
+  text-align: left;
+  margin-left: 5px;
+}
+.inputModal {
+  background: #ffffff;
+  border-radius: 16px;
+  font-family: 'Montserrat-bold';
+  border: none;
+  width: 100%;
+  height: 112px;
+  margin-bottom: 20px;
+  outline: 0;
+  font-size: 14px;
+  line-height: 22px;
+  text-transform: uppercase;
+  resize: none;
+  padding: 9px;
+  box-sizing: border-box;
+}
+.addBtnModal {
+  width: 100%;
+}
