@@ -8,6 +8,9 @@
   display: flex;
   align-items: center;
 }
+.titlePage {
+  font-family: 'Montserrat-bold';
+}
 .btnAddStandard {
   background: #eaedf6;
   border-radius: 16px;
@@ -97,6 +100,13 @@
   line-height: 14px;
   text-align: center;
   color: #10255e;
+}
+.titleRefHeader {
+  font-size: 22px;
+  line-height: 27px;
+  text-align: center;
+  color: #10255e;
+  margin-left: 10px;
 }
 
 .text_confirmation {

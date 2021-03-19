@@ -62,7 +62,7 @@
   grid-template-columns: repeat(9, 1fr);
   padding: 10px 20px;
   border-top: 1px solid #c7ccdc;
-  height: 143px;
+  min-height: 143px;
 }
 .text {
   font-weight: 800;
@@ -80,6 +80,27 @@
   align-items: center;
   height: 51px;
   border-top: 1px solid #c7ccdc;
+  position: relative;
+}
+.indicateurSubs {
+  width: 100px;
+  height: 30px;
+  border: 1px solid #707c9e;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+}
+.indicateurSubsText {
+  font-family: 'Montserrat-bold';
+  font-size: 10px;
+  line-height: 12px;
+  text-transform: uppercase;
+  color: #10255e;
+  margin-left: 4px;
 }
 .rowCompetence {
   font-family: 'Montserrat-bold';
@@ -133,6 +154,7 @@
   font-weight: 800;
   font-size: 12px;
   line-height: 19px;
+  cursor: pointer;
 }
 .titleAddLevel {
   font-family: 'Montserrat-bold';
@@ -140,12 +162,14 @@
   line-height: 22px;
   text-align: center;
   text-transform: uppercase;
+  cursor: pointer;
 }
 .btnAddLevel {
   border: 3px solid #7ae6ff;
   box-sizing: border-box;
   border-radius: 8px;
   background-color: #fff;
+  cursor: pointer;
 }
 .level {
   font-family: 'Montserrat-semi';
@@ -153,10 +177,21 @@
   line-height: 38, 4px;
   text-align: center;
   color: #10255e;
+  cursor: pointer;
 }
 .niveau {
   @extend .text;
   color: #10255e;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+.subTitle {
+  font-family: 'Montserrat-italic';
+  font-size: 12px;
+  line-height: 19px;
+  color: #10255e;
+  font-weight: 500;
 }
 
 .modal {

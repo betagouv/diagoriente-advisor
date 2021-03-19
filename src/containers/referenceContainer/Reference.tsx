@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useReferences, useDeleteRef } from 'common/requests/reference';
+import { useReferences, useDeleteRef, useReference } from 'common/requests/reference';
 import classesNames from 'common/utils/classNames';
 import Title from 'components/Title/Title';
 import ModalContainer from 'components/Modal/Modal';
@@ -20,10 +20,11 @@ const ReferenceContainer = () => {
   const [open, setOpen] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
   const [openDelModal, setOpenDelModal] = useState(false);
-  const [selectedRef, setSelectedRef] = useState<string>('');
   const [deletedRef, setDeleteRef] = useState('');
-  const [deleteReferenceCall, deleteReferenceState] = useDeleteRef();
+  const [selectedId, setSelectedId] = useState('');
 
+  const [getRefCall, getRefState] = useReference();
+  const [deleteReferenceCall, deleteReferenceState] = useDeleteRef();
   const array = [
     {
       competences: [
@@ -53,8 +54,8 @@ const ReferenceContainer = () => {
     },
   ];
   const onClickRow = (id: string) => {
-    setSelectedRef(id);
     setOpenFilter(false);
+    setSelectedId(id);
     return history.replace(`/references?id=${id}`);
   };
   const onDeleteRef = (e: React.MouseEvent<HTMLElement, MouseEvent>, id: string) => {
@@ -68,30 +69,45 @@ const ReferenceContainer = () => {
 
   useEffect(() => {
     if (data?.references.data.length) {
-      setSelectedRef(data.references.data[0].id);
+      history.replace(`/references?id=${data.references.data[0].id}`);
+      getRefCall({ variables: { id: data.references.data[0].id } });
     }
-  }, [data]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, history]);
+  useEffect(() => {
+    if (selectedId) {
+      getRefCall({ variables: { id: selectedId } });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedId]);
   useEffect(() => {
     if (deleteReferenceState.data) {
-      console.log('heer');
+      setOpenFilter(false);
+      setOpenDelModal(false);
     }
   }, [deleteReferenceState.data]);
 
   return (
     <div className={classes.referenceContainer}>
       <div className={classes.headerRef}>
-        <Title title="Mon référentiel  :" />
-        <div className={classes.btnAddRef} onClick={() => setOpen(!open)}>
-          <Plus width="20" height="20" color="#10255E" strokeWidth="1" />
-          <span className={classes.textBtn}>Créer une déclinaison</span>
-        </div>
+        <Title title="Mon référentiel  :" className={classes.titlePage} />
+        {data?.references.data.length ? (
+          <div className={classesNames(classes.titleRefHeader, classes.titlePage)}>
+            {getRefState.data?.reference.title}
+          </div>
+        ) : (
+          <div className={classes.btnAddRef} onClick={() => setOpen(!open)}>
+            <Plus width="20" height="20" color="#10255E" strokeWidth="1" />
+            <span className={classes.textBtn}>Créer une déclinaison</span>
+          </div>
+        )}
         <div className={classes.btnShowRefs} onClick={() => setOpenFilter(!openFilter)}>
           <img src={ArrowLeft} alt="arrow" className={classes.img} />
         </div>
       </div>
       <div className={classes.bodyRef}>
         {data?.references.data.length ? (
-          <AddRefereniel dataToShow={selectedRef} />
+          <AddRefereniel dataToShow={getRefState.data?.reference} />
         ) : (
           <div className={classes.content}>
             <div className={classes.info}>

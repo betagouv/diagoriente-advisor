@@ -14,6 +14,10 @@
   font-family: 'Montserrat-semi';
   src: url('./assets/fonts/Montserrat-SemiBold.ttf');
 }
+@font-face {
+  font-family: 'Montserrat-italic';
+  src: url('./assets/fonts/Montserrat-LightItalic.ttf');
+}
 
 body {
   margin: 0;
@@ -22,8 +26,6 @@ body {
   font-family: 'Montserrat';
   background-color: #f5f6fb;
 }
-
-
 
 * {
   box-sizing: border-box;

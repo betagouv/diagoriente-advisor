@@ -12,13 +12,31 @@ export interface Niveau {
 
 interface CompetenceProps {
   title: string;
-  add: boolean;
   niveau: Niveau[];
   color: string;
+  openLevel: boolean;
+  isUpdate: boolean;
+  selectLevel: Niveau;
+  showSubs: boolean;
   onNiveauAdd: (niveau: Niveau) => void;
+  onClickTitle: () => void;
+  onClickLevel: (n: Niveau) => void;
+  setOpenLevel: (e: boolean) => void;
 }
 
-const Competence = ({ title, niveau, color, add, onNiveauAdd }: CompetenceProps) => {
+const Competence = ({
+  title,
+  niveau,
+  color,
+  openLevel,
+  isUpdate,
+  selectLevel,
+  showSubs,
+  onNiveauAdd,
+  onClickTitle,
+  onClickLevel,
+  setOpenLevel,
+}: CompetenceProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [{ values }, { handleChange, setValues }] = useForm({
@@ -33,28 +51,29 @@ const Competence = ({ title, niveau, color, add, onNiveauAdd }: CompetenceProps)
 
   return (
     <div className={styles.competence}>
-      <div className={styles.titleCompetence} style={{ color }}>
+      <div className={styles.titleCompetence} style={{ color }} onClick={onClickTitle}>
         {title}
       </div>
       {niveau.map((n, i) => (
         // eslint-disable-next-line
-        <div key={i} className={styles.niveau}>
-          {n.title}
+        <div key={i} className={styles.niveau} onClick={() => onClickLevel(n)}>
+          <span>{n.title}</span>
+          {showSubs && <span className={styles.subTitle}>{n.sub_title}</span>}
         </div>
       ))}
-      {niveau.length < 8 && add && (
+      {niveau.length < 8 && (
         <button onClick={() => setIsOpen(true)} className={styles.btnAddLevel}>
           <Plus color="#000" width="50" height="50" strokeWidth="0.5" />
         </button>
       )}
       <Modal
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
+        isOpen={isOpen || openLevel}
+        onClose={() => (isUpdate ? setOpenLevel(false) : setIsOpen(false))}
         widthSize="auto"
         heightSize="auto"
         bkground="#f5f6fb"
         body={styles.bodyModal}
-        withoutClose
+        withoutClose={!isUpdate}
       >
         <form
           onSubmit={(e) => {
@@ -75,7 +94,7 @@ const Competence = ({ title, niveau, color, add, onNiveauAdd }: CompetenceProps)
           <textarea
             name="title"
             onChange={handleChange}
-            value={values.title}
+            value={selectLevel.title || values.title}
             className={styles.inputModalLevel}
             style={{ color: '#10255E' }}
             rows={3}
@@ -86,7 +105,7 @@ const Competence = ({ title, niveau, color, add, onNiveauAdd }: CompetenceProps)
           <textarea
             name="sub_title"
             onChange={handleChange}
-            value={values.sub_title}
+            value={selectLevel.sub_title || values.sub_title}
             className={styles.inputModalLevel}
             style={{ color: '#10255E' }}
             rows={3}
@@ -94,7 +113,7 @@ const Competence = ({ title, niveau, color, add, onNiveauAdd }: CompetenceProps)
             maxLength={100}
           />
           <div className={styles.addBtnModal}>
-            <Button label="valider" type="submit" />
+            <Button label={isUpdate ? 'Modifier' : 'valider'} type="submit" />
           </div>
         </form>
       </Modal>
