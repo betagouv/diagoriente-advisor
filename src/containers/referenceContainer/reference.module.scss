@@ -8,7 +8,7 @@
   display: flex;
   align-items: center;
 }
-.btnAddRef {
+.btnAddStandard {
   background: #eaedf6;
   border-radius: 16px;
   padding: 11px 20px 11px 17px;
@@ -17,16 +17,36 @@
   display: flex;
   align-items: center;
   text-decoration: none;
-  margin-left: 22px;
   cursor: pointer;
 }
-.textBtn {
-  font-weight: bold;
+.btnAddRef {
+  @extend .btnAddStandard;
+  margin-left: 22px;
+}
+.btnShowRefs {
+  background: #eaedf6;
+  border-radius: 16px;
+  width: 57px;
+  height: 48px;
+  margin-left: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  .img {
+    transform: rotate(-90deg);
+  }
+}
+.textBtnStandard {
+  font-family: 'Montserrat-bold';
   font-size: 12px;
   line-height: 15px;
   text-transform: uppercase;
   color: #10255e;
   text-decoration: none;
+}
+.textBtn {
+  @extend .textBtnStandard;
   margin-left: 14px;
 }
 .bodyRef {
@@ -99,5 +119,87 @@
   justify-content: space-evenly;
   width: 100%;
   height: 100%;
-  margin-top: 55px;
+  margin-top: 30px;
+}
+
+.modal_confirmation_transition {
+  transform: translate(-230px);
+  -webkit-transition: 0.3s ease-in-out;
+  -moz-transition: 0.3s ease-in-out;
+  -o-transition: 0.3s ease-in-out;
+  transition: 0.3s ease-in-out;
+}
+.modal_confirmation {
+  -webkit-transition: 0.3s ease-in-out;
+  -moz-transition: 0.3s ease-in-out;
+  -o-transition: 0.3s ease-in-out;
+  transition: 0.3s ease-in-out;
+}
+.rowRef {
+  position: relative;
+  background: #f5f6fb;
+  border-radius: 16px;
+  width: 413px;
+  height: 47px;
+  margin: 10px 0px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .delContainer {
+    display: flex;
+    height: 100%;
+    .imgClose {
+      margin-right: 20px;
+      padding-left: 10px;
+      border-left: 1px solid #c7ccdc;
+    }
+  }
+}
+.separator {
+  background-color: #c7ccdc;
+  height: 1px;
+  width: 100%;
+  margin: 20px 0px;
+}
+.delModalContainer {
+  position: absolute;
+  left: 460px;
+  top: -20px;
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgba(16, 37, 94, 0.26);
+  border-radius: 16px;
+  width: 537px;
+  height: 156px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 25px;
+  z-index: 1500;
+  .arrow {
+    width: 0;
+    height: 0;
+    border: 0 solid transparent;
+    border-top-width: 23px;
+    border-bottom-width: 23px;
+    border-right: 23px solid white;
+    position: absolute;
+    left: -23px;
+    top:20px
+  }
+  .btnDelContainer {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    .btnCancel {
+      border: 1px solid rgba(16, 37, 94, 0.4) !important;
+      color: rgba(16, 37, 94, 0.4);
+      padding: 3px 20px;
+      background-color: transparent;
+    }
+    .btnDEL {
+      background: #ff458b;
+      padding: 3px 20px;
+    }
+  }
 }

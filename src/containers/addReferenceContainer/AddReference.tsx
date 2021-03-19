@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import { Reference } from 'common/requests/types';
 import Modal from 'components/Modal/Modal';
 import Title from 'components/Title/Title';
 import { useForm } from 'common/hooks/useInputs';
@@ -10,13 +11,18 @@ import classesNames from 'common/utils/classNames';
 import Competence, { Niveau } from './components/Competence/Competence';
 import styles from './components/Competence/styles.module.scss';
 
+interface IProps {
+  dataToShow: Reference;
+}
+
 const competenceTypes = [
   { title: 'pôle organisationnel', type: 'organizational', color: '#0087AF' },
   { title: 'pôle communicationnel', type: 'communication', color: '#77BB91' },
   { title: 'pôle réflexif', type: 'reflective', color: '#F2A900' },
 ];
 
-const AddReference = () => {
+const AddReference = ({ dataToShow }: IProps) => {
+  console.log('dataToShow', dataToShow);
   const history = useHistory();
   const location = useLocation();
   const [title, setTitle] = useState('');
@@ -57,6 +63,24 @@ const AddReference = () => {
           />
         </div>
       )}
+      {location.pathname === '/reference/add' && (
+        <div className={styles.btnSaveContainer}>
+          <Button
+            className={styles.btnSave}
+            label="Enregistrer"
+            onClick={() => {
+              addReferenceCall({
+                variables: {
+                  title,
+                  competences: ([] as AddReferenceArguments['competences']).concat(
+                    ...Object.keys(competences).map((key) => competences[key].map((c) => ({ ...c, type: key }))),
+                  ),
+                },
+              });
+            }}
+          />
+        </div>
+      )}
       <div className={styles.bodyContent}>
         <div className={styles.competenceHeader}>
           <span className={styles.headerArray}>compétences</span>
@@ -72,16 +96,18 @@ const AddReference = () => {
                 <span className={styles.rowCompetence} style={{ color: competenceType.color }}>
                   {competenceType.title}
                 </span>
-                <button
-                  onClick={() => setSelectedType(competenceType)}
-                  className={styles.btnAdd}
-                  style={{ background: competenceType.color }}
-                >
-                  <div className={styles.img}>
-                    <Plus width="12" height="12" color="#fff" strokeWidth="3" />
-                  </div>
-                  <span className={styles.textAdd}>Ajouter</span>
-                </button>
+                {location.pathname === '/reference/add' && (
+                  <button
+                    onClick={() => setSelectedType(competenceType)}
+                    className={styles.btnAdd}
+                    style={{ background: competenceType.color }}
+                  >
+                    <div className={styles.img}>
+                      <Plus width="12" height="12" color="#fff" strokeWidth="3" />
+                    </div>
+                    <span className={styles.textAdd}>Ajouter</span>
+                  </button>
+                )}
               </div>
               {competences[competenceType.type]?.map((competence, i) => {
                 return (
@@ -103,20 +129,7 @@ const AddReference = () => {
             </>
           );
         })}
-        <button
-          onClick={() => {
-            addReferenceCall({
-              variables: {
-                title,
-                competences: ([] as AddReferenceArguments['competences']).concat(
-                  ...Object.keys(competences).map((key) => competences[key].map((c) => ({ ...c, type: key }))),
-                ),
-              },
-            });
-          }}
-        >
-          Ajouter
-        </button>
+
         <Modal
           isOpen={!!selectedType}
           onClose={() => setSelectedType(null)}

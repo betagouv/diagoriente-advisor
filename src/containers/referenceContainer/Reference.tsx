@@ -1,17 +1,26 @@
 import { useState } from 'react';
 import { useReferences } from 'common/requests/reference';
+import { Reference } from 'common/requests/types';
+import classesNames from 'common/utils/classNames';
 import Title from 'components/Title/Title';
 import ModalContainer from 'components/Modal/Modal';
+import Button from 'components/Button/Button';
 import AddRefereniel from 'containers/addReferenceContainer/AddReference';
 import Plus from 'assets/svg/addCustom';
 import Referentiel from 'assets/svg/referentielEmpty.svg';
 import EmptyCard from 'assets/svg/emptyCard.svg';
+import ArrowLeft from 'assets/svg/arrow-left.svg';
+import CloseIcon from 'assets/svg/close icon.svg';
 import Card from './components/Card/Card';
 import classes from './reference.module.scss';
 
-const Reference = () => {
+const ReferenceContainer = () => {
   const { data } = useReferences();
   const [open, setOpen] = useState(false);
+  const [openFilter, setOpenFilter] = useState(false);
+  const [openDelModal, setOpenDelModal] = useState(false);
+  const [selectedRef, setSelectedRef] = useState({} as Reference);
+  const [deletedRef, setDeleteRef] = useState('');
 
   if (!data) return <div />;
 
@@ -43,6 +52,20 @@ const Reference = () => {
         sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`,
     },
   ];
+  const onClickRow = (ref: Reference) => {
+    return setSelectedRef(ref);
+  };
+  const onDeleteRef = (e: React.MouseEvent<HTMLElement, MouseEvent>, id: string) => {
+    e.preventDefault();
+    setOpenDelModal(true);
+    setDeleteRef(id);
+  };
+  /*  useEffect(() => {
+    if (data.references.data.length) {
+      // setSelectedRef(data.references.data[0]);
+      console.log('id', data.references.data.length);
+    }
+  }, [data.references.data]); */
 
   return (
     <div className={classes.referenceContainer}>
@@ -52,10 +75,13 @@ const Reference = () => {
           <Plus width="20" height="20" color="#10255E" strokeWidth="1" />
           <span className={classes.textBtn}>Créer une déclinaison</span>
         </div>
+        <div className={classes.btnShowRefs} onClick={() => setOpenFilter(!openFilter)}>
+          <img src={ArrowLeft} alt="arrow" className={classes.img} />
+        </div>
       </div>
       <div className={classes.bodyRef}>
         {data.references.data.length ? (
-          <AddRefereniel />
+          <AddRefereniel dataToShow={selectedRef} />
         ) : (
           <div className={classes.content}>
             <div className={classes.info}>
@@ -87,8 +113,52 @@ const Reference = () => {
           </div>
         </div>
       </ModalContainer>
+      <ModalContainer
+        isOpen={openFilter}
+        onClose={() => setOpenFilter(false)}
+        className={classesNames(classes.modal_confirmation, openDelModal && classes.modal_confirmation_transition)}
+        bkground="#fff"
+        widthSize="auto"
+        heightSize="auto"
+        body={classes.bodyModal}
+        withoutClose
+      >
+        <div className={classes.containerRefsList}>
+          <p className={classes.text_confirmation}>Mes Référentiels</p>
+          {data.references.data.map((c) => {
+            return (
+              <div className={classes.rowRef} onClick={() => onClickRow(c as any)}>
+                <span className={classes.textBtn}>{c.title}</span>
+                <div onClick={(e) => onDeleteRef(e, c.id)} className={classes.delContainer}>
+                  <img src={CloseIcon} alt="del" className={classes.imgClose} />
+                </div>
+                {openDelModal && deletedRef === c.id && (
+                  <div className={classes.delModalContainer}>
+                    <div className={classes.arrow} />
+                    <p className={classes.text_confirmation}>Voulez-vous vraiment supprimer ce référentiel ?</p>
+                    <div className={classes.btnDelContainer}>
+                      <Button
+                        label="annuler"
+                        outlined
+                        className={classes.btnCancel}
+                        onClick={() => setOpenDelModal(false)}
+                      />
+                      <Button label="supprimer" className={classes.btnDEL} />
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+          <div className={classes.separator} />
+          <div className={classes.btnAddStandard} onClick={() => setOpen(!open)}>
+            <Plus width="20" height="20" color="#10255E" strokeWidth="1" />
+            <span className={classes.textBtn}>Créer une déclinaison</span>
+          </div>
+        </div>
+      </ModalContainer>
     </div>
   );
 };
 
-export default Reference;
+export default ReferenceContainer;
