@@ -12,12 +12,13 @@ export interface Niveau {
 
 interface CompetenceProps {
   title: string;
+  add: boolean;
   niveau: Niveau[];
   color: string;
   onNiveauAdd: (niveau: Niveau) => void;
 }
 
-const Competence = ({ title, niveau, color, onNiveauAdd }: CompetenceProps) => {
+const Competence = ({ title, niveau, color, add, onNiveauAdd }: CompetenceProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [{ values }, { handleChange, setValues }] = useForm({
@@ -41,7 +42,7 @@ const Competence = ({ title, niveau, color, onNiveauAdd }: CompetenceProps) => {
           {n.title}
         </div>
       ))}
-      {niveau.length < 8 && (
+      {niveau.length < 8 && add && (
         <button onClick={() => setIsOpen(true)} className={styles.btnAddLevel}>
           <Plus color="#000" width="50" height="50" strokeWidth="0.5" />
         </button>

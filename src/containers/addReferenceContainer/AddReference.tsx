@@ -4,6 +4,7 @@ import { useReference, useAddReference, AddReferenceArguments } from 'common/req
 import Modal from 'components/Modal/Modal';
 import Title from 'components/Title/Title';
 import { useForm } from 'common/hooks/useInputs';
+import { groupBy } from 'lodash';
 
 import Plus from 'assets/svg/addCustom';
 import Button from 'components/Button/Button';
@@ -54,6 +55,8 @@ const AddReference = ({ dataToShow }: IProps) => {
     if (data?.reference) {
       const res = data.reference;
       setTitle(res.title);
+      const c = groupBy(res.competences, 'type');
+      setCompetences(c);
     }
   }, [data]);
 
@@ -133,6 +136,7 @@ const AddReference = ({ dataToShow }: IProps) => {
                     title={competence.title}
                     niveau={competence.niveau}
                     color={competenceType.color}
+                    add={location.pathname === '/reference/add'}
                   />
                 );
               })}

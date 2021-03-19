@@ -53,14 +53,11 @@ const ReferenceContainer = () => {
     },
   ];
   const onClickRow = (id: string) => {
-    console.log('hre row ');
     setSelectedRef(id);
     setOpenFilter(false);
     return history.replace(`/references?id=${id}`);
   };
   const onDeleteRef = (e: React.MouseEvent<HTMLElement, MouseEvent>, id: string) => {
-    console.log('hre del ');
-
     e.preventDefault();
     setOpenDelModal(true);
     setDeleteRef(id);
