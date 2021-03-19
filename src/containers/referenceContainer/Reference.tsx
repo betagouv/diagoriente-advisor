@@ -1,6 +1,5 @@
-import { useState } from 'react';
-import { useReferences } from 'common/requests/reference';
-import { Reference } from 'common/requests/types';
+import { useState, useEffect } from 'react';
+import { useReferences, useDeleteRef } from 'common/requests/reference';
 import classesNames from 'common/utils/classNames';
 import Title from 'components/Title/Title';
 import ModalContainer from 'components/Modal/Modal';
@@ -11,18 +10,19 @@ import Referentiel from 'assets/svg/referentielEmpty.svg';
 import EmptyCard from 'assets/svg/emptyCard.svg';
 import ArrowLeft from 'assets/svg/arrow-left.svg';
 import CloseIcon from 'assets/svg/close icon.svg';
+import { useHistory } from 'react-router-dom';
 import Card from './components/Card/Card';
 import classes from './reference.module.scss';
 
 const ReferenceContainer = () => {
+  const history = useHistory();
   const { data } = useReferences();
   const [open, setOpen] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
   const [openDelModal, setOpenDelModal] = useState(false);
-  const [selectedRef, setSelectedRef] = useState({} as Reference);
+  const [selectedRef, setSelectedRef] = useState<string>('');
   const [deletedRef, setDeleteRef] = useState('');
-
-  if (!data) return <div />;
+  const [deleteReferenceCall, deleteReferenceState] = useDeleteRef();
 
   const array = [
     {
@@ -52,20 +52,33 @@ const ReferenceContainer = () => {
         sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`,
     },
   ];
-  const onClickRow = (ref: Reference) => {
-    return setSelectedRef(ref);
+  const onClickRow = (id: string) => {
+    console.log('hre row ');
+    setSelectedRef(id);
+    setOpenFilter(false);
+    return history.replace(`/references?id=${id}`);
   };
   const onDeleteRef = (e: React.MouseEvent<HTMLElement, MouseEvent>, id: string) => {
+    console.log('hre del ');
+
     e.preventDefault();
     setOpenDelModal(true);
     setDeleteRef(id);
   };
-  /*  useEffect(() => {
-    if (data.references.data.length) {
-      // setSelectedRef(data.references.data[0]);
-      console.log('id', data.references.data.length);
+  const deletRef = () => {
+    deleteReferenceCall({ variables: { id: deletedRef } });
+  };
+
+  useEffect(() => {
+    if (data?.references.data.length) {
+      setSelectedRef(data.references.data[0].id);
     }
-  }, [data.references.data]); */
+  }, [data]);
+  useEffect(() => {
+    if (deleteReferenceState.data) {
+      console.log('heer');
+    }
+  }, [deleteReferenceState.data]);
 
   return (
     <div className={classes.referenceContainer}>
@@ -80,7 +93,7 @@ const ReferenceContainer = () => {
         </div>
       </div>
       <div className={classes.bodyRef}>
-        {data.references.data.length ? (
+        {data?.references.data.length ? (
           <AddRefereniel dataToShow={selectedRef} />
         ) : (
           <div className={classes.content}>
@@ -125,10 +138,12 @@ const ReferenceContainer = () => {
       >
         <div className={classes.containerRefsList}>
           <p className={classes.text_confirmation}>Mes Référentiels</p>
-          {data.references.data.map((c) => {
+          {data?.references.data.map((c) => {
             return (
-              <div className={classes.rowRef} onClick={() => onClickRow(c as any)}>
-                <span className={classes.textBtn}>{c.title}</span>
+              <div className={classes.rowRef}>
+                <div className={classes.text} onClick={() => onClickRow(c.id)}>
+                  <span className={classes.textBtn}>{c.title}</span>
+                </div>
                 <div onClick={(e) => onDeleteRef(e, c.id)} className={classes.delContainer}>
                   <img src={CloseIcon} alt="del" className={classes.imgClose} />
                 </div>
@@ -143,7 +158,7 @@ const ReferenceContainer = () => {
                         className={classes.btnCancel}
                         onClick={() => setOpenDelModal(false)}
                       />
-                      <Button label="supprimer" className={classes.btnDEL} />
+                      <Button label="supprimer" className={classes.btnDEL} onClick={deletRef} />
                     </div>
                   </div>
                 )}

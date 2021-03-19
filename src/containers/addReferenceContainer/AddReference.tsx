@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
-import { Reference } from 'common/requests/types';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useReference, useAddReference, AddReferenceArguments } from 'common/requests/reference';
 import Modal from 'components/Modal/Modal';
 import Title from 'components/Title/Title';
 import { useForm } from 'common/hooks/useInputs';
-import { useAddReference, AddReferenceArguments } from 'common/requests/reference';
+
 import Plus from 'assets/svg/addCustom';
 import Button from 'components/Button/Button';
 import classesNames from 'common/utils/classNames';
@@ -12,7 +12,7 @@ import Competence, { Niveau } from './components/Competence/Competence';
 import styles from './components/Competence/styles.module.scss';
 
 interface IProps {
-  dataToShow: Reference;
+  dataToShow?: string;
 }
 
 const competenceTypes = [
@@ -22,7 +22,8 @@ const competenceTypes = [
 ];
 
 const AddReference = ({ dataToShow }: IProps) => {
-  console.log('dataToShow', dataToShow);
+  const params: any = useParams();
+  const { data } = useReference({ variables: { id: params.id || dataToShow } });
   const history = useHistory();
   const location = useLocation();
   const [title, setTitle] = useState('');
@@ -49,6 +50,12 @@ const AddReference = ({ dataToShow }: IProps) => {
     }
     // eslint-disable-next-line
   }, [selectedType]);
+  useEffect(() => {
+    if (data?.reference) {
+      const res = data.reference;
+      setTitle(res.title);
+    }
+  }, [data]);
 
   return (
     <div className={styles.containerAdd}>
@@ -82,6 +89,9 @@ const AddReference = ({ dataToShow }: IProps) => {
         </div>
       )}
       <div className={styles.bodyContent}>
+        {location.pathname === '/references' && (
+          <p className={styles.headerArray}>{`Mon référentiel: ${data?.reference?.title}`}</p>
+        )}
         <div className={styles.competenceHeader}>
           <span className={styles.headerArray}>compétences</span>
           {[...Array(8)].map((a, i) => (
