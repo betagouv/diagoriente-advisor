@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useAddReference, AddReferenceArguments } from 'common/requests/reference';
+import { useAddReference, AddReferenceArguments, useUpdateReference } from 'common/requests/reference';
+import useSnackBar from 'common/hooks/useSnackBar';
 import Modal from 'components/Modal/Modal';
 import Title from 'components/Title/Title';
 import { useForm } from 'common/hooks/useInputs';
-import { groupBy } from 'lodash';
+import { groupBy, omit } from 'lodash';
 
 import Plus from 'assets/svg/addCustom';
 import openeye from 'assets/svg/openEye.svg';
@@ -17,6 +18,8 @@ import styles from './components/Competence/styles.module.scss';
 
 interface IProps {
   dataToShow?: any;
+  isUpdate: boolean;
+  setUpdate: (s: boolean) => void;
 }
 
 const competenceTypes = [
@@ -25,14 +28,18 @@ const competenceTypes = [
   { title: 'pôle réflexif', type: 'reflective', color: '#F2A900' },
 ];
 
-const AddReference = ({ dataToShow }: IProps) => {
+const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
   const history = useHistory();
   const location = useLocation();
+  console.log('isUpdate', isUpdate);
+
+  const { open } = useSnackBar();
+  const refOldCmpt = useRef<{} | null>(null);
   const [title, setTitle] = useState('');
   const [error, setError] = useState('');
+  const [errorModal, setErrorModal] = useState('');
   const [showSubs, setShowSubs] = useState(false);
 
-  const [isUpdate, setUpdate] = useState(false);
   const [selectedCmp, setSelectedCmp] = useState(null as { title: string; type: string; color: string } | null);
   const [openCmp, setOpenCmp] = useState(false);
   const [openLevel, setOpenLevel] = useState(false);
@@ -41,6 +48,7 @@ const AddReference = ({ dataToShow }: IProps) => {
   const [selectedType, setSelectedType] = useState(null as { title: string; type: string; color: string } | null);
   const [{ values }, { handleChange, setValues }] = useForm({ initialValues: { title: '' }, required: ['title'] });
   const [addReferenceCall, addReferenceState] = useAddReference();
+  const [updateReferenceCall, updateReferenceState] = useUpdateReference();
   const [competences, setCompetences] = useState(
     {} as {
       [key: string]: {
@@ -51,24 +59,12 @@ const AddReference = ({ dataToShow }: IProps) => {
   );
   useEffect(() => {
     if (addReferenceState.data) {
-      history.push('/references');
-    } else {
-      if (addReferenceState.error?.graphQLErrors.length !== 0) {
-        if (
-          addReferenceState.error?.graphQLErrors[0].message &&
-          typeof addReferenceState.error?.graphQLErrors[0].message === 'object'
-        ) {
-          setError((addReferenceState.error?.graphQLErrors[0].message as any).message);
-        } else if (
-          addReferenceState.error?.graphQLErrors[0].message &&
-          typeof addReferenceState.error?.graphQLErrors[0].message === 'string'
-        ) {
-          setError(addReferenceState.error?.graphQLErrors[0].message);
-        }
-      }
-      if (addReferenceState.error?.message && addReferenceState.error?.graphQLErrors.length === 0) {
-        setError(addReferenceState.error?.message);
-      }
+      open("l'ajout de réferentiel à étè ajouter");
+      setTimeout(() => {
+        history.push('/references');
+      }, 500);
+    } else if (!title) {
+      setError('le titre de referentiel est obligatoire');
     }
     // eslint-disable-next-line
   }, [addReferenceState.data]);
@@ -82,21 +78,62 @@ const AddReference = ({ dataToShow }: IProps) => {
     if (dataToShow) {
       const c = groupBy(dataToShow.competences, 'type');
       setCompetences(c);
+      refOldCmpt.current = c;
     }
   }, [dataToShow]);
-
+  useEffect(() => {
+    if (refOldCmpt.current) {
+      if (refOldCmpt.current !== competences) {
+        setUpdate(true);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refOldCmpt.current, competences]);
+  useEffect(() => {
+    if (updateReferenceState.data) {
+      setUpdate(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [updateReferenceState.data]);
   const onOpenUpdateCompetence = (cmp: any) => {
     setSelectedCmp(cmp);
     setUpdate(true);
     setOpenCmp(true);
   };
   const onOpenUpdateLevel = (level: any) => {
-    console.log('level', level);
     setSelectLevel(level);
     setOpenLevel(true);
     setUpdate(true);
   };
-  console.log('selectedCmp', selectedCmp, 'isUpdate', isUpdate);
+  const onCLickBtn = () => {
+    if (isUpdate) {
+      const cmps = ([] as AddReferenceArguments['competences']).concat(
+        ...Object.keys(competences).map((key) =>
+          competences[key].map((c) => ({
+            title: c.title,
+            type: key,
+            niveau: c.niveau.map((n) => omit(n, '__typename')),
+          })),
+        ),
+      );
+      updateReferenceCall({
+        variables: {
+          id: location.search.slice(4),
+          title: dataToShow.title,
+          competences: cmps.map((cmp) => omit(cmp, '__typename')),
+        },
+      });
+    } else {
+      addReferenceCall({
+        variables: {
+          title,
+          competences: ([] as AddReferenceArguments['competences']).concat(
+            ...Object.keys(competences).map((key) => competences[key].map((c) => ({ ...c, type: key }))),
+          ),
+        },
+      });
+    }
+  };
   return (
     <div className={styles.containerAdd}>
       {location.pathname === '/reference/add' && (
@@ -105,34 +142,28 @@ const AddReference = ({ dataToShow }: IProps) => {
           <input
             placeholder="Nommez ici votre référentiel"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => {
+              setTitle(e.target.value);
+              setError('');
+            }}
             className={styles.inputAdd}
           />
         </div>
       )}
-      <div>
-        <p>{error}</p>
-        {location.pathname === '/reference/add' && (
+
+      <div className={styles.bodyContent}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
+          <div>{addReferenceState.called && <p className={styles.errorTextModal}>{error}</p>}</div>
           <div className={styles.btnSaveContainer}>
             <Button
               className={styles.btnSave}
-              label="Enregistrer"
-              onClick={() => {
-                addReferenceCall({
-                  variables: {
-                    title,
-                    competences: ([] as AddReferenceArguments['competences']).concat(
-                      ...Object.keys(competences).map((key) => competences[key].map((c) => ({ ...c, type: key }))),
-                    ),
-                  },
-                });
-              }}
+              disable={(title.length === 0 && !isUpdate) || (refOldCmpt.current === competences && isUpdate)}
+              containerStyle={styles.disableAddBtn}
+              label={location.pathname === '/references' ? 'Modifier' : 'Enregistrer'}
+              onClick={onCLickBtn}
             />
           </div>
-        )}
-      </div>
-
-      <div className={styles.bodyContent}>
+        </div>
         <div className={styles.competenceHeader}>
           <span className={styles.headerArray}>compétences</span>
           {[...Array(8)].map((a, i) => (
@@ -170,11 +201,18 @@ const AddReference = ({ dataToShow }: IProps) => {
                     // eslint-disable-next-line
                     key={i}
                     onNiveauAdd={(niveau) => {
-                      const nextCompetencesType = [...competences[competenceType.type]];
-                      const nextCompetence = { ...competence, niveau: [...competence.niveau, niveau] };
-                      nextCompetencesType[i] = nextCompetence;
-                      setCompetences({ ...competences, [competenceType.type]: nextCompetencesType });
+                      if (niveau.title) {
+                        const nextCompetencesType = [...competences[competenceType.type]];
+                        const nextCompetence = { ...competence, niveau: [...competence.niveau, niveau] };
+                        nextCompetencesType[i] = nextCompetence;
+                        setCompetences({ ...competences, [competenceType.type]: nextCompetencesType });
+                        setSelectLevel({} as { title: string; sub_title: string });
+                      } else {
+                        setErrorModal('Descripteur est obligatoire');
+                      }
                     }}
+                    errorModal={errorModal}
+                    setErrorModal={setErrorModal}
                     title={competence.title}
                     niveau={competence.niveau}
                     color={competenceType.color}
@@ -200,7 +238,11 @@ const AddReference = ({ dataToShow }: IProps) => {
 
         <Modal
           isOpen={!isUpdate ? !!selectedType : !!openCmp}
-          onClose={() => (isUpdate ? (setSelectedCmp(null), setUpdate(false)) : setSelectedType(null))}
+          onClose={() =>
+            isUpdate
+              ? (setSelectedCmp(null), setUpdate(false), setErrorModal(''))
+              : (setSelectedType(null), setErrorModal(''))
+          }
           widthSize="auto"
           heightSize="auto"
           bkground="#f5f6fb"
@@ -212,13 +254,17 @@ const AddReference = ({ dataToShow }: IProps) => {
               e.preventDefault();
               if (selectedType) {
                 const nextCompetence = { title: values.title, type: selectedType.type, niveau: [] };
-                setCompetences({
-                  ...competences,
-                  [selectedType.type]: competences[selectedType.type]
-                    ? [...competences[selectedType.type], nextCompetence]
-                    : [nextCompetence],
-                });
-                setSelectedType(null);
+                if (nextCompetence.title) {
+                  setCompetences({
+                    ...competences,
+                    [selectedType.type]: competences[selectedType.type]
+                      ? [...competences[selectedType.type], nextCompetence]
+                      : [nextCompetence],
+                  });
+                  setSelectedType(null);
+                } else {
+                  setErrorModal('le nom de compétence est obligatoire');
+                }
               }
             }}
             className={styles.modal}
@@ -231,14 +277,22 @@ const AddReference = ({ dataToShow }: IProps) => {
             </div>
             <textarea
               name="title"
-              onChange={handleChange}
+              onChange={(e) => {
+                handleChange(e);
+                setErrorModal('');
+              }}
               value={selectedCmp?.title || values.title}
               className={styles.inputModal}
-              style={{ color: selectedCmp?.color || selectedType?.color }}
+              style={{
+                color: selectedCmp?.color || selectedType?.color,
+                border: errorModal ? '1px solid red' : '',
+              }}
               rows={3}
               wrap="hard"
               maxLength={100}
             />
+            <span className={styles.errorTextModal}>{errorModal}</span>
+
             <div className={styles.addBtnModal}>
               <Button label={isUpdate ? 'Modifier' : 'valider'} />
             </div>

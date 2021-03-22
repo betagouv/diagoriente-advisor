@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useReferences, useDeleteRef, useReference } from 'common/requests/reference';
 import classesNames from 'common/utils/classNames';
+import { useDidMount } from 'common/hooks/useLifeCycle';
 import Title from 'components/Title/Title';
 import ModalContainer from 'components/Modal/Modal';
 import Button from 'components/Button/Button';
@@ -16,8 +17,10 @@ import classes from './reference.module.scss';
 
 const ReferenceContainer = () => {
   const history = useHistory();
-  const { data } = useReferences();
+  const [getListRefCall, getListRefState] = useReferences({ fetchPolicy: 'network-only' });
   const [open, setOpen] = useState(false);
+  const [isUpdate, setUpdate] = useState(false);
+
   const [openFilter, setOpenFilter] = useState(false);
   const [openDelModal, setOpenDelModal] = useState(false);
   const [deletedRef, setDeleteRef] = useState('');
@@ -53,6 +56,10 @@ const ReferenceContainer = () => {
         sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`,
     },
   ];
+
+  useDidMount(() => {
+    getListRefCall();
+  });
   const onClickRow = (id: string) => {
     setOpenFilter(false);
     setSelectedId(id);
@@ -68,12 +75,12 @@ const ReferenceContainer = () => {
   };
 
   useEffect(() => {
-    if (data?.references.data.length) {
-      history.replace(`/references?id=${data.references.data[0].id}`);
-      getRefCall({ variables: { id: data.references.data[0].id } });
+    if (getListRefState.data?.references.data.length) {
+      history.replace(`/references?id=${getListRefState.data.references.data[0].id}`);
+      getRefCall({ variables: { id: getListRefState.data.references.data[0].id } });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, history]);
+  }, [getListRefState.data, history]);
   useEffect(() => {
     if (selectedId) {
       getRefCall({ variables: { id: selectedId } });
@@ -82,16 +89,19 @@ const ReferenceContainer = () => {
   }, [selectedId]);
   useEffect(() => {
     if (deleteReferenceState.data) {
+      getListRefCall();
+
       setOpenFilter(false);
       setOpenDelModal(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deleteReferenceState.data]);
 
   return (
     <div className={classes.referenceContainer}>
       <div className={classes.headerRef}>
         <Title title="Mon référentiel  :" className={classes.titlePage} />
-        {data?.references.data.length ? (
+        {getListRefState.data?.references.data.length ? (
           <div className={classesNames(classes.titleRefHeader, classes.titlePage)}>
             {getRefState.data?.reference.title}
           </div>
@@ -106,8 +116,8 @@ const ReferenceContainer = () => {
         </div>
       </div>
       <div className={classes.bodyRef}>
-        {data?.references.data.length ? (
-          <AddRefereniel dataToShow={getRefState.data?.reference} />
+        {getListRefState.data?.references.data.length ? (
+          <AddRefereniel dataToShow={getRefState.data?.reference} setUpdate={setUpdate} isUpdate={isUpdate} />
         ) : (
           <div className={classes.content}>
             <div className={classes.info}>
@@ -151,7 +161,7 @@ const ReferenceContainer = () => {
       >
         <div className={classes.containerRefsList}>
           <p className={classes.text_confirmation}>Mes Référentiels</p>
-          {data?.references.data.map((c) => {
+          {getListRefState.data?.references.data.map((c) => {
             return (
               <div className={classes.rowRef}>
                 <div className={classes.text} onClick={() => onClickRow(c.id)}>

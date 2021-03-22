@@ -7,6 +7,7 @@
 .headerRef {
   display: flex;
   align-items: center;
+  margin-bottom: 20px;
 }
 .titlePage {
   font-family: 'Montserrat-bold';
@@ -14,12 +15,14 @@
 .inputAdd {
   height: 48px;
   width: 350px;
-  background-color: transparent;
+  background-color: #fff;
+  border-radius: 16px;
   border: none;
   margin-left: 20px;
   font-weight: 500;
-  font-size: 22px;
+  font-size: 20px;
   line-height: 27px;
+  padding-left: 10px;
   font-family: 'Montserrat-bold';
   outline: 0;
   color: #10255e;
@@ -33,6 +36,8 @@
 .btnSaveContainer {
   display: flex;
   justify-content: flex-end;
+  margin-left: 20px;
+  height: 48px;
 }
 .btnSave {
   width: 100px;
@@ -40,11 +45,15 @@
   padding: 0px 7px !important;
   margin-bottom: 8px;
 }
+.disableAddBtn {
+  border-radius: 16px;
+  color: rgba(16, 37, 94, 0.6);
+}
 .bodyContent {
   background-color: #fff;
   flex: 1 1 0;
   width: 100%;
-  padding: 38px 35px;
+  padding: 33px 30px;
 }
 
 .competenceHeader {
@@ -63,6 +72,7 @@
   padding: 10px 20px;
   border-top: 1px solid #c7ccdc;
   min-height: 143px;
+  transition: height 0.4s;
 }
 .text {
   font-weight: 800;
@@ -236,4 +246,9 @@
 }
 .addBtnModal {
   width: 100%;
+}
+.errorTextModal {
+  color: red;
+  font-size: 12px;
+  margin-bottom: 10px;
 }

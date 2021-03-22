@@ -37,7 +37,7 @@ const Card = ({ competences, nom, info, img }: IProps) => {
       <p className={classes.titleRef}>{nom}</p>
       <p className={classes.infoRef}>{info}</p>
       <div className={classes.btnContainer}>
-        <Button label="sélectionner" onClick={onNavigate} />
+        <Button label="sélectionner" onClick={onNavigate} disable={nom !== 'Nouvelle carte'} />
       </div>
     </div>
   );

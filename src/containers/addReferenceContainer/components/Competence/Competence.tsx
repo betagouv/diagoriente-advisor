@@ -18,6 +18,8 @@ interface CompetenceProps {
   isUpdate: boolean;
   selectLevel: Niveau;
   showSubs: boolean;
+  errorModal?: string;
+  setErrorModal: (s: string) => void;
   onNiveauAdd: (niveau: Niveau) => void;
   onClickTitle: () => void;
   onClickLevel: (n: Niveau) => void;
@@ -32,6 +34,8 @@ const Competence = ({
   isUpdate,
   selectLevel,
   showSubs,
+  errorModal,
+  setErrorModal,
   onNiveauAdd,
   onClickTitle,
   onClickLevel,
@@ -48,7 +52,6 @@ const Competence = ({
     if (isOpen) setValues({ title: '', sub_title: '' });
     // eslint-disable-next-line
   }, [isOpen]);
-
   return (
     <div className={styles.competence}>
       <div className={styles.titleCompetence} style={{ color }} onClick={onClickTitle}>
@@ -68,7 +71,10 @@ const Competence = ({
       )}
       <Modal
         isOpen={isOpen || openLevel}
-        onClose={() => (isUpdate ? setOpenLevel(false) : setIsOpen(false))}
+        onClose={() => {
+          setOpenLevel(false);
+          setErrorModal('');
+        }}
         widthSize="auto"
         heightSize="auto"
         bkground="#f5f6fb"
@@ -78,8 +84,11 @@ const Competence = ({
         <form
           onSubmit={(e) => {
             e.preventDefault();
+            if (values.title) {
+              setIsOpen(false);
+              setErrorModal('');
+            }
             onNiveauAdd(values);
-            setIsOpen(false);
           }}
           className={styles.modal}
         >
@@ -93,14 +102,18 @@ const Competence = ({
           <p className={styles.labelInput}>descripteur</p>
           <textarea
             name="title"
-            onChange={handleChange}
+            onChange={(e) => {
+              handleChange(e);
+              setErrorModal('');
+            }}
             value={selectLevel.title || values.title}
             className={styles.inputModalLevel}
-            style={{ color: '#10255E' }}
+            style={{ color: '#10255E', border: errorModal ? '1px solid red' : '' }}
             rows={3}
             wrap="hard"
             maxLength={100}
           />
+          <span className={styles.errorTextModal}>{errorModal}</span>
           <p className={styles.labelInput}>indicateur</p>
           <textarea
             name="sub_title"
