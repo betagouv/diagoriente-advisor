@@ -31,8 +31,6 @@ const competenceTypes = [
 const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
   const history = useHistory();
   const location = useLocation();
-  console.log('isUpdate', isUpdate);
-
   const { open } = useSnackBar();
   const refOldCmpt = useRef<{} | null>(null);
   const [title, setTitle] = useState('');
@@ -218,6 +216,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
                     title={competence.title}
                     niveau={competence.niveau}
                     color={competenceType.color}
+                    isUpdate={isUpdate}
                     showSubs={showSubs}
                     onClickTitle={() =>
                       onOpenUpdateCompetence({

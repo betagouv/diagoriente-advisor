@@ -16,6 +16,7 @@ interface CompetenceProps {
   niveau: Niveau[];
   color: string;
   showSubs: boolean;
+  isUpdate: boolean;
   errorModal?: string;
   setErrorModal: (s: string) => void;
   onNiveauAdd: (niveau: Niveau, index: number) => void;
@@ -28,6 +29,7 @@ const Competence = ({
   color,
   showSubs,
   errorModal,
+  isUpdate,
   setErrorModal,
   onNiveauAdd,
   onClickTitle,
@@ -128,7 +130,7 @@ const Competence = ({
             <div className={styles.addBtnModal}>
               <Button label={isOpen < niveau.length ? 'Modifier' : 'valider'} type="submit" />
             </div>
-            {values.title && (
+            {isUpdate && (
               <div>
                 <p>Vous pouver aussi supprimer ce niveau</p>
                 <div className={styles.addBtnModal}>
