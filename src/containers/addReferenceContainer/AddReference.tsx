@@ -42,8 +42,6 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
 
   const [selectedCmp, setSelectedCmp] = useState(null as { title: string; type: string; color: string } | null);
   const [openCmp, setOpenCmp] = useState(false);
-  const [openLevel, setOpenLevel] = useState(false);
-  const [selectLevel, setSelectLevel] = useState({} as { title: string; sub_title: string });
 
   const [selectedType, setSelectedType] = useState(null as { title: string; type: string; color: string } | null);
   const [{ values }, { handleChange, setValues }] = useForm({ initialValues: { title: '' }, required: ['title'] });
@@ -100,11 +98,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
     setUpdate(true);
     setOpenCmp(true);
   };
-  const onOpenUpdateLevel = (level: any) => {
-    setSelectLevel(level);
-    setOpenLevel(true);
-    setUpdate(true);
-  };
+
   const onCLickBtn = () => {
     if (isUpdate) {
       const cmps = ([] as AddReferenceArguments['competences']).concat(
@@ -200,13 +194,21 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
                   <Competence
                     // eslint-disable-next-line
                     key={i}
-                    onNiveauAdd={(niveau) => {
+                    onNiveauAdd={(niveau, index) => {
                       if (niveau.title) {
                         const nextCompetencesType = [...competences[competenceType.type]];
-                        const nextCompetence = { ...competence, niveau: [...competence.niveau, niveau] };
-                        nextCompetencesType[i] = nextCompetence;
+
+                        if (index < competence.niveau.length) {
+                          const nextNiveau = [...competence.niveau];
+                          nextNiveau[index] = niveau;
+                          const nextCompetence = { ...competence, niveau: nextNiveau };
+                          nextCompetencesType[i] = nextCompetence;
+                        } else {
+                          const nextCompetence = { ...competence, niveau: [...competence.niveau, niveau] };
+                          nextCompetencesType[i] = nextCompetence;
+                        }
+
                         setCompetences({ ...competences, [competenceType.type]: nextCompetencesType });
-                        setSelectLevel({} as { title: string; sub_title: string });
                       } else {
                         setErrorModal('Descripteur est obligatoire');
                       }
@@ -216,11 +218,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
                     title={competence.title}
                     niveau={competence.niveau}
                     color={competenceType.color}
-                    openLevel={openLevel}
-                    isUpdate={isUpdate}
                     showSubs={showSubs}
-                    setOpenLevel={setOpenLevel}
-                    selectLevel={selectLevel}
                     onClickTitle={() =>
                       onOpenUpdateCompetence({
                         type: competenceType.title,
@@ -228,7 +226,6 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
                         color: competenceType.color,
                       })
                     }
-                    onClickLevel={onOpenUpdateLevel}
                   />
                 );
               })}

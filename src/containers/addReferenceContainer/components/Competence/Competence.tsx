@@ -14,42 +14,33 @@ interface CompetenceProps {
   title: string;
   niveau: Niveau[];
   color: string;
-  openLevel: boolean;
-  isUpdate: boolean;
-  selectLevel: Niveau;
   showSubs: boolean;
   errorModal?: string;
   setErrorModal: (s: string) => void;
-  onNiveauAdd: (niveau: Niveau) => void;
+  onNiveauAdd: (niveau: Niveau, index: number) => void;
   onClickTitle: () => void;
-  onClickLevel: (n: Niveau) => void;
-  setOpenLevel: (e: boolean) => void;
 }
 
 const Competence = ({
   title,
   niveau,
   color,
-  openLevel,
-  isUpdate,
-  selectLevel,
   showSubs,
   errorModal,
   setErrorModal,
   onNiveauAdd,
   onClickTitle,
-  onClickLevel,
-  setOpenLevel,
 }: CompetenceProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(-1);
 
   const [{ values }, { handleChange, setValues }] = useForm({
     initialValues: { title: '', sub_title: '' },
     required: ['title'],
   });
-
+  const selectedNiveau = niveau[isOpen];
   useEffect(() => {
-    if (isOpen) setValues({ title: '', sub_title: '' });
+    setValues({ title: selectedNiveau?.title || '', sub_title: selectedNiveau?.sub_title || '' });
+
     // eslint-disable-next-line
   }, [isOpen]);
   return (
@@ -59,36 +50,36 @@ const Competence = ({
       </div>
       {niveau.map((n, i) => (
         // eslint-disable-next-line
-        <div key={i} className={styles.niveau} onClick={() => onClickLevel(n)}>
+        <div key={i} className={styles.niveau} onClick={() => setIsOpen(i)}>
           <span>{n.title}</span>
           {showSubs && <span className={styles.subTitle}>{n.sub_title}</span>}
         </div>
       ))}
       {niveau.length < 8 && (
-        <button onClick={() => setIsOpen(true)} className={styles.btnAddLevel}>
+        <button onClick={() => setIsOpen(niveau.length)} className={styles.btnAddLevel}>
           <Plus color="#000" width="50" height="50" strokeWidth="0.5" />
         </button>
       )}
       <Modal
-        isOpen={isOpen || openLevel}
+        isOpen={isOpen !== -1}
         onClose={() => {
-          setOpenLevel(false);
+          setIsOpen(-1);
           setErrorModal('');
         }}
         widthSize="auto"
         heightSize="auto"
         bkground="#f5f6fb"
         body={styles.bodyModal}
-        withoutClose={!isUpdate}
+        withoutClose={isOpen === niveau.length}
       >
         <form
           onSubmit={(e) => {
             e.preventDefault();
             if (values.title) {
-              setIsOpen(false);
+              setIsOpen(-1);
               setErrorModal('');
             }
-            onNiveauAdd(values);
+            onNiveauAdd(values, isOpen);
           }}
           className={styles.modal}
         >
@@ -98,7 +89,7 @@ const Competence = ({
           <div className={styles.titleAddLevel} style={{ color }}>
             {title}
           </div>
-          <div className={styles.level}>{`NIVEAU ${niveau.length + 1}`}</div>
+          <div className={styles.level}>{`NIVEAU ${isOpen + 1}`}</div>
           <p className={styles.labelInput}>descripteur</p>
           <textarea
             name="title"
@@ -106,7 +97,7 @@ const Competence = ({
               handleChange(e);
               setErrorModal('');
             }}
-            value={selectLevel.title || values.title}
+            value={values.title}
             className={styles.inputModalLevel}
             style={{ color: '#10255E', border: errorModal ? '1px solid red' : '' }}
             rows={3}
@@ -118,7 +109,7 @@ const Competence = ({
           <textarea
             name="sub_title"
             onChange={handleChange}
-            value={selectLevel.sub_title || values.sub_title}
+            value={values.sub_title}
             className={styles.inputModalLevel}
             style={{ color: '#10255E' }}
             rows={3}
@@ -126,7 +117,7 @@ const Competence = ({
             maxLength={100}
           />
           <div className={styles.addBtnModal}>
-            <Button label={isUpdate ? 'Modifier' : 'valider'} type="submit" />
+            <Button label={isOpen < niveau.length ? 'Modifier' : 'valider'} type="submit" />
           </div>
         </form>
       </Modal>
