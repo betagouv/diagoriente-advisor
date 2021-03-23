@@ -177,6 +177,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
               disable={(title.length === 0 && !isUpdate) || (refOldCmpt.current === competences && isUpdate)}
               containerStyle={styles.disableAddBtn}
               label="Enregistrer"
+              loader={updateReferenceState.loading || addReferenceState.loading}
               onClick={onCLickBtn}
             />
           </div>
@@ -336,7 +337,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
             <span className={styles.errorTextModal}>{errorModal}</span>
 
             <div className={styles.addBtnModal}>
-              <Button label="valider" loader={updateReferenceState.loading || addReferenceState.loading} />
+              <Button label="valider" />
             </div>
           </form>
         </Modal>

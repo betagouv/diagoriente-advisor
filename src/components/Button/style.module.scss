@@ -9,6 +9,9 @@
     font-size: 16px;
     line-height: 30px;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-transform: uppercase;
     border: none;
     cursor: pointer;
@@ -20,10 +23,7 @@
       color: #ffffff;
     }
     .loaderContainer {
-  
-      position: absolute ;
       bottom:10px;
-      right:5px;
       -webkit-animation: spin 1s linear infinite;
       animation: spin 1s linear infinite;
       border: 3px solid #ddd;
@@ -31,6 +31,7 @@
       border-radius: 50%;
       height: 30px;
       width: 30px;
+      margin-left:10px
     }
 
     @-webkit-keyframes spin {
@@ -57,9 +58,12 @@
     box-sizing: border-box;
     border-radius: 16px;
     font-weight: bold;
+    display: flex;
+    align-items: center;
     font-size: 16px;
     line-height: 30px;
     text-align: center;
+    justify-content: center;
     text-transform: uppercase;
     color: #10255e;
     cursor: pointer;
