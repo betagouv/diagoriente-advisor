@@ -21,6 +21,7 @@ interface CompetenceProps {
   setErrorModal: (s: string) => void;
   onNiveauAdd: (niveau: Niveau, index: number) => void;
   onClickTitle: () => void;
+  onHoverLevel: (l: number | null) => void;
 }
 
 const Competence = ({
@@ -33,6 +34,7 @@ const Competence = ({
   setErrorModal,
   onNiveauAdd,
   onClickTitle,
+  onHoverLevel,
 }: CompetenceProps) => {
   const [isOpen, setIsOpen] = useState(-1);
   const [openDelModal, setOpenDelModal] = useState(false);
@@ -65,7 +67,12 @@ const Competence = ({
         </div>
       ))}
       {niveau.length < 8 && (
-        <button onClick={() => setIsOpen(niveau.length)} className={styles.btnAddLevel}>
+        <button
+          onClick={() => setIsOpen(niveau.length)}
+          className={styles.btnAddLevel}
+          onMouseEnter={() => onHoverLevel(niveau.length)}
+          onMouseLeave={() => onHoverLevel(null)}
+        >
           <Plus color="#000" width="50" height="50" strokeWidth="0.5" />
         </button>
       )}

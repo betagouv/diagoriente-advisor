@@ -59,7 +59,8 @@
 .competenceHeader {
   display: grid;
   grid-template-columns: repeat(9, 1fr);
-  padding: 10px 20px;
+  padding-left: 20px;
+  padding-right: 20px;
   background: #f5f6fb;
 }
 
@@ -79,12 +80,20 @@
   font-size: 12px;
   line-height: 19px;
 }
+.firstLabel {
+  padding-left: 0px !important;
+  color: #10255e !important;
+}
 .headerArray {
   @extend .text;
   font-family: 'Montserrat-bold';
   text-transform: uppercase;
-  color: #10255e;
+  color: rgba(16, 37, 94, 0.6);
   margin-right: 18px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  padding-left: 5px;
 }
 .rowCompetenceContainer {
   display: flex;
@@ -245,8 +254,6 @@
   font-family: 'Montserrat';
   font-weight: 500;
   text-transform: capitalize;
-
-  
 }
 .addBtnModal {
   width: 100%;

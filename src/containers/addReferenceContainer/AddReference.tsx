@@ -37,6 +37,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
   const [error, setError] = useState('');
   const [errorModal, setErrorModal] = useState('');
   const [showSubs, setShowSubs] = useState(false);
+  const [hoverLevel, setHoverLevel] = useState<number | null>(null);
 
   const [selectedCmp, setSelectedCmp] = useState(null as { title: string; type: string; color: string } | null);
   const [openCmp, setOpenCmp] = useState(false);
@@ -95,6 +96,9 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
     setSelectedCmp(cmp);
     setUpdate(true);
     setOpenCmp(true);
+  };
+  const onHoverLevel = (level: number | null) => {
+    setHoverLevel(level);
   };
 
   const onCLickBtn = () => {
@@ -157,9 +161,9 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
           </div>
         </div>
         <div className={styles.competenceHeader}>
-          <span className={styles.headerArray}>compétences</span>
+          <span className={classesNames(styles.headerArray, styles.firstLabel)}>compétences</span>
           {[...Array(8)].map((a, i) => (
-            <span key={a} className={classesNames(styles.headerArray /* , i + 1 === 1 && styles.levelToAdd */)}>
+            <span key={a} className={classesNames(styles.headerArray, i === hoverLevel && styles.levelToAdd)}>
               {i + 1}
             </span>
           ))}
@@ -211,6 +215,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
                         setErrorModal('Descripteur est obligatoire');
                       }
                     }}
+                    onHoverLevel={onHoverLevel}
                     errorModal={errorModal}
                     setErrorModal={setErrorModal}
                     title={competence.title}
