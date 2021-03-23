@@ -57,6 +57,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
       open("l'ajout de réferentiel à étè ajouter");
       setTimeout(() => {
         history.push('/references');
+        setError('');
       }, 500);
     } else if (!title) {
       setError('le titre de referentiel est obligatoire');
@@ -93,6 +94,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
   useEffect(() => {
     if (updateReferenceState.data) {
       setUpdate(false);
+      setError('');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updateReferenceState.data]);
@@ -334,7 +336,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
             <span className={styles.errorTextModal}>{errorModal}</span>
 
             <div className={styles.addBtnModal}>
-              <Button label="valider" />
+              <Button label="valider" loader={updateReferenceState.loading || addReferenceState.loading} />
             </div>
           </form>
         </Modal>
