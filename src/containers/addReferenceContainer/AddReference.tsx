@@ -79,7 +79,6 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
   // initialise 1st to show
   useEffect(() => {
     if (dataToShow) {
-      console.log('data to show');
       const c = groupBy(dataToShow.competences, 'type');
       setCompetences(c);
       refOldCmpt.current = c;
@@ -99,7 +98,6 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
   // update uSeEffect
   useEffect(() => {
     if (updateReferenceState.data) {
-      console.log('');
       open('la modification de réferentiel avec succée');
       getRefCall({ variables: { id: location.search.slice(4) } });
       setUpdate(false);
@@ -118,6 +116,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
     if (getRefState.data) {
       const c = groupBy(getRefState.data.reference.competences, 'type');
       setCompetences(c);
+      setUpdate(false);
       refOldCmpt.current = c;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
