@@ -65,6 +65,10 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
     }
     // eslint-disable-next-line
   }, [addReferenceState.data]);
+
+  useEffect(() => {
+    if (addReferenceState.error?.message) setError(addReferenceState.error?.message);
+  }, [addReferenceState.error]);
   useEffect(() => {
     if (!selectedType) {
       setValues({ title: '' });
