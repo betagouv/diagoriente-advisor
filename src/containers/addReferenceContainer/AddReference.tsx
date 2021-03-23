@@ -63,10 +63,12 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
     }
     // eslint-disable-next-line
   }, [addReferenceState.data]);
-
   useEffect(() => {
     if (addReferenceState.error?.message) setError(addReferenceState.error?.message);
-  }, [addReferenceState.error]);
+    if (updateReferenceState.error?.message) {
+      setError(updateReferenceState.error?.message);
+    }
+  }, [addReferenceState.error, updateReferenceState.error]);
   useEffect(() => {
     if (!selectedType) {
       setValues({ title: '' });
@@ -94,7 +96,6 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updateReferenceState.data]);
-
   useEffect(() => {
     if (selectedCmp?.title) {
       setValues({ title: selectedCmp?.title });
@@ -163,13 +164,17 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
 
       <div className={styles.bodyContent}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
-          <div>{addReferenceState.called && <p className={styles.errorTextModal}>{error}</p>}</div>
+          <div>
+            {(addReferenceState.called || updateReferenceState.called) && (
+              <p className={styles.errorTextModal}>{error}</p>
+            )}
+          </div>
           <div className={styles.btnSaveContainer}>
             <Button
               className={styles.btnSave}
               disable={(title.length === 0 && !isUpdate) || (refOldCmpt.current === competences && isUpdate)}
               containerStyle={styles.disableAddBtn}
-              label={location.pathname === '/references' ? 'Modifier' : 'Enregistrer'}
+              label="Enregistrer"
               onClick={onCLickBtn}
             />
           </div>
@@ -256,7 +261,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
           onClose={() =>
             isUpdate
               ? (setSelectedType(null), setUpdate(false), setErrorModal(''), setValues({ title: '' }))
-              : (setSelectedType(null), setErrorModal(''), setValues({ title: '' }))
+              : (setSelectedType(null), setErrorModal(''), setValues({ title: '' }), setUpdate(false))
           }
           widthSize="auto"
           heightSize="auto"
@@ -329,7 +334,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
             <span className={styles.errorTextModal}>{errorModal}</span>
 
             <div className={styles.addBtnModal}>
-              <Button label={isUpdate ? 'Modifier' : 'valider'} />
+              <Button label="valider" />
             </div>
           </form>
         </Modal>

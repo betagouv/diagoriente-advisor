@@ -135,7 +135,7 @@ const Competence = ({
               maxLength={100}
             />
             <div className={styles.addBtnModal}>
-              <Button label={isOpen < niveau.length ? 'Modifier' : 'valider'} type="submit" />
+              <Button label="valider" type="submit" />
             </div>
             {isUpdate && (
               <div>
