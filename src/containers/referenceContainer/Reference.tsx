@@ -102,18 +102,20 @@ const ReferenceContainer = () => {
       <div className={classes.headerRef}>
         <Title title="Mon référentiel  :" className={classes.titlePage} />
         {getListRefState.data?.references.data.length ? (
-          <div className={classesNames(classes.titleRefHeader, classes.titlePage)}>
-            {getRefState.data?.reference.title}
-          </div>
+          <>
+            <div className={classesNames(classes.titleRefHeader, classes.titlePage)}>
+              {getRefState.data?.reference.title}
+            </div>
+            <div className={classes.btnShowRefs} onClick={() => setOpenFilter(!openFilter)}>
+              <img src={ArrowLeft} alt="arrow" className={classes.img} />
+            </div>
+          </>
         ) : (
           <div className={classes.btnAddRef} onClick={() => setOpen(!open)}>
             <Plus width="20" height="20" color="#10255E" strokeWidth="1" />
             <span className={classes.textBtn}>Créer une déclinaison</span>
           </div>
         )}
-        <div className={classes.btnShowRefs} onClick={() => setOpenFilter(!openFilter)}>
-          <img src={ArrowLeft} alt="arrow" className={classes.img} />
-        </div>
       </div>
       <div className={classes.bodyRef}>
         {getListRefState.data?.references.data.length ? (

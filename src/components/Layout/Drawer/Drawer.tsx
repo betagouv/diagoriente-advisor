@@ -92,7 +92,7 @@ const PrivateDrawer = () => {
     if (id === 3 && idLink === 1) res = <StepContainer currentStepIndex={id + 1} stepsTitle="Suivez les profils" />;
     if (id === 2 && idLink === 2) res = <StepContainer currentStepIndex={id + 1} stepsTitle="Envoyez une invitation" />;
     if (id === 1 && idLink === 2) res = <StepContainer currentStepIndex={id + 1} stepsTitle="Créez votre groupe" />;
-    if (id === 0 && idLink === 3) res = <StepContainer currentStepIndex={id + 1} stepsTitle="Suivez la formation" />;
+    if (id === 0 && idLink === 4) res = <StepContainer currentStepIndex={id + 1} stepsTitle="Suivez la formation" />;
     return res;
   };
   useEffect(() => {
@@ -102,14 +102,17 @@ const PrivateDrawer = () => {
     if (window.location.pathname === '/groupes') {
       setSelectedButton(2);
     }
-    if (window.location.pathname === '/formation') {
+    if (window.location.pathname === '/references') {
       setSelectedButton(3);
     }
-    if (window.location.pathname === '/ressources') {
+    if (window.location.pathname === '/formation') {
       setSelectedButton(4);
     }
-    if (window.location.pathname === '/account') {
+    if (window.location.pathname === '/ressources') {
       setSelectedButton(5);
+    }
+    if (window.location.pathname === '/account') {
+      setSelectedButton(6);
     }
   }, [selectedButton, window.location.pathname]);
   return (
