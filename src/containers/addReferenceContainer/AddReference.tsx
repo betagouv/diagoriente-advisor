@@ -38,9 +38,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
   const [errorModal, setErrorModal] = useState('');
   const [showSubs, setShowSubs] = useState(false);
   const [hoverLevel, setHoverLevel] = useState<number | null>(null);
-
   const [selectedCmp, setSelectedCmp] = useState(null as { title: string; type: string; color: string } | null);
-  const [openCmp, setOpenCmp] = useState(false);
 
   const [selectedType, setSelectedType] = useState(null as { title: string; type: string; color: string } | null);
   const [{ values }, { handleChange, setValues }] = useForm({ initialValues: { title: '' }, required: ['title'] });
@@ -96,10 +94,18 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updateReferenceState.data]);
+
+  useEffect(() => {
+    if (selectedCmp?.title) {
+      setValues({ title: selectedCmp?.title });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCmp?.title]);
+
   const onOpenUpdateCompetence = (cmp: any) => {
+    setSelectedType(cmp);
     setSelectedCmp(cmp);
     setUpdate(true);
-    setOpenCmp(true);
   };
   const onHoverLevel = (level: number | null) => {
     setHoverLevel(level);
@@ -134,6 +140,10 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
       });
     }
   };
+  const insert = (arr: any[], index: number, newItem: any) => {
+    return [...arr.slice(0, index), newItem, ...arr.slice(index)];
+  };
+
   return (
     <div className={styles.containerAdd}>
       {location.pathname === '/reference/add' && (
@@ -229,7 +239,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
                     showSubs={showSubs}
                     onClickTitle={() =>
                       onOpenUpdateCompetence({
-                        type: competenceType.title,
+                        type: competenceType.type,
                         title: competence.title,
                         color: competenceType.color,
                       })
@@ -242,11 +252,11 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
         })}
 
         <Modal
-          isOpen={!isUpdate ? !!selectedType : !!openCmp}
+          isOpen={!!selectedType}
           onClose={() =>
             isUpdate
-              ? (setSelectedCmp(null), setUpdate(false), setErrorModal(''))
-              : (setSelectedType(null), setErrorModal(''))
+              ? (setSelectedType(null), setUpdate(false), setErrorModal(''), setValues({ title: '' }))
+              : (setSelectedType(null), setErrorModal(''), setValues({ title: '' }))
           }
           widthSize="auto"
           heightSize="auto"
@@ -260,12 +270,32 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
               if (selectedType) {
                 const nextCompetence = { title: values.title, type: selectedType.type, niveau: [] };
                 if (nextCompetence.title) {
-                  setCompetences({
-                    ...competences,
-                    [selectedType.type]: competences[selectedType.type]
-                      ? [...competences[selectedType.type], nextCompetence]
-                      : [nextCompetence],
-                  });
+                  if (isUpdate && selectedCmp) {
+                    const getIndex = competences[selectedType.type].findIndex((c) => c.title === selectedType.title);
+                    const currentTypesCmp = competences[selectedType.type].find((c) => c.title === selectedType.title);
+                    const cmps = competences[selectedType.type].filter((c) => c.title !== selectedType.title);
+                    if (currentTypesCmp?.niveau) {
+                      const newData = {
+                        title: values.title,
+                        niveau: currentTypesCmp.niveau,
+                        type: selectedType.type,
+                        __typename: 'referenceCompetence',
+                      };
+                      const res = insert(cmps, getIndex, newData);
+                      setCompetences({
+                        ...competences,
+                        [selectedType.type]: res,
+                      });
+                    }
+                  } else {
+                    setCompetences({
+                      ...competences,
+                      [selectedType.type]: competences[selectedType.type]
+                        ? [...competences[selectedType.type], nextCompetence]
+                        : [nextCompetence],
+                    });
+                  }
+
                   setSelectedType(null);
                 } else {
                   setErrorModal('le nom de compétence est obligatoire');
@@ -274,7 +304,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
             }}
             className={styles.modal}
           >
-            <h1 className={styles.title} style={{ color: selectedCmp?.color || selectedType?.color }}>
+            <h1 className={styles.title} style={{ color: selectedType?.color || selectedType?.color }}>
               {selectedCmp?.type || selectedType?.title}
             </h1>
             <div>
@@ -286,10 +316,10 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
                 handleChange(e);
                 setErrorModal('');
               }}
-              value={selectedCmp?.title || values.title}
+              value={values.title}
               className={styles.inputModal}
               style={{
-                color: selectedCmp?.color || selectedType?.color,
+                color: selectedType?.color || selectedType?.color,
                 border: errorModal ? '1px solid red' : '',
               }}
               rows={3}

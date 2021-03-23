@@ -147,7 +147,7 @@ const ReferenceContainer = () => {
           </p>
           <div className={classes.cardContainerRefs}>
             {array.map((d) => (
-              <Card competences={d.competences} nom={d.nom} info={d.info} img={d.img} />
+              <Card key={d.nom} competences={d.competences} nom={d.nom} info={d.info} img={d.img} />
             ))}
           </div>
         </div>
@@ -166,7 +166,7 @@ const ReferenceContainer = () => {
           <p className={classes.text_confirmation}>Mes Référentiels</p>
           {getListRefState.data?.references.data.map((c) => {
             return (
-              <div className={classes.rowRef}>
+              <div className={classes.rowRef} key={c.id}>
                 <div className={classes.text} onClick={() => onClickRow(c.id)}>
                   <span className={classes.textBtn}>{c.title}</span>
                 </div>
