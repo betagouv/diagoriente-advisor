@@ -19,6 +19,7 @@
   border-top: 1px solid #c7ccdc;
   width: 100%;
 }
+
 .competenceTitle {
   font-family: 'Montserrat-bold';
   font-weight: 800;
@@ -64,4 +65,9 @@
 .btnContainer {
   width: 100%;
   margin-top: 20px;
+}
+@media (max-width: 1024px) {
+  .cardContainer {
+    padding: 20px 15px;
+  }
 }

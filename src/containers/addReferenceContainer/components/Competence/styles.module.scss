@@ -243,6 +243,9 @@
   @extend .inputStyle;
   font-family: 'Montserrat';
   font-weight: 500;
+  text-transform: capitalize;
+
+  
 }
 .addBtnModal {
   width: 100%;
