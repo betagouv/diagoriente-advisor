@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useAddReference, AddReferenceArguments, useUpdateReference } from 'common/requests/reference';
+import { useAddReference, AddReferenceArguments, useUpdateReference, useReference } from 'common/requests/reference';
 import useSnackBar from 'common/hooks/useSnackBar';
 import Modal from 'components/Modal/Modal';
 import Title from 'components/Title/Title';
@@ -44,6 +44,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
   const [{ values }, { handleChange, setValues }] = useForm({ initialValues: { title: '' }, required: ['title'] });
   const [addReferenceCall, addReferenceState] = useAddReference();
   const [updateReferenceCall, updateReferenceState] = useUpdateReference();
+  const [getRefCall, getRefState] = useReference({ fetchPolicy: 'network-only' });
   const [competences, setCompetences] = useState(
     {} as {
       [key: string]: {
@@ -52,37 +53,41 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
       }[];
     },
   );
+  // add uSeEffect
   useEffect(() => {
     if (addReferenceState.data) {
       open("l'ajout de réferentiel à étè ajouter");
-      setTimeout(() => {
-        history.push('/references');
-        setError('');
-      }, 500);
-    } else if (!title) {
-      setError('le titre de referentiel est obligatoire');
+      history.push('/references');
+      setError('');
     }
     // eslint-disable-next-line
   }, [addReferenceState.data]);
+  // errors
   useEffect(() => {
     if (addReferenceState.error?.message) setError(addReferenceState.error?.message);
     if (updateReferenceState.error?.message) {
       setError(updateReferenceState.error?.message);
     }
   }, [addReferenceState.error, updateReferenceState.error]);
+  // clear data
   useEffect(() => {
     if (!selectedType) {
       setValues({ title: '' });
     }
     // eslint-disable-next-line
   }, [selectedType]);
+  // initialise 1st to show
   useEffect(() => {
     if (dataToShow) {
+      console.log('data to show');
       const c = groupBy(dataToShow.competences, 'type');
       setCompetences(c);
       refOldCmpt.current = c;
+      setUpdate(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataToShow]);
+  // ref oldCmp
   useEffect(() => {
     if (refOldCmpt.current) {
       if (refOldCmpt.current !== competences) {
@@ -91,20 +96,32 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refOldCmpt.current, competences]);
+  // update uSeEffect
   useEffect(() => {
     if (updateReferenceState.data) {
+      console.log('');
+      open('la modification de réferentiel avec succée');
+      getRefCall({ variables: { id: location.search.slice(4) } });
       setUpdate(false);
       setError('');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updateReferenceState.data]);
+  // initialise title
   useEffect(() => {
     if (selectedCmp?.title) {
       setValues({ title: selectedCmp?.title });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCmp?.title]);
-
+  useEffect(() => {
+    if (getRefState.data) {
+      const c = groupBy(getRefState.data.reference.competences, 'type');
+      setCompetences(c);
+      refOldCmpt.current = c;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getRefState.data]);
   const onOpenUpdateCompetence = (cmp: any) => {
     setSelectedType(cmp);
     setSelectedCmp(cmp);
@@ -113,7 +130,6 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
   const onHoverLevel = (level: number | null) => {
     setHoverLevel(level);
   };
-
   const onCLickBtn = () => {
     if (isUpdate) {
       const cmps = ([] as AddReferenceArguments['competences']).concat(
