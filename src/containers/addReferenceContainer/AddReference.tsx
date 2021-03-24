@@ -73,6 +73,12 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
       setError(updateReferenceState.error?.message);
     }
   }, [addReferenceState.error, updateReferenceState.error]);
+  useEffect(() => {
+    if (location.search.slice(4)) {
+      setError('');
+      setErrorModal('');
+    }
+  }, [location]);
   // clear data
   useEffect(() => {
     if (!selectedType) {
@@ -235,7 +241,6 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
                     <Plus width="12" height="12" color="#fff" strokeWidth="3" />
                   </div>
                   <span className={styles.textAdd}>Ajouter</span>
-                  {console.log('dez', competences[competenceType.type]?.length === 5)}
                 </button>
                 {competences[competenceType.type]?.length === 5 && (
                   <span className={styles.infoAddCmp}>Vous avez déja ajouter 5 compétences</span>
