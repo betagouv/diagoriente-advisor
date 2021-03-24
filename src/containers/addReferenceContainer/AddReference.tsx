@@ -1,5 +1,5 @@
-import { useEffect, useState, useRef } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useEffect, useState, useRef, useContext } from 'react';
+import { useHistory, useLocation, Redirect } from 'react-router-dom';
 import {
   useAddReference,
   AddReferenceArguments,
@@ -10,6 +10,7 @@ import {
 } from 'common/requests/reference';
 import useSnackBar from 'common/hooks/useSnackBar';
 import { useDidMount } from 'common/hooks/useLifeCycle';
+import userContext from 'common/contexts/UserContext';
 import Modal from 'components/Modal/Modal';
 import Title from 'components/Title/Title';
 import { useForm } from 'common/hooks/useInputs';
@@ -41,6 +42,7 @@ const competenceTypes = [
 const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
   const history = useHistory();
   const location = useLocation();
+  const { user } = useContext(userContext);
   const { open } = useSnackBar();
   const [getListRefCall, getListRefState] = useReferences({ fetchPolicy: 'network-only' });
   const [deleteReferenceCall, deleteReferenceState] = useDeleteRef();
@@ -234,6 +236,9 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
   const deletRef = () => {
     deleteReferenceCall({ variables: { id: deletedRef } });
   };
+  if (!user?.isReferentiel) {
+    return <Redirect to="/" />;
+  }
   return (
     <div className={styles.containerAdd}>
       {location.pathname === '/reference/add' && (

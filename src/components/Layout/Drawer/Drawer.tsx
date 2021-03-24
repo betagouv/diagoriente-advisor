@@ -45,7 +45,7 @@ const PrivateDrawer = () => {
     localStorage.clear();
     client.clearStore();
   };
-  const Links = [
+  let Links = [
     {
       text: 'Parcours',
       path: '/parcours',
@@ -60,12 +60,7 @@ const PrivateDrawer = () => {
       svg: <Groupes color={selectedButton === 2 ? '#10255e' : 'rgba(16, 37, 94, 0.6)'} />,
       id: 2,
     },
-    {
-      text: 'Mon référentiel',
-      path: '/references',
-      svg: <Referentiel color={selectedButton === 3 ? '#10255e' : 'rgba(16, 37, 94, 0.6)'} />,
-      id: 3,
-    },
+
     {
       text: 'Formation',
       path: '/formation',
@@ -86,6 +81,19 @@ const PrivateDrawer = () => {
       id: 6,
     },
   ];
+  if (user?.isReferentiel && user.isReferentiel === true) {
+    const arr = [
+      ...Links.slice(0, Links.length - 1),
+      {
+        text: 'Mon référentiel',
+        path: '/references',
+        svg: <Referentiel color={selectedButton === 3 ? '#10255e' : 'rgba(16, 37, 94, 0.6)'} />,
+        id: 3,
+      },
+      ...Links.slice(Links.length - 1),
+    ];
+    Links = arr;
+  }
   const renderTooltip = (idLink: number) => {
     const id = user?.tutorialStep;
     let res = null;
@@ -153,7 +161,6 @@ const PrivateDrawer = () => {
         <div className={style.drawerBody}>
           {Links.map((e) => {
             const p = window && window.location.pathname === e.path;
-
             return (
               <div
                 key={e.id}

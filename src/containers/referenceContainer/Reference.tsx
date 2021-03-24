@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useReferences, useDeleteRef, useReference } from 'common/requests/reference';
 import classesNames from 'common/utils/classNames';
 import { useDidMount } from 'common/hooks/useLifeCycle';
+import userContext from 'common/contexts/UserContext';
 import Title from 'components/Title/Title';
 import ModalContainer from 'components/Modal/Modal';
 import ModalRefs from 'components/ModalRefs/ModalRefs';
@@ -10,13 +11,14 @@ import Plus from 'assets/svg/addCustom';
 import Referentiel from 'assets/svg/referentielEmpty.svg';
 import EmptyCard from 'assets/svg/emptyCard.svg';
 import ArrowLeft from 'assets/svg/arrow-left.svg';
-import { useHistory, useLocation } from 'react-router-dom';
+import { Redirect, useHistory, useLocation } from 'react-router-dom';
 import Card from './components/Card/Card';
 import classes from './reference.module.scss';
 
 const ReferenceContainer = () => {
   const history = useHistory();
   const location = useLocation();
+  const { user } = useContext(userContext);
   const [getListRefCall, getListRefState] = useReferences({ fetchPolicy: 'network-only' });
   const [open, setOpen] = useState(false);
   const [isUpdate, setUpdate] = useState(false);
@@ -99,6 +101,10 @@ const ReferenceContainer = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deleteReferenceState.data]);
+
+  if (!user?.isReferentiel) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div className={classes.referenceContainer}>
