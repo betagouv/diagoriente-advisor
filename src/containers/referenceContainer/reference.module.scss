@@ -23,8 +23,8 @@
   cursor: pointer;
 }
 .btnAddStandard:hover {
-  background: #2f50a8;
-  opacity: 0.5;
+  background: #97a8d4;
+  color: #10255e;
 }
 .btnAddRef {
   @extend .btnAddStandard;
@@ -46,8 +46,7 @@
   }
 }
 .btnShowRefs:hover {
-  background: #2f50a8;
-  opacity: 0.5;
+  background: #97a8d4;
 }
 .textBtnStandard {
   font-family: 'Montserrat-bold';
