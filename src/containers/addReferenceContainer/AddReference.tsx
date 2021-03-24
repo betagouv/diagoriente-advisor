@@ -319,7 +319,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
 
                         setCompetences({ ...competences, [competenceType.type]: nextCompetencesType });
                       } else {
-                        setErrorModal('Ce champs est obligatoire');
+                        setErrorModal('Ce champ est obligatoire');
                       }
                     }}
                     onNiveauDelete={(index) => {
@@ -375,7 +375,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
           heightSize="auto"
           bkground="#f5f6fb"
           body={styles.bodyModal}
-          withoutClose={!isUpdate}
+          withoutClose
         >
           <form
             onSubmit={(e) => {
