@@ -169,7 +169,7 @@ const ReferenceContainer = () => {
         withoutClose
       >
         <div className={classes.containerRefsList}>
-          <p className={classes.text_confirmation}>Mes Référentiels</p>
+          <p className={classes.text_confirmation}>Mes référentiels</p>
           {getListRefState.data?.references.data.map((c) => {
             return (
               <div className={classes.rowRef} key={c.id}>

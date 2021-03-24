@@ -60,7 +60,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
   // add uSeEffect
   useEffect(() => {
     if (addReferenceState.data) {
-      open("l'ajout de réferentiel à étè ajouter");
+      open('Votre référentiel a été bien ajouté');
       history.push('/references');
       setError('');
     }
@@ -108,7 +108,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
   // update uSeEffect
   useEffect(() => {
     if (updateReferenceState.data) {
-      open('la modification de réferentiel avec succée');
+      open('Vos données ont été sauvegardées');
       getRefCall({ variables: { id: location.search.slice(4) } });
       setUpdate(false);
       setError('');
@@ -242,7 +242,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
                   <span className={styles.textAdd}>Ajouter</span>
                 </button>
                 {competences[competenceType.type]?.length === 5 && (
-                  <span className={styles.infoAddCmp}>Vous avez déja ajouter 5 compétences</span>
+                  <span className={styles.infoAddCmp}>Vous avez déjà ajouté 5 compétences</span>
                 )}
 
                 {competences[competenceType.type] && hasLevel(competences[competenceType.type]) && (
@@ -411,7 +411,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
 
                   setSelectedType(null);
                 } else {
-                  setErrorModal('le nom de compétence est obligatoire');
+                  setErrorModal('Le champ compétence est obligatoire');
                 }
               }
             }}

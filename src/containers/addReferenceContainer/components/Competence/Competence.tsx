@@ -160,7 +160,7 @@ const Competence = ({
             </div>
             {isUpdate && (
               <div>
-                <p>Vous pouver aussi supprimer ce niveau</p>
+                <p>Vous pouvez aussi supprimer ce niveau</p>
                 <div className={styles.addBtnModal}>
                   <Button label="supprimer" className={styles.btnDelete} onClick={(e: any) => onDeleteRef(e)} />
                 </div>
