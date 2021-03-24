@@ -269,7 +269,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
           <div className={styles.btnSaveContainer}>
             <Button
               className={styles.btnSave}
-              disable={(title.length === 0 && !isUpdate) || (refOldCmpt.current === competences && isUpdate)}
+              disable={(title.length === 0 && !updateExist) || (refOldCmpt.current === competences && updateExist)}
               containerStyle={styles.disableAddBtn}
               label="Enregistrer"
               loader={updateReferenceState.loading || addReferenceState.loading}
@@ -406,7 +406,6 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
                     type={competenceType.type}
                     niveau={competence.niveau}
                     color={competenceType.color}
-                    updateExist={updateExist}
                     isUpdate={isUpdate}
                     showsType={showsTypes}
                     setUpdate={setUpdate}
@@ -503,7 +502,6 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
                 color: selectedType?.color || selectedType?.color,
                 border: errorModal ? '1px solid red' : '',
               }}
-              rows={3}
               wrap="hard"
               maxLength={100}
             />

@@ -117,13 +117,27 @@ const LivretActiviteContainer = () => {
           <div className={style.titleContainer}>Téléchargez</div>
           <div className={style.CardContainer}>
             <div className={style.Card}>
-              {firstCard.map((i) => (
-                <Card logoLink={i.link} textCard={i.text} logo={download} backColor="#F5F6FB" titleCard={i.title} />
+              {firstCard.map((i, index) => (
+                <Card
+                  key={`c${index.toString()}`}
+                  logoLink={i.link}
+                  textCard={i.text}
+                  logo={download}
+                  backColor="#F5F6FB"
+                  titleCard={i.title}
+                />
               ))}
             </div>
             <div className={style.Card}>
-              {secondCard.map((i) => (
-                <Card logoLink={i.link} textCard={i.text} logo={download} backColor="#F5F6FB" titleCard={i.title} />
+              {secondCard.map((i, index) => (
+                <Card
+                  key={`b${index.toString()}`}
+                  logoLink={i.link}
+                  textCard={i.text}
+                  logo={download}
+                  backColor="#F5F6FB"
+                  titleCard={i.title}
+                />
               ))}
             </div>
           </div>

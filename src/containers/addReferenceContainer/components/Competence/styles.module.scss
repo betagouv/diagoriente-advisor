@@ -175,6 +175,7 @@
   font-size: 12px;
   line-height: 19px;
   cursor: pointer;
+  word-break: break-word;
 }
 .titleAddLevel {
   font-family: 'Montserrat-bold';
@@ -183,13 +184,14 @@
   text-align: center;
   text-transform: uppercase;
   cursor: pointer;
+  word-break: break-word;
 }
 .btnAddLevel {
   border: 3px solid #7ae6ff;
   box-sizing: border-box;
   border-radius: 8px;
   background-color: #fff;
-  height: 153px;
+  height: 100px;
   cursor: pointer;
 }
 .level {
@@ -206,6 +208,8 @@
   cursor: pointer;
   display: flex;
   flex-direction: column;
+  margin: 0px 4px;
+  word-break: break-word;
 }
 .subTitle {
   font-family: 'Montserrat-italic';
@@ -213,6 +217,7 @@
   line-height: 19px;
   color: #10255e;
   font-weight: 500;
+  margin-top: 20px;
 }
 
 .modal {
