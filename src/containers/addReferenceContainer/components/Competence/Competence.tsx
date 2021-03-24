@@ -13,10 +13,11 @@ export interface Niveau {
 
 interface CompetenceProps {
   title: string;
+  type: string;
   niveau: Niveau[];
   color: string;
-  showSubs: boolean;
   isUpdate: boolean;
+  showsType: string[];
   errorModal?: string;
   setErrorModal: (s: string) => void;
   onNiveauAdd: (niveau: Niveau, index: number) => void;
@@ -27,11 +28,12 @@ interface CompetenceProps {
 
 const Competence = ({
   title,
+  type,
   niveau,
   color,
-  showSubs,
   errorModal,
   isUpdate,
+  showsType,
   setUpdate,
   setErrorModal,
   onNiveauAdd,
@@ -40,7 +42,6 @@ const Competence = ({
 }: CompetenceProps) => {
   const [isOpen, setIsOpen] = useState(-1);
   const [openDelModal, setOpenDelModal] = useState(false);
-  console.log('isUpdate', isUpdate);
   const [{ values }, { handleChange, setValues }] = useForm({
     initialValues: { title: '', sub_title: '' },
     required: ['title', 'sub_title'],
@@ -72,12 +73,15 @@ const Competence = ({
           }}
         >
           <span>{n.title}</span>
-          {showSubs && <span className={styles.subTitle}>{n.sub_title}</span>}
+          {showsType.includes(type) && <span className={styles.subTitle}>{n.sub_title}</span>}
         </div>
       ))}
       {niveau.length < 8 && (
         <button
-          onClick={() => setIsOpen(niveau.length)}
+          onClick={() => {
+            setUpdate(false);
+            setIsOpen(niveau.length);
+          }}
           className={styles.btnAddLevel}
           onMouseEnter={() => onHoverLevel(niveau.length)}
           onMouseLeave={() => onHoverLevel(null)}

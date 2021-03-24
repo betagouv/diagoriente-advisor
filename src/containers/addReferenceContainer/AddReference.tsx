@@ -36,7 +36,11 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
   const [title, setTitle] = useState('');
   const [error, setError] = useState('');
   const [errorModal, setErrorModal] = useState('');
-  const [showSubs, setShowSubs] = useState(false);
+  const [showsTypes, setShowsType] = useState<string[]>(['', '', '']);
+  const [showSubsOrgs, setShowSubsOrgs] = useState(false);
+  const [showSubsCom, setShowSubsCom] = useState(false);
+  const [showSubsRef, setShowSubsRef] = useState(false);
+
   const [hoverLevel, setHoverLevel] = useState<number | null>(null);
   const [selectedCmp, setSelectedCmp] = useState(null as { title: string; type: string; color: string } | null);
 
@@ -161,6 +165,14 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
   const insert = (arr: any[], index: number, newItem: any) => {
     return [...arr.slice(0, index), newItem, ...arr.slice(index)];
   };
+  const hasLevel = (arr: { title: string; niveau: Niveau[] }[]) => {
+    let res = false;
+    const r = arr.find((c) => c.niveau.length !== 0);
+    if (r) {
+      res = true;
+    }
+    return res;
+  };
 
   return (
     <div className={styles.containerAdd}>
@@ -223,10 +235,58 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
                   </div>
                   <span className={styles.textAdd}>Ajouter</span>
                 </button>
-                <div className={styles.indicateurSubs} onClick={() => setShowSubs(!showSubs)}>
-                  <img src={showSubs ? openeye : closeeye} alt="subs" />
-                  <span className={styles.indicateurSubsText}>indicateur</span>
-                </div>
+                {competences[competenceType.type] && hasLevel(competences[competenceType.type]) && (
+                  <div
+                    className={styles.indicateurSubs}
+                    onClick={() => {
+                      if (competenceType.type === 'organizational') {
+                        const arr = [...showsTypes];
+                        if (showSubsOrgs) {
+                          arr[0] = '';
+                          setShowSubsOrgs(false);
+                        } else {
+                          arr[0] = competenceType.type;
+                          setShowSubsOrgs(true);
+                        }
+                        setShowsType(arr);
+                      }
+                      if (competenceType.type === 'communication') {
+                        const arr = [...showsTypes];
+                        if (showSubsCom) {
+                          arr[1] = '';
+                          setShowSubsCom(false);
+                        } else {
+                          arr[1] = competenceType.type;
+                          setShowSubsCom(true);
+                        }
+                        setShowsType(arr);
+                      }
+                      if (competenceType.type === 'reflective') {
+                        const arr = [...showsTypes];
+                        if (showSubsRef) {
+                          arr[2] = '';
+                          setShowSubsRef(false);
+                        } else {
+                          arr[2] = competenceType.type;
+                          setShowSubsRef(true);
+                        }
+                        setShowsType(arr);
+                      }
+                    }}
+                  >
+                    <img
+                      src={
+                        (showSubsOrgs && showsTypes.includes(competenceType.type)) ||
+                        (showSubsCom && showsTypes.includes(competenceType.type)) ||
+                        (showSubsRef && showsTypes.includes(competenceType.type))
+                          ? openeye
+                          : closeeye
+                      }
+                      alt="subs"
+                    />
+                    <span className={styles.indicateurSubsText}>indicateur</span>
+                  </div>
+                )}
               </div>
               {competences[competenceType.type]?.map((competence, i) => {
                 return (
@@ -256,11 +316,12 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
                     errorModal={errorModal}
                     setErrorModal={setErrorModal}
                     title={competence.title}
+                    type={competenceType.type}
                     niveau={competence.niveau}
                     color={competenceType.color}
                     isUpdate={isUpdate}
+                    showsType={showsTypes}
                     setUpdate={setUpdate}
-                    showSubs={showSubs}
                     onClickTitle={() =>
                       onOpenUpdateCompetence({
                         type: competenceType.type,

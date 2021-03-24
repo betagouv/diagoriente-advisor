@@ -138,7 +138,7 @@ const ReferenceContainer = () => {
         onClose={() => setOpen(false)}
         className={classes.modal_confirmation}
         widthSize="95%"
-        heightSize="98%"
+        heightSize="96%"
       >
         <div>
           <div className={classes.titleModal}>Création de votre référentiel</div>
