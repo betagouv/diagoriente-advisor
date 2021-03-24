@@ -130,16 +130,20 @@ const ReferenceContainer = () => {
         {getListRefState.data?.references.data.length ? (
           <AddRefereniel dataToShow={getRefState.data?.reference} setUpdate={setUpdate} isUpdate={isUpdate} />
         ) : (
-          <div className={classes.content}>
-            <div className={classes.info}>
-              <p className={classes.titleRef}>Créez votre déclinaison de référentiel</p>
-              <p className={classes.subTitleRef}>
-                en sélectionnant le modèle RECTEC ou une déclinaison exitante, redéfinissez les compétences et ses
-                composantes.
-              </p>
-              <img src={Referentiel} alt="" />
-            </div>
-          </div>
+          <>
+            {!getListRefState.loading && getListRefState.data?.references.data.length === 0 && (
+              <div className={classes.content}>
+                <div className={classes.info}>
+                  <p className={classes.titleRef}>Créez votre déclinaison de référentiel</p>
+                  <p className={classes.subTitleRef}>
+                    en sélectionnant le modèle RECTEC ou une déclinaison exitante, redéfinissez les compétences et ses
+                    composantes.
+                  </p>
+                  <img src={Referentiel} alt="" />
+                </div>
+              </div>
+            )}
+          </>
         )}
       </div>
       <ModalContainer

@@ -19,7 +19,6 @@ interface CompetenceProps {
   isUpdate: boolean;
   showsType: string[];
   errorModal?: string;
-  updateExist: boolean;
   setErrorModal: (s: string) => void;
   onNiveauAdd: (niveau: Niveau, index: number) => void;
   onNiveauDelete: (index: number) => void;
@@ -36,7 +35,6 @@ const Competence = ({
   errorModal,
   isUpdate,
   showsType,
-  updateExist,
   setUpdate,
   setErrorModal,
   onNiveauAdd,
@@ -60,7 +58,6 @@ const Competence = ({
     e.preventDefault();
     setOpenDelModal(true);
   };
-  console.log('updateExist', updateExist);
   return (
     <div className={styles.competence}>
       <div className={styles.titleCompetence} style={{ color }} onClick={onClickTitle}>
@@ -137,7 +134,6 @@ const Competence = ({
               value={values.title}
               className={styles.inputModalLevel}
               style={{ color: '#10255E', border: errorModal && !values.title ? '1px solid red' : '' }}
-              rows={3}
               wrap="hard"
               maxLength={100}
             />
@@ -152,7 +148,6 @@ const Competence = ({
               value={values.sub_title}
               className={styles.inputModalLevel}
               style={{ color: '#10255E', border: errorModal && !values.sub_title ? '1px solid red' : '' }}
-              rows={3}
               wrap="hard"
               maxLength={100}
             />
