@@ -1,11 +1,21 @@
 import { useEffect, useState, useRef } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useAddReference, AddReferenceArguments, useUpdateReference, useReference } from 'common/requests/reference';
+import {
+  useAddReference,
+  AddReferenceArguments,
+  useUpdateReference,
+  useReference,
+  useDeleteRef,
+  useReferences,
+} from 'common/requests/reference';
 import useSnackBar from 'common/hooks/useSnackBar';
+import { useDidMount } from 'common/hooks/useLifeCycle';
 import Modal from 'components/Modal/Modal';
 import Title from 'components/Title/Title';
 import { useForm } from 'common/hooks/useInputs';
 import { groupBy, omit } from 'lodash';
+import ArrowLeft from 'assets/svg/arrow-left.svg';
+import ModalRefs from 'components/ModalRefs/ModalRefs';
 
 import Plus from 'assets/svg/addCustom';
 import openeye from 'assets/svg/openEye.svg';
@@ -32,6 +42,8 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
   const history = useHistory();
   const location = useLocation();
   const { open } = useSnackBar();
+  const [getListRefCall, getListRefState] = useReferences({ fetchPolicy: 'network-only' });
+  const [deleteReferenceCall, deleteReferenceState] = useDeleteRef();
   const refOldCmpt = useRef<{} | null>(null);
   const [title, setTitle] = useState('');
   const [error, setError] = useState('');
@@ -40,9 +52,17 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
   const [showSubsOrgs, setShowSubsOrgs] = useState(false);
   const [showSubsCom, setShowSubsCom] = useState(false);
   const [showSubsRef, setShowSubsRef] = useState(false);
+  const [updateExist, setUpdateExist] = useState(false);
+  const [selectedId, setSelectedId] = useState('');
+
+  const [openModal, setOpen] = useState(false);
 
   const [hoverLevel, setHoverLevel] = useState<number | null>(null);
   const [selectedCmp, setSelectedCmp] = useState(null as { title: string; type: string; color: string } | null);
+
+  const [openFilter, setOpenFilter] = useState(false);
+  const [openDelModal, setOpenDelModal] = useState(false);
+  const [deletedRef, setDeleteRef] = useState('');
 
   const [selectedType, setSelectedType] = useState(null as { title: string; type: string; color: string } | null);
   const [{ values }, { handleChange, setValues }] = useForm({ initialValues: { title: '' }, required: ['title'] });
@@ -57,6 +77,9 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
       }[];
     },
   );
+  useDidMount(() => {
+    getListRefCall();
+  });
   // add uSeEffect
   useEffect(() => {
     if (addReferenceState.data) {
@@ -92,7 +115,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
       const c = groupBy(dataToShow.competences, 'type');
       setCompetences(c);
       refOldCmpt.current = c;
-      setUpdate(false);
+      // setUpdate(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataToShow]);
@@ -101,6 +124,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
     if (refOldCmpt.current) {
       if (refOldCmpt.current !== competences) {
         setUpdate(true);
+        setUpdateExist(true);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -131,6 +155,24 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getRefState.data]);
+
+  useEffect(() => {
+    if (selectedId) {
+      getRefCall({ variables: { id: selectedId } });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedId]);
+
+  useEffect(() => {
+    if (deleteReferenceState.data) {
+      history.replace('/references');
+      getListRefCall();
+      setOpenFilter(false);
+      setOpenDelModal(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deleteReferenceState.data]);
+
   const onOpenUpdateCompetence = (cmp: any) => {
     setSelectedType(cmp);
     setSelectedCmp(cmp);
@@ -179,6 +221,19 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
     }
     return res;
   };
+  const onDeleteRef = (e: React.MouseEvent<HTMLElement, MouseEvent>, id: string) => {
+    e.preventDefault();
+    setOpenDelModal(true);
+    setDeleteRef(id);
+  };
+  const onClickRow = (id: string) => {
+    setOpenFilter(false);
+    setSelectedId(id);
+    return history.replace(`/references?id=${id}`);
+  };
+  const deletRef = () => {
+    deleteReferenceCall({ variables: { id: deletedRef } });
+  };
   return (
     <div className={styles.containerAdd}>
       {location.pathname === '/reference/add' && (
@@ -193,6 +248,9 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
             }}
             className={styles.inputAdd}
           />
+          <div className={styles.btnShowRefs} onClick={() => setOpenFilter(!openFilter)}>
+            <img src={ArrowLeft} alt="arrow" className={styles.img} />
+          </div>
         </div>
       )}
 
@@ -343,6 +401,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
                     type={competenceType.type}
                     niveau={competence.niveau}
                     color={competenceType.color}
+                    updateExist={updateExist}
                     isUpdate={isUpdate}
                     showsType={showsTypes}
                     setUpdate={setUpdate}
@@ -451,6 +510,31 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
           </form>
         </Modal>
       </div>
+      <Modal
+        isOpen={openFilter}
+        onClose={() => {
+          setOpenFilter(false);
+          setOpenDelModal(false);
+        }}
+        className={classesNames(styles.modal_confirmation, openDelModal && styles.modal_confirmation_transition)}
+        bkground="#fff"
+        widthSize="auto"
+        heightSize="auto"
+        body={styles.bodyModal}
+        withoutClose
+      >
+        <ModalRefs
+          listRefs={getListRefState.data?.references.data}
+          onClickRow={onClickRow}
+          onDeleteRef={onDeleteRef}
+          setOpenDelModal={setOpenDelModal}
+          openDelModal={openDelModal}
+          deletedRef={deletedRef}
+          deletRef={deletRef}
+          setOpen={setOpen}
+          open={openModal}
+        />
+      </Modal>
     </div>
   );
 };

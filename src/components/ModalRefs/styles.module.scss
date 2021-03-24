@@ -1,0 +1,103 @@
+.text_confirmation {
+  font-size: 18px;
+  text-align: left;
+  color: #10255e;
+}
+.rowRef {
+  position: relative;
+  background: #f5f6fb;
+  border-radius: 16px;
+  width: 413px;
+  height: 47px;
+  margin: 10px 0px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .text {
+    flex: 1;
+  }
+  .delContainer {
+    display: flex;
+    .imgClose {
+      margin-right: 20px;
+      padding-left: 10px;
+      border-left: 1px solid #c7ccdc;
+    }
+  }
+}
+.textBtnStandard {
+  font-family: 'Montserrat-bold';
+  font-size: 12px;
+  line-height: 15px;
+  text-transform: uppercase;
+  color: #10255e;
+  text-decoration: none;
+}
+
+.textBtn {
+  @extend .textBtnStandard;
+  margin-left: 14px;
+}
+.delModalContainer {
+  position: absolute;
+  left: 460px;
+  top: -20px;
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgba(16, 37, 94, 0.26);
+  border-radius: 16px;
+  width: 537px;
+  height: 156px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 25px;
+  z-index: 1500;
+  .arrow {
+    width: 0;
+    height: 0;
+    border: 0 solid transparent;
+    border-top-width: 23px;
+    border-bottom-width: 23px;
+    border-right: 23px solid white;
+    position: absolute;
+    left: -23px;
+    top: 20px;
+  }
+  .btnDelContainer {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    .btnCancel {
+      border: 1px solid rgba(16, 37, 94, 0.4) !important;
+      color: rgba(16, 37, 94, 0.4);
+      padding: 3px 20px;
+      background-color: transparent;
+    }
+    .btnDEL {
+      background: #ff458b;
+      padding: 3px 20px;
+    }
+  }
+}
+.separator {
+    background-color: #c7ccdc;
+    height: 1px;
+    width: 100%;
+    margin: 20px 0px;
+  }
+  .btnAddStandard {
+    background: #eaedf6;
+    border-radius: 16px;
+    padding: 11px 20px 11px 17px;
+    width: 238px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .btnAddStandard:hover {
+    background: #97a8d4;
+    color: #10255e;
+  }

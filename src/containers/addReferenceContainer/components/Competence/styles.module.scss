@@ -327,3 +327,33 @@
   color: gray;
   margin-left: 12px;
 }
+.btnShowRefs {
+  background: #eaedf6;
+  border-radius: 16px;
+  width: 57px;
+  height: 48px;
+  margin-left: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  .img {
+    transform: rotate(-90deg);
+  }
+}
+.btnShowRefs:hover {
+  background: #97a8d4;
+}
+.modal_confirmation_transition {
+  transform: translate(-230px);
+  -webkit-transition: 0.3s ease-in-out;
+  -moz-transition: 0.3s ease-in-out;
+  -o-transition: 0.3s ease-in-out;
+  transition: 0.3s ease-in-out;
+}
+.modal_confirmation {
+  -webkit-transition: 0.3s ease-in-out;
+  -moz-transition: 0.3s ease-in-out;
+  -o-transition: 0.3s ease-in-out;
+  transition: 0.3s ease-in-out;
+}
