@@ -41,7 +41,7 @@ const Competence = ({
 
   const [{ values }, { handleChange, setValues }] = useForm({
     initialValues: { title: '', sub_title: '' },
-    required: ['title'],
+    required: ['title', 'sub_title'],
   });
   const selectedNiveau = niveau[isOpen];
   useEffect(() => {
@@ -137,7 +137,7 @@ const Competence = ({
             <div className={styles.addBtnModal}>
               <Button label="valider" type="submit" />
             </div>
-            {isUpdate && (
+            {isUpdate && selectedNiveau && (
               <div>
                 <p>Vous pouver aussi supprimer ce niveau</p>
                 <div className={styles.addBtnModal}>
