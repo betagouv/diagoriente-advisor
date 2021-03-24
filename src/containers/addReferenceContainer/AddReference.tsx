@@ -234,11 +234,11 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
                   onClick={() => setSelectedType(competenceType)}
                   className={styles.btnAdd}
                   style={
-                    competences[competenceType.type]?.length === 5 || !values.title
+                    competences[competenceType.type]?.length === 5 || !dataToShow?.title
                       ? { background: 'grey', cursor: 'auto' }
                       : { background: competenceType.color }
                   }
-                  disabled={competences[competenceType.type]?.length === 5 || !values.title}
+                  disabled={competences[competenceType.type]?.length === 5 || !dataToShow?.title}
                 >
                   <div className={styles.img}>
                     <Plus width="12" height="12" color="#fff" strokeWidth="3" />
