@@ -36,7 +36,6 @@ const RootContainer = () => {
           <Route footer path="/login" exact component={LoginContainer} />
           <Route footer path="/register" exact component={RegisterContainer} />
           <Route footer path="/forgotPassword" exact component={ForgotPasswordContainer} />
-
           <Route protected footer path="/formation" exact component={FormationContainer} />
           <Route protected footer path="/ressources" exact component={LivretActiviteContainer} />
           <Route protected footer path="/parcours/:id" exact component={detailProfilContainer} />

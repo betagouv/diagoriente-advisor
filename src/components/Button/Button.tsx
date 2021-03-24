@@ -10,7 +10,7 @@ interface Props {
   loader?: boolean;
 
   disable?: boolean;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
   logo?: string;
   type?: 'button' | 'submit' | 'reset';
 }

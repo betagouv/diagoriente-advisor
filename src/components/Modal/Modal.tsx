@@ -17,6 +17,7 @@ interface IProps {
   body?: string;
   close?: string;
   backdropClassName?: string;
+  withoutClose?: boolean;
 }
 
 const ModalContainer = ({
@@ -30,6 +31,7 @@ const ModalContainer = ({
   wrapper,
   body,
   backdropClassName,
+  withoutClose,
   close,
 }: IProps) => {
   return createPortal(
@@ -67,16 +69,18 @@ const ModalContainer = ({
               className={classNames(style.modalWrapper, className)}
               style={{ width: widthSize, height: heightSize, backgroundColor: bkground }}
             >
-              <div className={style.headerModal}>
-                <img
-                  src={CloseIcon}
-                  onClick={onClose}
-                  alt=" "
-                  height={24}
-                  width={26}
-                  className={classNames(style.closeButton, close)}
-                />
-              </div>
+              {!withoutClose && (
+                <div className={style.headerModal}>
+                  <img
+                    src={CloseIcon}
+                    onClick={onClose}
+                    alt=" "
+                    height={24}
+                    width={26}
+                    className={classNames(style.closeButton, close)}
+                  />
+                </div>
+              )}
               <div className={classNames(style.modalBody, body)}>{children}</div>
             </div>
           </div>

@@ -1,7 +1,9 @@
 import { useForm } from 'common/hooks/useInputs';
 import Modal from 'components/Modal/Modal';
-import { useEffect, useState } from 'react';
-
+import classesNames from 'common/utils/classNames';
+import { useEffect, useState, MouseEvent } from 'react';
+import Plus from 'assets/svg/addCustom';
+import Button from 'components/Button/Button';
 import styles from './styles.module.scss';
 
 export interface Niveau {
@@ -11,49 +13,182 @@ export interface Niveau {
 
 interface CompetenceProps {
   title: string;
+  type: string;
   niveau: Niveau[];
-  onNiveauAdd: (niveau: Niveau) => void;
+  color: string;
+  isUpdate: boolean;
+  showsType: string[];
+  errorModal?: string;
+  updateExist: boolean;
+  setErrorModal: (s: string) => void;
+  onNiveauAdd: (niveau: Niveau, index: number) => void;
+  onNiveauDelete: (index: number) => void;
+  onClickTitle: () => void;
+  setUpdate: (s: boolean) => void;
+  onHoverLevel: (l: number | null) => void;
 }
 
-const Competence = ({ title, niveau, onNiveauAdd }: CompetenceProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-
+const Competence = ({
+  title,
+  type,
+  niveau,
+  color,
+  errorModal,
+  isUpdate,
+  showsType,
+  updateExist,
+  setUpdate,
+  setErrorModal,
+  onNiveauAdd,
+  onNiveauDelete,
+  onClickTitle,
+  onHoverLevel,
+}: CompetenceProps) => {
+  const [isOpen, setIsOpen] = useState(-1);
+  const [openDelModal, setOpenDelModal] = useState(false);
   const [{ values }, { handleChange, setValues }] = useForm({
     initialValues: { title: '', sub_title: '' },
-    required: ['title'],
+    required: ['title', 'sub_title'],
   });
-
+  const selectedNiveau = niveau[isOpen];
   useEffect(() => {
-    if (isOpen) setValues({ title: '', sub_title: '' });
+    setValues({ title: selectedNiveau?.title || '', sub_title: selectedNiveau?.sub_title || '' });
+
     // eslint-disable-next-line
   }, [isOpen]);
-
+  const onDeleteRef = (e: MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    setOpenDelModal(true);
+  };
+  console.log('updateExist', updateExist);
   return (
     <div className={styles.competence}>
-      <div className={styles.title}>{title}</div>
+      <div className={styles.titleCompetence} style={{ color }} onClick={onClickTitle}>
+        {title}
+      </div>
       {niveau.map((n, i) => (
-        // eslint-disable-next-line
-        <div key={i} className={styles.niveau}>
-          {n.title}
+        <div
+          // eslint-disable-next-line
+          key={i}
+          className={styles.niveau}
+          onClick={() => {
+            setIsOpen(i);
+            setUpdate(true);
+          }}
+        >
+          <span>{n.title}</span>
+          {showsType.includes(type) && <span className={styles.subTitle}>{n.sub_title}</span>}
         </div>
       ))}
-      {niveau.length < 8 && <button onClick={() => setIsOpen(true)}>+</button>}
-      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            onNiveauAdd(values);
-            setIsOpen(false);
+      {niveau.length < 8 && (
+        <button
+          onClick={() => {
+            setUpdate(false);
+            setIsOpen(niveau.length);
           }}
-          className={styles.modal}
+          className={styles.btnAddLevel}
+          onMouseEnter={() => onHoverLevel(niveau.length)}
+          onMouseLeave={() => onHoverLevel(null)}
         >
-          <div className={styles.title}>compétence :</div>
-          <div className={styles.title}>{title}</div>
-          <div>{`NIVEAU ${niveau.length + 1}`}</div>
-          <input name="title" onChange={handleChange} value={values.title} />
-          <input name="sub_title" onChange={handleChange} value={values.sub_title} />
-          <button>Valider</button>
-        </form>
+          <Plus color="#000" width="50" height="50" strokeWidth="0.5" />
+        </button>
+      )}
+      <Modal
+        isOpen={isOpen !== -1}
+        onClose={() => {
+          setIsOpen(-1);
+          setErrorModal('');
+          setUpdate(false);
+          setOpenDelModal(false);
+        }}
+        className={classesNames(styles.modal_confirmation, openDelModal && styles.modal_confirmation_transition)}
+        widthSize="auto"
+        heightSize="auto"
+        bkground="#f5f6fb"
+        body={styles.bodyModal}
+        withoutClose
+      >
+        <>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (values.title && values.sub_title) {
+                setIsOpen(-1);
+                setErrorModal('');
+              }
+              onNiveauAdd(values, isOpen);
+            }}
+            className={styles.modal}
+          >
+            <div className={styles.titleAddLevel} style={{ color }}>
+              compétence :
+            </div>
+            <div className={styles.titleAddLevel} style={{ color }}>
+              {title}
+            </div>
+            <div className={styles.level}>{`NIVEAU ${isOpen + 1}`}</div>
+            <p className={styles.labelInput}>descripteur</p>
+            <textarea
+              name="title"
+              onChange={(e) => {
+                handleChange(e);
+                setErrorModal('');
+              }}
+              value={values.title}
+              className={styles.inputModalLevel}
+              style={{ color: '#10255E', border: errorModal && !values.title ? '1px solid red' : '' }}
+              rows={3}
+              wrap="hard"
+              maxLength={100}
+            />
+            <span className={styles.errorTextModal}>{errorModal}</span>
+            <p className={styles.labelInput}>indicateur</p>
+            <textarea
+              name="sub_title"
+              onChange={(e) => {
+                handleChange(e);
+                setErrorModal('');
+              }}
+              value={values.sub_title}
+              className={styles.inputModalLevel}
+              style={{ color: '#10255E', border: errorModal && !values.sub_title ? '1px solid red' : '' }}
+              rows={3}
+              wrap="hard"
+              maxLength={100}
+            />
+            <span className={styles.errorTextModal}>{errorModal}</span>
+
+            <div className={styles.addBtnModal}>
+              <Button label="valider" type="submit" />
+            </div>
+            {isUpdate && (
+              <div>
+                <p>Vous pouvez aussi supprimer ce niveau</p>
+                <div className={styles.addBtnModal}>
+                  <Button label="supprimer" className={styles.btnDelete} onClick={(e: any) => onDeleteRef(e)} />
+                </div>
+              </div>
+            )}
+          </form>
+          {openDelModal && (
+            <div className={styles.delModalContainer}>
+              <div className={styles.arrow} />
+              <p className={styles.text_confirmation}>Voulez-vous vraiment supprimer ce niveau ?</p>
+              <div className={styles.btnDelContainer}>
+                <Button label="annuler" outlined className={styles.btnCancel} onClick={() => setOpenDelModal(false)} />
+                <Button
+                  label="supprimer"
+                  className={styles.btnDEL}
+                  onClick={() => {
+                    onNiveauDelete(isOpen);
+                    setIsOpen(-1);
+                    setOpenDelModal(false);
+                  }}
+                />
+              </div>
+            </div>
+          )}
+        </>
       </Modal>
     </div>
   );

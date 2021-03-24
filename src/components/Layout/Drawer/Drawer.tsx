@@ -11,6 +11,7 @@ import Groupes from 'assets/svg/drawer/DrawerGroupes';
 import Formation from 'assets/svg/drawer/DrawerFormation';
 import LivretActivite from 'assets/svg/drawer/DrawerAcitivite';
 import Profil from 'assets/svg/drawer/DrawerProfil';
+import Referentiel from 'assets/svg/drawer/DrawerReferentiel';
 import Logout from 'assets/svg/logout.svg';
 import Arrow from 'assets/svg/download.svg';
 import { Link, useLocation, NavLink } from 'react-router-dom';
@@ -44,8 +45,7 @@ const PrivateDrawer = () => {
     localStorage.clear();
     client.clearStore();
   };
-  const Links = [
-    // { text: 'Tableau de bord Démarrage', path: '/' },
+  let Links = [
     {
       text: 'Parcours',
       path: '/parcours',
@@ -60,33 +60,47 @@ const PrivateDrawer = () => {
       svg: <Groupes color={selectedButton === 2 ? '#10255e' : 'rgba(16, 37, 94, 0.6)'} />,
       id: 2,
     },
+
     {
       text: 'Formation',
       path: '/formation',
       textTuto: ['Suivez la formation'],
-      svg: <Formation color={selectedButton === 3 ? '#10255e' : 'rgba(16, 37, 94, 0.6)'} />,
-      id: 3,
+      svg: <Formation color={selectedButton === 4 ? '#10255e' : 'rgba(16, 37, 94, 0.6)'} />,
+      id: 4,
     },
     {
       text: 'Ressources',
       path: '/ressources',
-      svg: <LivretActivite color={selectedButton === 4 ? '#10255e' : 'rgba(16, 37, 94, 0.6)'} />,
-      id: 4,
+      svg: <LivretActivite color={selectedButton === 5 ? '#10255e' : 'rgba(16, 37, 94, 0.6)'} />,
+      id: 5,
     },
     {
       text: 'Mon compte',
       path: '/account',
-      svg: <Profil color={selectedButton === 5 ? '#10255e' : 'rgba(16, 37, 94, 0.6)'} />,
-      id: 5,
+      svg: <Profil color={selectedButton === 6 ? '#10255e' : 'rgba(16, 37, 94, 0.6)'} />,
+      id: 6,
     },
   ];
+  if (user?.isReferentiel && user.isReferentiel === true) {
+    const arr = [
+      ...Links.slice(0, Links.length - 1),
+      {
+        text: 'Mon référentiel',
+        path: '/references',
+        svg: <Referentiel color={selectedButton === 3 ? '#10255e' : 'rgba(16, 37, 94, 0.6)'} />,
+        id: 3,
+      },
+      ...Links.slice(Links.length - 1),
+    ];
+    Links = arr;
+  }
   const renderTooltip = (idLink: number) => {
     const id = user?.tutorialStep;
     let res = null;
     if (id === 3 && idLink === 1) res = <StepContainer currentStepIndex={id + 1} stepsTitle="Suivez les profils" />;
     if (id === 2 && idLink === 2) res = <StepContainer currentStepIndex={id + 1} stepsTitle="Envoyez une invitation" />;
     if (id === 1 && idLink === 2) res = <StepContainer currentStepIndex={id + 1} stepsTitle="Créez votre groupe" />;
-    if (id === 0 && idLink === 3) res = <StepContainer currentStepIndex={id + 1} stepsTitle="Suivez la formation" />;
+    if (id === 0 && idLink === 4) res = <StepContainer currentStepIndex={id + 1} stepsTitle="Suivez la formation" />;
     return res;
   };
   useEffect(() => {
@@ -96,14 +110,17 @@ const PrivateDrawer = () => {
     if (window.location.pathname === '/groupes') {
       setSelectedButton(2);
     }
-    if (window.location.pathname === '/formation') {
+    if (window.location.pathname === '/references') {
       setSelectedButton(3);
     }
-    if (window.location.pathname === '/ressources') {
+    if (window.location.pathname === '/formation') {
       setSelectedButton(4);
     }
-    if (window.location.pathname === '/account') {
+    if (window.location.pathname === '/ressources') {
       setSelectedButton(5);
+    }
+    if (window.location.pathname === '/account') {
+      setSelectedButton(6);
     }
   }, [selectedButton, window.location.pathname]);
   return (
@@ -144,7 +161,6 @@ const PrivateDrawer = () => {
         <div className={style.drawerBody}>
           {Links.map((e) => {
             const p = window && window.location.pathname === e.path;
-
             return (
               <div
                 key={e.id}

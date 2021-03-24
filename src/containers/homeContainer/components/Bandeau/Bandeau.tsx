@@ -87,7 +87,7 @@ const Bandeau = ({ warningMessage, img, title, description, data }: IProps) => {
             <Title title="Activez votre compte" />
           </div>
           <div className={classes.modalBody}>
-            <p className={classes.text_confirmation}>Un email à été renvoyer à votre boite de réception</p>
+            <p className={classes.text_confirmation}>E-mail envoyé avec succès. </p>
             <div className={classes.btn_container}>
               <Button label="Fermer" outlined onClick={() => setOpen(false)} className={classes.btn_style} />
             </div>

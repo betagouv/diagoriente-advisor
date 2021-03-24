@@ -1,0 +1,73 @@
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 40px;
+  width: 30%;
+  background: #f5f6fb;
+  border-radius: 16px;
+}
+.ContainerImg {
+  width: 100%;
+  display: flex;
+  height: 141px;
+  justify-content: center;
+}
+.headerCardRow {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #c7ccdc;
+  width: 100%;
+}
+
+.competenceTitle {
+  font-family: 'Montserrat-bold';
+  font-weight: 800;
+  font-size: 14px;
+  line-height: 22px;
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+}
+.competenceValue {
+  border: 2px solid;
+  box-sizing: border-box;
+  border-radius: 9px;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 20px;
+}
+.competenceValueText {
+  font-family: 'Montserrat-bold';
+  font-weight: 800;
+  font-size: 14px;
+  line-height: 22px;
+  text-transform: uppercase;
+}
+.titleRef {
+  font-family: 'Montserrat-bold';
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 38px;
+  color: #10255e;
+  margin: 20px 0px;
+}
+.infoRef {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 26px;
+  color: #10255e;
+  margin: 5px 0px;
+}
+.btnContainer {
+  width: 100%;
+  margin-top: 20px;
+}
+@media (max-width: 1024px) {
+  .cardContainer {
+    padding: 20px 15px;
+  }
+}
