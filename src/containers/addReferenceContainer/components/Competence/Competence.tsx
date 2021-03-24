@@ -21,6 +21,7 @@ interface CompetenceProps {
   errorModal?: string;
   setErrorModal: (s: string) => void;
   onNiveauAdd: (niveau: Niveau, index: number) => void;
+  onNiveauDelete: (index: number) => void;
   onClickTitle: () => void;
   setUpdate: (s: boolean) => void;
   onHoverLevel: (l: number | null) => void;
@@ -37,6 +38,7 @@ const Competence = ({
   setUpdate,
   setErrorModal,
   onNiveauAdd,
+  onNiveauDelete,
   onClickTitle,
   onHoverLevel,
 }: CompetenceProps) => {
@@ -52,7 +54,6 @@ const Competence = ({
 
     // eslint-disable-next-line
   }, [isOpen]);
-
   const onDeleteRef = (e: MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     setOpenDelModal(true);
@@ -107,7 +108,7 @@ const Competence = ({
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              if (values.title) {
+              if (values.title && values.sub_title) {
                 setIsOpen(-1);
                 setErrorModal('');
               }
@@ -131,7 +132,7 @@ const Competence = ({
               }}
               value={values.title}
               className={styles.inputModalLevel}
-              style={{ color: '#10255E', border: errorModal ? '1px solid red' : '' }}
+              style={{ color: '#10255E', border: errorModal && !values.title ? '1px solid red' : '' }}
               rows={3}
               wrap="hard"
               maxLength={100}
@@ -140,14 +141,19 @@ const Competence = ({
             <p className={styles.labelInput}>indicateur</p>
             <textarea
               name="sub_title"
-              onChange={handleChange}
+              onChange={(e) => {
+                handleChange(e);
+                setErrorModal('');
+              }}
               value={values.sub_title}
               className={styles.inputModalLevel}
-              style={{ color: '#10255E' }}
+              style={{ color: '#10255E', border: errorModal && !values.sub_title ? '1px solid red' : '' }}
               rows={3}
               wrap="hard"
               maxLength={100}
             />
+            <span className={styles.errorTextModal}>{errorModal}</span>
+
             <div className={styles.addBtnModal}>
               <Button label="valider" type="submit" />
             </div>
@@ -166,7 +172,15 @@ const Competence = ({
               <p className={styles.text_confirmation}>Voulez-vous vraiment supprimer ce niveau ?</p>
               <div className={styles.btnDelContainer}>
                 <Button label="annuler" outlined className={styles.btnCancel} onClick={() => setOpenDelModal(false)} />
-                <Button label="supprimer" className={styles.btnDEL} />
+                <Button
+                  label="supprimer"
+                  className={styles.btnDEL}
+                  onClick={() => {
+                    onNiveauDelete(isOpen);
+                    setIsOpen(-1);
+                    setOpenDelModal(false);
+                  }}
+                />
               </div>
             </div>
           )}

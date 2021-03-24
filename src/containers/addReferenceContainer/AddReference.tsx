@@ -179,7 +179,6 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
     }
     return res;
   };
-
   return (
     <div className={styles.containerAdd}>
       {location.pathname === '/reference/add' && (
@@ -305,7 +304,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
                     // eslint-disable-next-line
                     key={i}
                     onNiveauAdd={(niveau, index) => {
-                      if (niveau.title) {
+                      if (niveau.title && niveau.sub_title) {
                         const nextCompetencesType = [...competences[competenceType.type]];
 
                         if (index < competence.niveau.length) {
@@ -320,8 +319,18 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
 
                         setCompetences({ ...competences, [competenceType.type]: nextCompetencesType });
                       } else {
-                        setErrorModal('Descripteur est obligatoire');
+                        setErrorModal('Ce champs est obligatoire');
                       }
+                    }}
+                    onNiveauDelete={(index) => {
+                      const nextCompetencesType = [...competences[competenceType.type]];
+                      const nextNiveau = [...competence.niveau];
+                      const newniveau = nextNiveau
+                        .slice(0, index)
+                        .concat(nextNiveau.slice(index + 1, nextNiveau.length));
+                      const nextCompetence = { ...competence, niveau: newniveau };
+                      nextCompetencesType[i] = nextCompetence;
+                      setCompetences({ ...competences, [competenceType.type]: nextCompetencesType });
                     }}
                     onHoverLevel={onHoverLevel}
                     errorModal={errorModal}
