@@ -418,7 +418,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
             className={styles.modal}
           >
             <h1 className={styles.title} style={{ color: selectedType?.color || selectedType?.color }}>
-              {selectedCmp?.title || selectedType?.title}
+              {(selectedCmp && competenceTypes.find((c) => c.type === selectedCmp.type)?.title) || selectedType?.title}
             </h1>
             <div>
               <p className={styles.labelInput}>compétence</p>
