@@ -96,6 +96,7 @@ const Competence = ({
           setIsOpen(-1);
           setErrorModal('');
           setUpdate(false);
+          setOpenDelModal(false);
         }}
         className={classesNames(styles.modal_confirmation, openDelModal && styles.modal_confirmation_transition)}
         widthSize="auto"
