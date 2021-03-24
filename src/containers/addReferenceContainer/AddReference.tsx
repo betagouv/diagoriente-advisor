@@ -228,13 +228,19 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
                 <button
                   onClick={() => setSelectedType(competenceType)}
                   className={styles.btnAdd}
-                  style={{ background: competenceType.color }}
+                  style={{ background: competences[competenceType.type]?.length === 5 ? 'grey' : competenceType.color }}
+                  disabled={competences[competenceType.type]?.length === 5}
                 >
                   <div className={styles.img}>
                     <Plus width="12" height="12" color="#fff" strokeWidth="3" />
                   </div>
                   <span className={styles.textAdd}>Ajouter</span>
+                  {console.log('dez', competences[competenceType.type]?.length === 5)}
                 </button>
+                {competences[competenceType.type]?.length === 5 && (
+                  <span className={styles.infoAddCmp}>Vous avez déja ajouter 5 compétences</span>
+                )}
+
                 {competences[competenceType.type] && hasLevel(competences[competenceType.type]) && (
                   <div
                     className={styles.indicateurSubs}
