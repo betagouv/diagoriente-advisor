@@ -1,12 +1,11 @@
 import React from 'react';
 import Button from 'components/Button/Button';
-import { Reference } from 'common/requests/types';
 import CloseIcon from 'assets/svg/close icon.svg';
 import Plus from 'assets/svg/addCustom';
 import classes from './styles.module.scss';
 
 interface IProps {
-  listRefs: Reference[];
+  listRefs?: { title: string; id: string }[];
   openDelModal: boolean;
   deletedRef: string;
   open: boolean;
