@@ -189,7 +189,7 @@
   box-sizing: border-box;
   border-radius: 8px;
   background-color: #fff;
-  height: 153px;
+  height: 100px;
   cursor: pointer;
 }
 .level {
@@ -206,6 +206,7 @@
   cursor: pointer;
   display: flex;
   flex-direction: column;
+  margin: 0px 4px;
 }
 .subTitle {
   font-family: 'Montserrat-italic';
