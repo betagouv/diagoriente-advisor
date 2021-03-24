@@ -259,6 +259,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
                     niveau={competence.niveau}
                     color={competenceType.color}
                     isUpdate={isUpdate}
+                    setUpdate={setUpdate}
                     showSubs={showSubs}
                     onClickTitle={() =>
                       onOpenUpdateCompetence({
@@ -278,8 +279,16 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
           isOpen={!!selectedType}
           onClose={() =>
             isUpdate
-              ? (setSelectedType(null), setUpdate(false), setErrorModal(''), setValues({ title: '' }))
-              : (setSelectedType(null), setErrorModal(''), setValues({ title: '' }), setUpdate(false))
+              ? (setSelectedType(null),
+                setUpdate(false),
+                setErrorModal(''),
+                setValues({ title: '' }),
+                setSelectedCmp(null))
+              : (setSelectedType(null),
+                setErrorModal(''),
+                setValues({ title: '' }),
+                setUpdate(false),
+                setSelectedCmp(null))
           }
           widthSize="auto"
           heightSize="auto"
@@ -328,7 +337,7 @@ const AddReference = ({ dataToShow, isUpdate, setUpdate }: IProps) => {
             className={styles.modal}
           >
             <h1 className={styles.title} style={{ color: selectedType?.color || selectedType?.color }}>
-              {selectedCmp?.type || selectedType?.title}
+              {selectedCmp?.title || selectedType?.title}
             </h1>
             <div>
               <p className={styles.labelInput}>compétence</p>

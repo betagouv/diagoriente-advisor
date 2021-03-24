@@ -154,7 +154,10 @@ const ReferenceContainer = () => {
       </ModalContainer>
       <ModalContainer
         isOpen={openFilter}
-        onClose={() => setOpenFilter(false)}
+        onClose={() => {
+          setOpenFilter(false);
+          setOpenDelModal(false);
+        }}
         className={classesNames(classes.modal_confirmation, openDelModal && classes.modal_confirmation_transition)}
         bkground="#fff"
         widthSize="auto"

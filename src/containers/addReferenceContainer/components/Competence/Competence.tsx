@@ -21,6 +21,7 @@ interface CompetenceProps {
   setErrorModal: (s: string) => void;
   onNiveauAdd: (niveau: Niveau, index: number) => void;
   onClickTitle: () => void;
+  setUpdate: (s: boolean) => void;
   onHoverLevel: (l: number | null) => void;
 }
 
@@ -31,6 +32,7 @@ const Competence = ({
   showSubs,
   errorModal,
   isUpdate,
+  setUpdate,
   setErrorModal,
   onNiveauAdd,
   onClickTitle,
@@ -38,7 +40,7 @@ const Competence = ({
 }: CompetenceProps) => {
   const [isOpen, setIsOpen] = useState(-1);
   const [openDelModal, setOpenDelModal] = useState(false);
-
+  console.log('isUpdate', isUpdate);
   const [{ values }, { handleChange, setValues }] = useForm({
     initialValues: { title: '', sub_title: '' },
     required: ['title', 'sub_title'],
@@ -60,8 +62,15 @@ const Competence = ({
         {title}
       </div>
       {niveau.map((n, i) => (
-        // eslint-disable-next-line
-        <div key={i} className={styles.niveau} onClick={() => setIsOpen(i)}>
+        <div
+          // eslint-disable-next-line
+          key={i}
+          className={styles.niveau}
+          onClick={() => {
+            setIsOpen(i);
+            setUpdate(true);
+          }}
+        >
           <span>{n.title}</span>
           {showSubs && <span className={styles.subTitle}>{n.sub_title}</span>}
         </div>
@@ -81,13 +90,14 @@ const Competence = ({
         onClose={() => {
           setIsOpen(-1);
           setErrorModal('');
+          setUpdate(false);
         }}
         className={classesNames(styles.modal_confirmation, openDelModal && styles.modal_confirmation_transition)}
         widthSize="auto"
         heightSize="auto"
         bkground="#f5f6fb"
         body={styles.bodyModal}
-        withoutClose={isOpen === niveau.length}
+        withoutClose
       >
         <>
           <form
@@ -137,7 +147,7 @@ const Competence = ({
             <div className={styles.addBtnModal}>
               <Button label="valider" type="submit" />
             </div>
-            {isUpdate && selectedNiveau && (
+            {isUpdate && (
               <div>
                 <p>Vous pouver aussi supprimer ce niveau</p>
                 <div className={styles.addBtnModal}>
@@ -149,7 +159,7 @@ const Competence = ({
           {openDelModal && (
             <div className={styles.delModalContainer}>
               <div className={styles.arrow} />
-              <p className={styles.text_confirmation}>Voulez-vous vraiment supprimer ce référentiel ?</p>
+              <p className={styles.text_confirmation}>Voulez-vous vraiment supprimer ce niveau ?</p>
               <div className={styles.btnDelContainer}>
                 <Button label="annuler" outlined className={styles.btnCancel} onClick={() => setOpenDelModal(false)} />
                 <Button label="supprimer" className={styles.btnDEL} />
