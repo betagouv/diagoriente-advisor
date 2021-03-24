@@ -11,12 +11,13 @@ import Referentiel from 'assets/svg/referentielEmpty.svg';
 import EmptyCard from 'assets/svg/emptyCard.svg';
 import ArrowLeft from 'assets/svg/arrow-left.svg';
 import CloseIcon from 'assets/svg/close icon.svg';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import Card from './components/Card/Card';
 import classes from './reference.module.scss';
 
 const ReferenceContainer = () => {
   const history = useHistory();
+  const location = useLocation();
   const [getListRefCall, getListRefState] = useReferences({ fetchPolicy: 'network-only' });
   const [open, setOpen] = useState(false);
   const [isUpdate, setUpdate] = useState(false);
@@ -75,9 +76,11 @@ const ReferenceContainer = () => {
   };
 
   useEffect(() => {
-    if (getListRefState.data?.references.data.length) {
+    if (getListRefState.data?.references.data.length && !location.search) {
       history.replace(`/references?id=${getListRefState.data.references.data[0].id}`);
       getRefCall({ variables: { id: getListRefState.data.references.data[0].id } });
+    } else {
+      getRefCall({ variables: { id: location.search.slice(4) } });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getListRefState.data, history]);
