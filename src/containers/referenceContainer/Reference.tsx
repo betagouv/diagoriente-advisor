@@ -120,10 +120,14 @@ const ReferenceContainer = () => {
             </div>
           </>
         ) : (
-          <div className={classes.btnAddRef} onClick={() => setOpen(!open)}>
-            <Plus width="20" height="20" color="#10255E" strokeWidth="1" />
-            <span className={classes.textBtn}>Créer une déclinaison</span>
-          </div>
+          <>
+            {!getListRefState.loading && getListRefState.data?.references.data.length === 0 && (
+              <div className={classes.btnAddRef} onClick={() => setOpen(!open)}>
+                <Plus width="20" height="20" color="#10255E" strokeWidth="1" />
+                <span className={classes.textBtn}>Créer une déclinaison</span>
+              </div>
+            )}
+          </>
         )}
       </div>
       <div className={classes.bodyRef}>
