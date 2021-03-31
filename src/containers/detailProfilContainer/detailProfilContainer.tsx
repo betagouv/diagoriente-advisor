@@ -2,6 +2,7 @@ import { useState, useContext, useEffect, useRef } from 'react';
 import Title from 'components/Title/Title';
 
 import { useGetSelectedUserParcour } from 'common/requests/parcours';
+import { useGeneratePdf } from 'common/requests/user';
 import { RouteComponentProps } from 'react-router-dom';
 import { useJobs } from 'common/requests/jobs';
 import Flicking from '@egjs/react-flicking';
@@ -28,6 +29,8 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
   const [currentItem, setCurrentItem] = useState(0);
 
   const [getParcoursCall, getParcoursState] = useGetSelectedUserParcour();
+  const [generatePdfCall, generatePdfState] = useGeneratePdf({ fetchPolicy: 'network-only' });
+
   const { user } = useContext(UserContext);
   const [open, setOpen] = useState(false);
   useEffect(() => {
@@ -40,6 +43,18 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
     }
     // eslint-disable-next-line
   }, [getParcoursState.data, match.params.id]);
+
+  useEffect(() => {
+    if (generatePdfState.data) {
+      const a = document.createElement('a');
+      a.href = `data:application/pdf;base64,${generatePdfState.data.generatePdf}`;
+      a.download = `${getParcoursState.data?.userParcour.userId.email || 'competences'}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+    // eslint-disable-next-line
+  }, [generatePdfState.data]);
 
   function formatSkill(skill: Pick<SkillType, 'activities' | 'id' | 'theme' | 'createdAt' | 'engagement' | 'comment'>) {
     return {
@@ -175,6 +190,7 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
             title={'télécharger'.toUpperCase()}
             src={download}
             className={style.actionCard}
+            onClick={() => generatePdfCall({ variables: { idUser: match.params.id } })}
           />
           <ActionCard
             onClick={() => setOpen(true)}
