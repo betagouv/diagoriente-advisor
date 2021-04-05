@@ -135,7 +135,7 @@ const Competence = ({
               className={styles.inputModalLevel}
               style={{ color: '#10255E', border: errorModal && !values.title ? '1px solid red' : '' }}
               wrap="hard"
-              maxLength={100}
+              maxLength={180}
             />
             <span className={styles.errorTextModal}>{errorModal}</span>
             <p className={styles.labelInput}>indicateur</p>
@@ -149,7 +149,7 @@ const Competence = ({
               className={styles.inputModalLevel}
               style={{ color: '#10255E', border: errorModal && !values.sub_title ? '1px solid red' : '' }}
               wrap="hard"
-              maxLength={100}
+              maxLength={180}
             />
             <span className={styles.errorTextModal}>{errorModal}</span>
 
