@@ -4,6 +4,7 @@ import { Theme } from 'common/requests/types';
 import { useThemes } from 'common/requests/themes';
 import { useReferences } from 'common/requests/reference';
 import { useDidMount } from 'common/hooks/useLifeCycle';
+import { useLazyGroups } from 'common/requests/groupes';
 
 import Title from 'components/Title/Title';
 import classNames from 'common/utils/classNames';
@@ -33,10 +34,13 @@ const Experiences = ({ history }: RouteComponentProps) => {
   const [heightModal, setHeightModal] = useState('40%');
   const [fields, setFields] = useState([{ value: undefined }]);
   const [groupeSelect, setGroupeSelect] = useState('');
+  const [groupeSelectName, setGroupSelectName] = useState('');
+
   const [refSelect, setRefSelect] = useState('');
   const [refSelectName, setRefSelectName] = useState('');
 
   const [refereneceCall, referenceState] = useReferences();
+  const [getGroups, groupsState] = useLazyGroups();
 
   const [state, actions] = useForm({ initialValues: { title: '', activities: [] }, required: ['title'] });
   const { values } = state;
@@ -44,6 +48,7 @@ const Experiences = ({ history }: RouteComponentProps) => {
   const [errorMsg, setErrorMsg] = useState('');
   useDidMount(() => {
     refereneceCall();
+    getGroups();
   });
 
   const divRef = useRef<HTMLDivElement>(null);
@@ -76,6 +81,7 @@ const Experiences = ({ history }: RouteComponentProps) => {
       title: values.title,
       activities: values.activities,
       idRef: refSelect,
+      idGroupe: groupeSelect,
     };
     console.log('dataToSend', dataToSend);
   };
@@ -206,13 +212,21 @@ const Experiences = ({ history }: RouteComponentProps) => {
         </div>
         <span className={classes.labelSelect}>groupe</span>
         <div className={classes.btnShowRefs} onClick={() => setOpenGroupe(!openGroupe)}>
-          <span className={classes.selectedOption}>{groupeSelect}</span>
+          <span className={classes.selectedOption}>{groupeSelectName}</span>
           <img src={ArrowLeft} alt="arrow" className={classes.img} />
           {openGroupe && (
             <div className={classes.optionsContainer}>
-              <p className={classes.option} onClick={() => setGroupeSelect('text')}>
-                text
-              </p>
+              {groupsState.data?.groupes.data.map((e) => (
+                <p
+                  className={classes.option}
+                  onClick={() => {
+                    setGroupeSelect(e.title);
+                    setGroupSelectName(e.title);
+                  }}
+                >
+                  {e.title}
+                </p>
+              ))}
             </div>
           )}
         </div>
