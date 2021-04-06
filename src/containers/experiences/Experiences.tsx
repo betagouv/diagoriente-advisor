@@ -1,4 +1,7 @@
 import React, { useState, FormEvent, useRef } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
+import { Theme } from 'common/requests/types';
+import { useThemes } from 'common/requests/themes';
 import Title from 'components/Title/Title';
 import classNames from 'common/utils/classNames';
 import { useForm } from 'common/hooks/useInputs';
@@ -6,13 +9,19 @@ import useOnclickOutside from 'common/hooks/useOnclickOutside';
 import ModalContainer from 'components/Modal/Modal';
 import Input from 'components/Form/Input/Input';
 import Button from 'components/Button/Button';
-import AddExp from 'assets/svg/Ajout_XP 1.svg';
+import Crud, { ApisRef, CreateHeaderType } from 'components/ui/Crud/Crud';
 import Plus from 'assets/svg/addCustom';
 import AddIcon from 'assets/svg/Icon ADD.svg';
 import ArrowLeft from 'assets/svg/arrow-left.svg';
-import classes from './experinces.module.scss';
+import RefLogo from 'assets/svg/drawer/DrawerReferentiel';
+import GroupeLogo from 'assets/svg/drawer/DrawerGroupes';
 
-const Experiences = () => {
+import classes from './experinces.module.scss';
+import EmptyComponents from './components/EmptyComponents';
+
+const Experiences = ({ history }: RouteComponentProps) => {
+  const crudRef = useRef<ApisRef<Theme, any>>(null);
+
   const [open, setOpen] = useState(false);
   const [openGroupe, setOpenGroupe] = useState(false);
   const [openRef, setOpenRef] = useState(false);
@@ -53,6 +62,13 @@ const Experiences = () => {
       setErrorMsg('');
     }
   };
+  const handleLastSubmit = () => {
+    const dataToSend = {
+      title: values.title,
+      activities: values.activities,
+    };
+    console.log('dataToSend', dataToSend);
+  };
   const restFields = () => {
     actions.setValues({ title: '', activities: [] });
     setFields([{ value: undefined }]);
@@ -69,6 +85,47 @@ const Experiences = () => {
     setFields(value);
   };
   console.log('currentSteps', currentSteps);
+
+  const createHeaders: CreateHeaderType<Theme> = () => {
+    return [
+      {
+        title: (
+          <>
+            EXPÉRIENCE
+            <span className={classes.headerText}>ACTIVITÉS</span>
+          </>
+        ),
+        render: (row) => (
+          <>
+            <span className={classes.groupTitle}>{row.title}</span>
+            <span className={classes.headerText}>{row.activities.slice(0, 3).map((act) => `${act.title}, `)}</span>
+          </>
+        ),
+        key: 'name',
+      },
+      {
+        title: <div className={classes.addContainer} />,
+        render: () => (
+          <div className={classes.actions}>
+            <div className={classes.btnActon} onClick={() => history.push('/references?id=606c8566202773684150912f')}>
+              <div className={classes.wrapperBtn}>
+                <RefLogo color="#10255e" />
+                <div className={classes.selectedOption}>refName</div>
+              </div>
+            </div>
+            <div className={classes.btnActon}>
+              <div className={classes.wrapperBtn}>
+                <GroupeLogo color="#10255e" />
+                <div className={classes.selectedOption}>groupeName</div>
+              </div>
+            </div>
+          </div>
+        ),
+        key: 'actions',
+      },
+    ];
+  };
+
   const steps = [
     <>
       <h1 className={classes.title}>Ajouter une Expérience</h1>
@@ -117,7 +174,7 @@ const Experiences = () => {
     <>
       <h1 className={classes.title}>Ajoutez un référentiel et partagez à un groupe</h1>
       <div className={classes.error}>{errorMsg}</div>
-      <form onSubmit={handleFirstSubmit} className={classes.inputGroupeStyle}>
+      <form onSubmit={handleLastSubmit} className={classes.inputGroupeStyle}>
         <span className={classes.labelSelect}>référentiel</span>
         <div className={classes.btnShowRefs} onClick={() => setOpenRef(!openRef)}>
           <span className={classes.selectedOption}>{refSelect}</span>
@@ -160,11 +217,19 @@ const Experiences = () => {
         </div>
         <div className={classes.content}>
           <div className={classes.info}>
-            <p className={classes.titleExp}>Ajouter une expérience</p>
-            <p className={classes.subTitleExp}>
-              Créez d’abord une expérience, reliez-la à un référentiel (RECTEC ou le vôte) et partagez-la à un groupe
-            </p>
-            <img src={AddExp} alt="" />
+            <Crud
+              apisRef={crudRef}
+              createHeaders={createHeaders}
+              list={useThemes}
+              modalProps={{ className: classes.modal, body: classes.modalBody }}
+              className={classes.crud}
+              autoRedirect={false}
+              /* formProps={{ lastCreatedId, onInvite: (group) => setSelectedGroup(group) }} */
+              tableProps={{
+                EmptyComponent: EmptyComponents,
+                classes: { container: classes.table, row: classes.tableRow, head: classes.tableRow },
+              }}
+            />
           </div>
         </div>
       </div>
