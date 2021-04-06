@@ -1,0 +1,188 @@
+import React, { useState, FormEvent, useRef } from 'react';
+import Title from 'components/Title/Title';
+import classNames from 'common/utils/classNames';
+import { useForm } from 'common/hooks/useInputs';
+import useOnclickOutside from 'common/hooks/useOnclickOutside';
+import ModalContainer from 'components/Modal/Modal';
+import Input from 'components/Form/Input/Input';
+import Button from 'components/Button/Button';
+import AddExp from 'assets/svg/Ajout_XP 1.svg';
+import Plus from 'assets/svg/addCustom';
+import AddIcon from 'assets/svg/Icon ADD.svg';
+import ArrowLeft from 'assets/svg/arrow-left.svg';
+import classes from './experinces.module.scss';
+
+const Experiences = () => {
+  const [open, setOpen] = useState(false);
+  const [openGroupe, setOpenGroupe] = useState(false);
+  const [openRef, setOpenRef] = useState(false);
+
+  const [currentSteps, setCurrentSteps] = useState(0);
+  const [heightModal, setHeightModal] = useState('40%');
+  const [fields, setFields] = useState([{ value: undefined }]);
+  const [groupeSelect, setGroupeSelect] = useState('');
+  const [refSelect, setRefSelect] = useState('');
+
+  const [state, actions] = useForm({ initialValues: { title: '', activities: [] }, required: ['title'] });
+  const { values } = state;
+  const { handleChange } = actions;
+  const [errorMsg, setErrorMsg] = useState('');
+
+  const divRef = useRef<HTMLDivElement>(null);
+  useOnclickOutside(divRef, () => setOpenGroupe(false));
+  const divGroupe = useRef<HTMLDivElement>(null);
+  useOnclickOutside(divGroupe, () => setOpenRef(false));
+  const handleFirstSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (values.title.length < 3) {
+      setErrorMsg('Le nom du expérience doit contenir au moins 3 lettres');
+    } else {
+      setCurrentSteps(1);
+      setHeightModal('70%');
+      setErrorMsg('');
+    }
+  };
+  const handleSecondSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log('fields', fields);
+    if (fields.length < 1) {
+      setErrorMsg('activités obligatoire');
+    } else {
+      setCurrentSteps(2);
+      setHeightModal('70%');
+      setErrorMsg('');
+    }
+  };
+  const restFields = () => {
+    actions.setValues({ title: '', activities: [] });
+    setFields([{ value: undefined }]);
+    setErrorMsg('');
+  };
+  const handleAdd = () => {
+    const value = [...fields];
+    value.push({ value: undefined });
+    setFields(value);
+  };
+  const handleChangeFields = (i: any, event: any) => {
+    const value = [...fields];
+    value[i].value = event.target.value;
+    setFields(value);
+  };
+  console.log('currentSteps', currentSteps);
+  const steps = [
+    <>
+      <h1 className={classes.title}>Ajouter une Expérience</h1>
+      <div className={classes.error}>{errorMsg}</div>
+      <form onSubmit={handleFirstSubmit} className={classes.inputGroupeStyle}>
+        <Input
+          value={values.title}
+          onChange={handleChange}
+          label="Nom de l’expérience"
+          name="title"
+          war={classes.war}
+          containerClassName={classes.input}
+          required
+        />
+        <Button label="valider" className={classes.validerButton} />
+      </form>
+      <span className={classes.aide}>Besion d&apos;aide ?</span>
+    </>,
+    <>
+      <h1 className={classes.title}>Ajoutez des activités à votre expérience</h1>
+      <div className={classes.error}>{errorMsg}</div>
+      <form onSubmit={handleSecondSubmit} className={classes.inputGroupeStyle}>
+        {fields.map((field, idx) => {
+          return (
+            <div key={`${field}-${idx * 2}`}>
+              <Input
+                value={field.value}
+                onChange={(e) => handleChangeFields(idx, e)}
+                label={`Activité ${idx + 1}`}
+                name="title"
+                war={classes.war}
+                containerClassName={classes.input}
+                required
+              />
+            </div>
+          );
+        })}
+        <div onClick={handleAdd} className={classes.outlineAddBtn}>
+          <Plus width="20" height="20" color="#10255E" strokeWidth="1" />
+          <span className={classes.LabelAddAct}>ajouter activité</span>
+        </div>
+        <Button label="valider" className={classes.validerButton} />
+      </form>
+      <span className={classes.aide}>Besion d&apos;aide ?</span>
+    </>,
+    <>
+      <h1 className={classes.title}>Ajoutez un référentiel et partagez à un groupe</h1>
+      <div className={classes.error}>{errorMsg}</div>
+      <form onSubmit={handleFirstSubmit} className={classes.inputGroupeStyle}>
+        <span className={classes.labelSelect}>référentiel</span>
+        <div className={classes.btnShowRefs} onClick={() => setOpenRef(!openRef)}>
+          <span className={classes.selectedOption}>{refSelect}</span>
+          <img src={ArrowLeft} alt="arrow" className={classes.img} />
+          {openRef && (
+            <div className={classes.optionsContainer}>
+              <p className={classes.option} onClick={() => setRefSelect('text')}>
+                text 1
+              </p>
+              <p className={classes.option} onClick={() => setRefSelect('text')}>
+                text 2
+              </p>
+            </div>
+          )}
+        </div>
+        <span className={classes.labelSelect}>groupe</span>
+        <div className={classes.btnShowRefs} onClick={() => setOpenGroupe(!openGroupe)}>
+          <span className={classes.selectedOption}>{groupeSelect}</span>
+          <img src={ArrowLeft} alt="arrow" className={classes.img} />
+          {openGroupe && (
+            <div className={classes.optionsContainer}>
+              <p className={classes.option} onClick={() => setGroupeSelect('text')}>
+                text
+              </p>
+            </div>
+          )}
+        </div>
+        <Button label="valider" className={classes.validerButton} />
+      </form>
+      <span className={classes.aide}>Besion d&apos;aide ?</span>
+    </>,
+  ];
+  return (
+    <div className={classes.experienceContainer}>
+      <Title title="Mes expériences" className={classes.titlePage} />
+      <div className={classes.bodyExperiences}>
+        <div className={classNames(classes.add)} onClick={() => setOpen(true)}>
+          <img className={classes.icon} src={AddIcon} alt="" />
+          ajouter une expérience
+        </div>
+        <div className={classes.content}>
+          <div className={classes.info}>
+            <p className={classes.titleExp}>Ajouter une expérience</p>
+            <p className={classes.subTitleExp}>
+              Créez d’abord une expérience, reliez-la à un référentiel (RECTEC ou le vôte) et partagez-la à un groupe
+            </p>
+            <img src={AddExp} alt="" />
+          </div>
+        </div>
+      </div>
+      <ModalContainer
+        isOpen={open}
+        onClose={() => {
+          setOpen(false);
+          setCurrentSteps(0);
+          restFields();
+        }}
+        className={classes.modal_confirmation}
+        widthSize="50%"
+        heightSize={heightModal}
+      >
+        <div className={classes.bodyModalContent}>{steps[currentSteps]}</div>
+      </ModalContainer>
+    </div>
+  );
+};
+
+export default Experiences;
