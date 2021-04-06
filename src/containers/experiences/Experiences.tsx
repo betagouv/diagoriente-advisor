@@ -2,6 +2,9 @@ import React, { useState, FormEvent, useRef } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { Theme } from 'common/requests/types';
 import { useThemes } from 'common/requests/themes';
+import { useReferences } from 'common/requests/reference';
+import { useDidMount } from 'common/hooks/useLifeCycle';
+
 import Title from 'components/Title/Title';
 import classNames from 'common/utils/classNames';
 import { useForm } from 'common/hooks/useInputs';
@@ -31,11 +34,17 @@ const Experiences = ({ history }: RouteComponentProps) => {
   const [fields, setFields] = useState([{ value: undefined }]);
   const [groupeSelect, setGroupeSelect] = useState('');
   const [refSelect, setRefSelect] = useState('');
+  const [refSelectName, setRefSelectName] = useState('');
+
+  const [refereneceCall, referenceState] = useReferences();
 
   const [state, actions] = useForm({ initialValues: { title: '', activities: [] }, required: ['title'] });
   const { values } = state;
   const { handleChange } = actions;
   const [errorMsg, setErrorMsg] = useState('');
+  useDidMount(() => {
+    refereneceCall();
+  });
 
   const divRef = useRef<HTMLDivElement>(null);
   useOnclickOutside(divRef, () => setOpenGroupe(false));
@@ -66,6 +75,7 @@ const Experiences = ({ history }: RouteComponentProps) => {
     const dataToSend = {
       title: values.title,
       activities: values.activities,
+      idRef: refSelect,
     };
     console.log('dataToSend', dataToSend);
   };
@@ -84,7 +94,6 @@ const Experiences = ({ history }: RouteComponentProps) => {
     value[i].value = event.target.value;
     setFields(value);
   };
-  console.log('currentSteps', currentSteps);
 
   const createHeaders: CreateHeaderType<Theme> = () => {
     return [
@@ -177,16 +186,21 @@ const Experiences = ({ history }: RouteComponentProps) => {
       <form onSubmit={handleLastSubmit} className={classes.inputGroupeStyle}>
         <span className={classes.labelSelect}>référentiel</span>
         <div className={classes.btnShowRefs} onClick={() => setOpenRef(!openRef)}>
-          <span className={classes.selectedOption}>{refSelect}</span>
+          <span className={classes.selectedOption}>{refSelectName}</span>
           <img src={ArrowLeft} alt="arrow" className={classes.img} />
           {openRef && (
             <div className={classes.optionsContainer}>
-              <p className={classes.option} onClick={() => setRefSelect('text')}>
-                text 1
-              </p>
-              <p className={classes.option} onClick={() => setRefSelect('text')}>
-                text 2
-              </p>
+              {referenceState.data?.references.data.map((r) => (
+                <p
+                  className={classes.option}
+                  onClick={() => {
+                    setRefSelect(r.id);
+                    setRefSelectName(r.title);
+                  }}
+                >
+                  {r.title}
+                </p>
+              ))}
             </div>
           )}
         </div>
