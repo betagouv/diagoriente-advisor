@@ -12,4 +12,32 @@
   color: #10255e;
   font-weight: bold;
   padding-left: 25px;
+  flex: 1;
+}
+.loaderContainer {
+  bottom:10px;
+  -webkit-animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
+  border: 3px solid #ddd;
+  border-top: 3px solid #10255e;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  margin-left:10px
+}
+
+@-webkit-keyframes spin {
+  to {
+    border-top-color:  #10255e;
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  to {
+    border-top-color:  #10255e;
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
