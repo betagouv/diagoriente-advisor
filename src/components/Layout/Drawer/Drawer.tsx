@@ -14,6 +14,7 @@ import Profil from 'assets/svg/drawer/DrawerProfil';
 import Referentiel from 'assets/svg/drawer/DrawerReferentiel';
 import Logout from 'assets/svg/logout.svg';
 import Arrow from 'assets/svg/download.svg';
+import Experience from 'assets/svg/drawer/DrawerExperince';
 import { Link, useLocation, NavLink } from 'react-router-dom';
 import classNames from 'common/utils/classNames';
 import ProgressBar from 'containers/detailProfilContainer/components/progress/progress';
@@ -75,10 +76,17 @@ const PrivateDrawer = () => {
       id: 5,
     },
     {
+      text: 'Mes expériences',
+      path: '/experiences',
+      svg: <Experience color={selectedButton === 6 ? '#10255e' : 'rgba(16, 37, 94, 0.6)'} />,
+      id: 6,
+    },
+
+    {
       text: 'Mon compte',
       path: '/account',
-      svg: <Profil color={selectedButton === 6 ? '#10255e' : 'rgba(16, 37, 94, 0.6)'} />,
-      id: 6,
+      svg: <Profil color={selectedButton === 7 ? '#10255e' : 'rgba(16, 37, 94, 0.6)'} />,
+      id: 7,
     },
   ];
   if (user?.isReferentiel && user.isReferentiel === true) {

@@ -1,0 +1,230 @@
+.experienceContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+}
+.titlePage {
+  font-family: 'Montserrat-bold';
+}
+.bodyExperiences {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  width: 100%;
+  flex: 1 1 0;
+  background-color: #fff;
+  position: relative;
+}
+.content {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.titleExp {
+  font-weight: 900;
+  font-size: 40px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #ff458b;
+  font-family: ocean;
+  margin: 20px 0px 10px 0px;
+}
+.subTitleExp {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  color: #10255e;
+  text-align: center;
+  width: 60%;
+}
+.add {
+  position: absolute;
+  z-index: 1;
+  right: 30px;
+  top: 30px;
+  padding: 11px 20px 11px 17px;
+  background-color: #ff458b;
+  border-radius: 16px;
+  align-items: center;
+  color: #fff;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 15px;
+  text-transform: uppercase;
+  display: flex;
+  border: none;
+  align-self: flex-end;
+  cursor: pointer;
+  text-decoration: none;
+  &:hover {
+    background-color: rgba(47, 80, 168, 0.5);
+  }
+}
+.modal_confirmation {
+  height: auto !important;
+}
+.bodyModalContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.title {
+  font-size: 30px;
+  line-height: 37px;
+  text-align: center;
+  color: #10255e;
+  margin-bottom: 30px;
+}
+.input {
+  width: 420px;
+  .war {
+    border: 1px solid #10255e !important;
+    outline: none;
+  }
+}
+.outlineAddBtn {
+  text-transform: uppercase;
+  border: 1px solid #10255e;
+  border-radius: 16px;
+  display: flex;
+  height: 48px;
+  align-items: center;
+  padding-left: 20px;
+}
+.LabelAddAct {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+  color: #10255e;
+  margin-left: 10px;
+  cursor: pointer;
+}
+.aide {
+  font-family: Montserrat;
+  font-style: normal;
+  color: #10255e;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
+  text-transform: uppercase;
+  margin-top: 17px;
+}
+.validerButton {
+  margin-top: 20px;
+}
+.error {
+  margin: 12px 0px;
+  color: red;
+  font-size: 12px;
+}
+.btnShowRefs {
+  background: #eaedf6;
+  border-radius: 16px;
+  width: 420px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 20px;
+  margin: 10px 0px;
+  cursor: pointer;
+  .img {
+    transform: rotate(-90deg);
+  }
+  position: relative;
+}
+.optionsContainer {
+  position: absolute;
+  height: auto;
+  width: 420px;
+  top: 52px;
+  right: 0;
+  border-radius: 13px;
+  background-color: #eaedf6;
+  box-shadow: 1px 0px 16px -6px rgba(0, 0, 0, 0.75);
+  z-index: 1;
+  padding: 10px;
+}
+.labelSelect {
+  font-family: Montserrat;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  text-transform: uppercase;
+  color: rgba(16, 37, 94, 0.6);
+}
+.option {
+  font-family: Montserrat;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 15px;
+  text-transform: uppercase;
+  color: #10255e;
+  padding: 3px 0px;
+  height: 30px;
+  border-bottom: 1px solid #c7ccdc;
+  cursor: pointer;
+}
+.selectedOption {
+  font-family: Montserrat;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 15px;
+  text-transform: uppercase;
+  color: #10255e;
+}
+.headerText {
+  color: rgba($color: #10255e, $alpha: 0.4);
+  margin-left: 20px;
+}
+.groupTitle {
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 22px;
+  color: #10255e;
+  &:hover {
+    cursor: pointer;
+  }
+}
+.crud {
+  width: 100%;
+}
+.tableRow {
+  height: 78px;
+  padding: 15px;
+  td {
+    border-bottom: 1px solid rgba($color: #10255e, $alpha: 0.3);
+  }
+  &:last-child {
+    td {
+      border: none;
+    }
+  }
+}
+.actions {
+  display: flex;
+  align-self: center;
+}
+.btnActon {
+  display: flex;
+  background: #f5f6fb;
+  border-radius: 16px;
+  cursor: pointer;
+  margin: 0px 5px;
+  height: 48px;
+}
+.wrapperBtn {
+  display: flex;
+  height: 100;
+  align-items: center;
+  padding: 0px 17px;
+}

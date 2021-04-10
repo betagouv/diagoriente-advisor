@@ -103,7 +103,7 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
       (slider.current as any)?.moveTo(index);
     }
   };
-
+  console.log('generatePdfState', generatePdfState);
   return (
     <div className={style.container}>
       <Title title="Fiche profil" />
@@ -190,6 +190,7 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
             title={'télécharger'.toUpperCase()}
             src={download}
             className={style.actionCard}
+            loading={generatePdfState.loading}
             onClick={() => generatePdfCall({ variables: { idUser: match.params.id } })}
           />
           <ActionCard
