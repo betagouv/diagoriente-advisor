@@ -1,7 +1,6 @@
-import React, { useState, FormEvent, useRef } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { Theme } from 'common/requests/types';
-import { useThemes } from 'common/requests/themes';
+import { useThemesAdvisor, useAddThemeAdvisor, useLazyThemesAdvisor } from 'common/requests/themes';
 import { useReferences } from 'common/requests/reference';
 import { useDidMount } from 'common/hooks/useLifeCycle';
 import { useLazyGroups } from 'common/requests/groupes';
@@ -19,7 +18,8 @@ import AddIcon from 'assets/svg/Icon ADD.svg';
 import ArrowLeft from 'assets/svg/arrow-left.svg';
 import RefLogo from 'assets/svg/drawer/DrawerReferentiel';
 import GroupeLogo from 'assets/svg/drawer/DrawerGroupes';
-
+import Tooltip from 'rc-tooltip';
+import 'rc-tooltip/assets/bootstrap_white.css';
 import classes from './experinces.module.scss';
 import EmptyComponents from './components/EmptyComponents';
 
@@ -32,15 +32,26 @@ const Experiences = ({ history }: RouteComponentProps) => {
 
   const [currentSteps, setCurrentSteps] = useState(0);
   const [heightModal, setHeightModal] = useState('40%');
-  const [fields, setFields] = useState([{ value: undefined }]);
-  const [groupeSelect, setGroupeSelect] = useState('');
-  const [groupeSelectName, setGroupSelectName] = useState('');
+  const [fields, setFields] = useState([{ value: '' }]);
+  const [fieldsGroupes, setFieldsGroupes] = useState([{ value: '', title: '' }]);
+
+  const [groupeSelect, setSelected] = useState<number>(-1);
 
   const [refSelect, setRefSelect] = useState('');
   const [refSelectName, setRefSelectName] = useState('');
 
+  const [GroupsLocal, setGroupsLocal] = useState<
+    {
+      id: string;
+      code: string;
+      title: string;
+    }[]
+  >([]);
+
   const [refereneceCall, referenceState] = useReferences();
   const [getGroups, groupsState] = useLazyGroups();
+  const [addThemeAdvisor, addThemeAdvisorState] = useAddThemeAdvisor();
+  const [listThemesAdvisor] = useLazyThemesAdvisor({ fetchPolicy: 'network-only' });
 
   const [state, actions] = useForm({ initialValues: { title: '', activities: [] }, required: ['title'] });
   const { values } = state;
@@ -50,11 +61,17 @@ const Experiences = ({ history }: RouteComponentProps) => {
     refereneceCall();
     getGroups();
   });
+  useEffect(() => {
+    if (groupsState.data) {
+      setGroupsLocal(groupsState.data?.groupes.data);
+    }
+  }, [groupsState.data]);
 
   const divRef = useRef<HTMLDivElement>(null);
   useOnclickOutside(divRef, () => setOpenGroupe(false));
   const divGroupe = useRef<HTMLDivElement>(null);
   useOnclickOutside(divGroupe, () => setOpenRef(false));
+
   const handleFirstSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (values.title.length < 3) {
@@ -67,7 +84,6 @@ const Experiences = ({ history }: RouteComponentProps) => {
   };
   const handleSecondSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('fields', fields);
     if (fields.length < 1) {
       setErrorMsg('activités obligatoire');
     } else {
@@ -77,38 +93,51 @@ const Experiences = ({ history }: RouteComponentProps) => {
     }
   };
   const handleLastSubmit = () => {
+    const acts: string[] = fields.map((a) => a.value);
     const dataToSend = {
-      title: values.title,
-      activities: values.activities,
-      idRef: refSelect,
-      idGroupe: groupeSelect,
+      theme: values.title,
+      activities: acts,
+      reference: refSelect,
+      groups: fieldsGroupes.map((g) => g.value),
     };
-    console.log('dataToSend', dataToSend);
+    addThemeAdvisor({ variables: { ...dataToSend } });
   };
+
   const restFields = () => {
     actions.setValues({ title: '', activities: [] });
-    setFields([{ value: undefined }]);
+    setFields([{ value: '' }]);
+    setFieldsGroupes([{ value: '', title: '' }]);
     setErrorMsg('');
   };
   const handleAdd = () => {
     const value = [...fields];
-    value.push({ value: undefined });
+    value.push({ value: '' });
     setFields(value);
+  };
+  const handleAddGroupe = () => {
+    const value = [...fieldsGroupes];
+    value.push({ value: '', title: '' });
+    setFieldsGroupes(value);
   };
   const handleChangeFields = (i: any, event: any) => {
     const value = [...fields];
     value[i].value = event.target.value;
     setFields(value);
   };
+  const handleChangeFieldsGroupes = (i: any, data: { value: string; title: string }) => {
+    const value = [...fieldsGroupes];
+    value[i] = data;
+    setFieldsGroupes(value);
+  };
 
   const createHeaders: CreateHeaderType<Theme> = () => {
     return [
       {
         title: (
-          <>
+          <div style={{ flex: 1 }}>
             EXPÉRIENCE
             <span className={classes.headerText}>ACTIVITÉS</span>
-          </>
+          </div>
         ),
         render: (row) => (
           <>
@@ -120,26 +149,75 @@ const Experiences = ({ history }: RouteComponentProps) => {
       },
       {
         title: <div className={classes.addContainer} />,
-        render: () => (
+        render: (row) => (
           <div className={classes.actions}>
-            <div className={classes.btnActon} onClick={() => history.push('/references?id=606c8566202773684150912f')}>
+            <div className={classes.btnActon} onClick={() => history.push(`/references?id=${row.reference?.id}`)}>
               <div className={classes.wrapperBtn}>
                 <RefLogo color="#10255e" />
-                <div className={classes.selectedOption}>refName</div>
+                <div className={classes.selectedOption}>{row.reference?.title}</div>
               </div>
             </div>
-            <div className={classes.btnActon}>
-              <div className={classes.wrapperBtn}>
-                <GroupeLogo color="#10255e" />
-                <div className={classes.selectedOption}>groupeName</div>
+            {row.groups && row.groups.length === 1 ? (
+              <div
+                className={classes.btnActon}
+                onClick={() => history.push(`/parcours?code=${row.groups && row.groups[0].code}`)}
+              >
+                <div className={classes.wrapperBtn}>
+                  <GroupeLogo color="#10255e" />
+                  <div className={classes.selectedOption}>{row.groups && row.groups[0].title}</div>
+                </div>
               </div>
-            </div>
+            ) : (
+              <Tooltip
+                overlayClassName={classes.tooltip}
+                placement="top"
+                overlay={() => (
+                  <ul>
+                    {row.groups?.map((g) => (
+                      <li onClick={() => history.push(`/parcours?code=${g.code}`)}>{g.title}</li>
+                    ))}
+                  </ul>
+                )}
+                overlayStyle={{ borderRadius: '10px', border: 'none' }}
+                overlayInnerStyle={{
+                  backgroundColor: '#10255e',
+                  borderRadius: '10px',
+                  color: '#ffffff',
+                  fontSize: '12px',
+                  padding: '10',
+                  cursor: 'pointer',
+                }}
+                arrowContent={<div className="rc-tooltip-arrow-inner" />}
+              >
+                <div className={classes.btnActon}>
+                  <div className={classes.wrapperBtn}>
+                    <GroupeLogo color="#10255e" />
+                    <div className={classes.selectedOption}>
+                      {row.groups && row.groups.length > 1
+                        ? `${row.groups.length} Groupes`
+                        : row.groups && row.groups[0].title}
+                    </div>
+                  </div>
+                </div>
+              </Tooltip>
+            )}
           </div>
         ),
         key: 'actions',
       },
     ];
   };
+  useEffect(() => {
+    if (addThemeAdvisorState.data) {
+      setOpen(false);
+      setOpenGroupe(false);
+      setOpenRef(false);
+      setSelected(-1);
+      restFields();
+      listThemesAdvisor();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [addThemeAdvisorState.data]);
 
   const steps = [
     <>
@@ -189,12 +267,16 @@ const Experiences = ({ history }: RouteComponentProps) => {
     <>
       <h1 className={classes.title}>Ajoutez un référentiel et partagez à un groupe</h1>
       <div className={classes.error}>{errorMsg}</div>
-      <form onSubmit={handleLastSubmit} className={classes.inputGroupeStyle}>
+      <form className={classes.inputGroupeStyle}>
         <span className={classes.labelSelect}>référentiel</span>
         <div className={classes.btnShowRefs} onClick={() => setOpenRef(!openRef)}>
-          <span className={classes.selectedOption}>{refSelectName}</span>
-          <img src={ArrowLeft} alt="arrow" className={classes.img} />
-          {openRef && (
+          <span className={classes.selectedOption}>
+            {referenceState.data?.references.data.length !== 0 ? refSelectName : 'défaut'}
+          </span>
+          {referenceState.data?.references.data.length !== 0 && (
+            <img src={ArrowLeft} alt="arrow" className={classes.img} />
+          )}
+          {openRef && referenceState.data?.references.data.length !== 0 && (
             <div className={classes.optionsContainer}>
               {referenceState.data?.references.data.map((r) => (
                 <p
@@ -210,27 +292,42 @@ const Experiences = ({ history }: RouteComponentProps) => {
             </div>
           )}
         </div>
-        <span className={classes.labelSelect}>groupe</span>
-        <div className={classes.btnShowRefs} onClick={() => setOpenGroupe(!openGroupe)}>
-          <span className={classes.selectedOption}>{groupeSelectName}</span>
-          <img src={ArrowLeft} alt="arrow" className={classes.img} />
-          {openGroupe && (
-            <div className={classes.optionsContainer}>
-              {groupsState.data?.groupes.data.map((e) => (
-                <p
-                  className={classes.option}
-                  onClick={() => {
-                    setGroupeSelect(e.title);
-                    setGroupSelectName(e.title);
-                  }}
-                >
-                  {e.title}
-                </p>
-              ))}
+        {fieldsGroupes.map((field, idx) => (
+          <div key={`${field}-${idx * 2}`}>
+            <span className={classes.labelSelect}>{`groupe ${idx + 1}`}</span>
+            <div
+              className={classes.btnShowRefs}
+              onClick={() => {
+                setOpenGroupe(!openGroupe);
+                setSelected(idx);
+              }}
+            >
+              <span className={classes.selectedOption}>{fieldsGroupes[idx].title}</span>
+              <img src={ArrowLeft} alt="arrow" className={classes.img} />
+              {openGroupe && groupeSelect === idx && (
+                <div className={classes.optionsContainer}>
+                  {GroupsLocal?.map((e) => (
+                    <p
+                      className={classNames(classes.option)}
+                      onClick={() => {
+                        handleChangeFieldsGroupes(idx, { title: e.title, value: e.id });
+                      }}
+                    >
+                      {e.title}
+                    </p>
+                  ))}
+                </div>
+              )}
             </div>
-          )}
-        </div>
-        <Button label="valider" className={classes.validerButton} />
+          </div>
+        ))}
+        {GroupsLocal.length !== 0 && (
+          <div onClick={handleAddGroupe} className={classes.outlineAddBtn}>
+            <Plus width="20" height="20" color="#10255E" strokeWidth="1" />
+            <span className={classes.LabelAddAct}>ajouter groupe à qui partager</span>
+          </div>
+        )}
+        <Button type="button" label="valider" className={classes.validerButton} onClick={handleLastSubmit} />
       </form>
       <span className={classes.aide}>Besion d&apos;aide ?</span>
     </>,
@@ -248,7 +345,7 @@ const Experiences = ({ history }: RouteComponentProps) => {
             <Crud
               apisRef={crudRef}
               createHeaders={createHeaders}
-              list={useThemes}
+              list={useThemesAdvisor}
               modalProps={{ className: classes.modal, body: classes.modalBody }}
               className={classes.crud}
               autoRedirect={false}
