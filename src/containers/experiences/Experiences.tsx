@@ -5,8 +5,6 @@ import { useThemesAdvisor, useAddThemeAdvisor, useLazyThemesAdvisor } from 'comm
 import { useReferences } from 'common/requests/reference';
 import { useDidMount } from 'common/hooks/useLifeCycle';
 import { useLazyGroups } from 'common/requests/groupes';
-
-import Title from 'components/Title/Title';
 import classNames from 'common/utils/classNames';
 import { useForm } from 'common/hooks/useInputs';
 import useOnclickOutside from 'common/hooks/useOnclickOutside';
@@ -20,6 +18,7 @@ import ArrowLeft from 'assets/svg/arrow-left.svg';
 import RefLogo from 'assets/svg/drawer/DrawerReferentiel';
 import GroupeLogo from 'assets/svg/drawer/DrawerGroupes';
 import Tooltip from 'rc-tooltip';
+import ExperienceFilter from '../../components/Filters/ExperiencesFilter/ExperienceFilter';
 import 'rc-tooltip/assets/bootstrap_white.css';
 import classes from './experinces.module.scss';
 import EmptyComponents from './components/EmptyComponents';
@@ -335,30 +334,23 @@ const Experiences = ({ history }: RouteComponentProps) => {
   ];
   return (
     <div className={classes.experienceContainer}>
-      <Title title="Mes expériences" className={classes.titlePage} />
-      <div className={classes.bodyExperiences}>
-        <div className={classNames(classes.add)} onClick={() => setOpen(true)}>
-          <img className={classes.icon} src={AddIcon} alt="" />
-          ajouter une expérience
-        </div>
-        <div className={classes.content}>
-          <div className={classes.info}>
-            <Crud
-              apisRef={crudRef}
-              createHeaders={createHeaders}
-              list={useThemesAdvisor}
-              modalProps={{ className: classes.modal, body: classes.modalBody }}
-              className={classes.crud}
-              autoRedirect={false}
-              /* formProps={{ lastCreatedId, onInvite: (group) => setSelectedGroup(group) }} */
-              tableProps={{
-                EmptyComponent: EmptyComponents,
-                classes: { container: classes.table, row: classes.tableRow, head: classes.tableRow },
-              }}
-            />
-          </div>
-        </div>
+      <div className={classNames(classes.add)} onClick={() => setOpen(true)}>
+        <img className={classes.icon} src={AddIcon} alt="" />
+        ajouter une expérience
       </div>
+      <Crud
+        apisRef={crudRef}
+        createHeaders={createHeaders}
+        Filter={ExperienceFilter}
+        list={useThemesAdvisor}
+        modalProps={{ className: classes.modal, body: classes.modalBody }}
+        className={classes.crud}
+        autoRedirect={false}
+        tableProps={{
+          EmptyComponent: EmptyComponents,
+          classes: { container: classes.table, row: classes.tableRow, head: classes.tableRow },
+        }}
+      />
       <ModalContainer
         isOpen={open}
         onClose={() => {

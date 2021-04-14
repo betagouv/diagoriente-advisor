@@ -5,7 +5,7 @@ import useOnclickOutside from 'common/hooks/useOnclickOutside';
 import classes from './select.module.scss';
 
 interface IProps {
-  options: { value: string; label: string }[];
+  options: { value: string; label: string; id?: string }[];
   isOpen?: boolean;
   onClickSelect?: () => void;
   label: string;
