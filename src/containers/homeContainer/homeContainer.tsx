@@ -3,6 +3,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import useRecentJoined from 'common/containers/groupe/RecentJoined';
 import useRecentSkills from 'common/containers/parcours/recentSkills';
 import useStatJobs from 'common/containers/statistique/useStatJobs';
+import { useLogout } from 'common/requests/auth';
 import classNames from 'common/utils/classNames';
 import Logout from 'assets/svg/logout.svg';
 
@@ -40,6 +41,7 @@ const HomeContainer = () => {
   const { getRecentJoinedCall, data } = useRecentJoined();
   const { getListJobsStatCall, dataJobs } = useStatJobs();
   const { recentUserSkillsCall, dataRecentSkills } = useRecentSkills();
+  const [logoutCall, logoutState] = useLogout();
 
   useDidMount(() => {
     if (user) {
@@ -129,12 +131,18 @@ const HomeContainer = () => {
     } else setIsEmptySKills(false);
   }, [dataRecentSkills]);
   const logout = () => {
-    localforage.removeItem('auth');
-    setAuthorizationBearer('');
-    setUser(null);
-    localStorage.clear();
-    client.clearStore();
+    logoutCall();
   };
+  useEffect(() => {
+    if (logoutState.data) {
+      localforage.removeItem('auth');
+      setAuthorizationBearer('');
+      setUser(null);
+      localStorage.clear();
+      client.clearStore();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [logoutState.data]);
   if (!user) {
     return <Redirect to="/login" />;
   }

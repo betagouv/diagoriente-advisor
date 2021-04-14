@@ -94,12 +94,14 @@ const Experiences = ({ history }: RouteComponentProps) => {
   };
   const handleLastSubmit = () => {
     const acts: string[] = fields.map((a) => a.value);
-    const dataToSend = {
+    const dataToSend: { theme: string; activities: string[]; groups: string[]; reference?: string } = {
       theme: values.title,
       activities: acts,
-      reference: refSelect,
       groups: fieldsGroupes.map((g) => g.value),
     };
+    if (refSelect) {
+      dataToSend.reference = refSelect;
+    }
     addThemeAdvisor({ variables: { ...dataToSend } });
   };
 
