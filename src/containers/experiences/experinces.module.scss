@@ -27,6 +27,7 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
+  margin-top: 30px;
 }
 .titleExp {
   font-weight: 900;
@@ -67,6 +68,7 @@
   &:hover {
     background-color: rgba(47, 80, 168, 0.5);
   }
+  margin-top: 110px;
 }
 .modal_confirmation {
   height: auto !important;
@@ -185,6 +187,7 @@
 .headerText {
   color: rgba($color: #10255e, $alpha: 0.4);
   margin-left: 20px;
+  flex: 1;
 }
 .groupTitle {
   font-weight: bold;
@@ -213,6 +216,7 @@
 .actions {
   display: flex;
   align-self: center;
+  justify-content: flex-end;
 }
 .btnActon {
   display: flex;
@@ -227,4 +231,9 @@
   height: 100;
   align-items: center;
   padding: 0px 17px;
+}
+.tooltip {
+  max-width: 200px;
+  z-index: 9999 !important;
+  width: 300px;
 }

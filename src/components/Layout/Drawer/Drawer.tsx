@@ -3,6 +3,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import DrawerContext from 'common/contexts/DrawerContext';
 import { setAuthorizationBearer, client } from 'common/requests/client';
+import { useLogout } from 'common/requests/auth';
 import userContext from 'common/contexts/UserContext';
 import localforage from 'localforage';
 import drawerLogo from 'assets/svg/drawerLogo.svg';
@@ -25,6 +26,7 @@ const PrivateDrawer = () => {
   const location = useLocation();
   const initialSelected = () => Number(window.localStorage.getItem('selectedButton') || -1);
   const [selectedButton, setSelectedButton] = useState(initialSelected);
+  const [logoutCall, logoutState] = useLogout();
 
   const { open, setOpen } = useContext(DrawerContext);
   const { setUser, user } = useContext(userContext);
@@ -40,12 +42,18 @@ const PrivateDrawer = () => {
     window.localStorage.setItem('selectedButton', JSON.stringify(selectedButton));
   }, [selectedButton]);
   const logout = () => {
-    localforage.removeItem('auth');
-    setAuthorizationBearer('');
-    setUser(null);
-    localStorage.clear();
-    client.clearStore();
+    logoutCall();
   };
+  useEffect(() => {
+    if (logoutState.data) {
+      localforage.removeItem('auth');
+      setAuthorizationBearer('');
+      setUser(null);
+      localStorage.clear();
+      client.clearStore();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [logoutState.data]);
   let Links = [
     {
       text: 'Parcours',
