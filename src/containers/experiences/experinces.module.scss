@@ -237,3 +237,43 @@
   z-index: 9999 !important;
   width: 300px;
 }
+.levelsContainer {
+  background-color: #eaedf6;
+  border-radius: 10px;
+  display: flex;
+  height: 48px;
+  justify-content: center;
+  margin: 10px 0px 13px 0px;
+}
+.levelItem {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.levelText {
+  color: #10255e;
+  font-weight: 900;
+  font-size: 16px;
+  padding: 17px;
+}
+.disableLevelItem {
+  color: #676868 !important;
+  font-weight: 900;
+  pointer-events: none !important;
+}
+.selectedLevel {
+  background-color: #fff;
+  border: 1px solid #10255e;
+  border-radius: 10px;
+}
+.selectedLevelInside {
+  background-color: #fff;
+  border-top: 1px solid #10255e;
+  border-Bottom: 1px solid #10255e;
+}
+.disableCursor {
+  cursor: no-drop;
+}
