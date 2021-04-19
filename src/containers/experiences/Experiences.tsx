@@ -1,6 +1,6 @@
 import React, { useState, FormEvent, useRef, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { Theme } from 'common/requests/types';
+import { Theme, Reference } from 'common/requests/types';
 import { useThemesAdvisor, useAddThemeAdvisor, useLazyThemesAdvisor } from 'common/requests/themes';
 import { useReferences } from 'common/requests/reference';
 import { useDidMount } from 'common/hooks/useLifeCycle';
@@ -38,7 +38,9 @@ const Experiences = ({ history }: RouteComponentProps) => {
   const [groupeSelect, setSelected] = useState<number>(-1);
 
   const [refSelect, setRefSelect] = useState('');
-  const [refSelectName, setRefSelectName] = useState('');
+  const [refSelected, setRefSelected] = useState<Reference | null>(null);
+  const [maxLevel, setMaxLevel] = useState<number>(4);
+  const [allowedLevels, setAllowedLevels] = useState<number[]>([]);
 
   const [GroupsLocal, setGroupsLocal] = useState<
     {
@@ -94,13 +96,26 @@ const Experiences = ({ history }: RouteComponentProps) => {
   };
   const handleLastSubmit = () => {
     const acts: string[] = fields.map((a) => a.value);
-    const dataToSend: { theme: string; activities: string[]; groups: string[]; reference?: string } = {
+    const dataToSend: {
+      theme: string;
+      activities: string[];
+      groups: string[];
+      reference?: string;
+      levels?: number[];
+    } = {
       theme: values.title,
       activities: acts,
       groups: fieldsGroupes.map((g) => g.value),
     };
     if (refSelect) {
       dataToSend.reference = refSelect;
+    }
+
+    if (allowedLevels.length) {
+      dataToSend.levels = allowedLevels;
+    }
+    if (refSelect && !allowedLevels.length) {
+      setErrorMsg('Choisi les niveau');
     }
     addThemeAdvisor({ variables: { ...dataToSend } });
   };
@@ -131,7 +146,7 @@ const Experiences = ({ history }: RouteComponentProps) => {
     value[i] = data;
     setFieldsGroupes(value);
   };
-
+  const levels = [1, 2, 3, 4, 5, 6, 7, 8];
   const createHeaders: CreateHeaderType<Theme> = () => {
     return [
       {
@@ -153,7 +168,10 @@ const Experiences = ({ history }: RouteComponentProps) => {
         title: <div className={classes.addContainer} />,
         render: (row) => (
           <div className={classes.actions}>
-            <div className={classes.btnActon} onClick={() => history.push(`/references?id=${row.reference?.id}`)}>
+            <div
+              className={classes.btnActon}
+              onClick={() => history.push(row.reference ? `/references?id=${row.reference?.id}` : '/reference/add')}
+            >
               <div className={classes.wrapperBtn}>
                 <RefLogo color="#10255e" />
                 <div className={classes.selectedOption}>{row.reference?.title}</div>
@@ -176,7 +194,9 @@ const Experiences = ({ history }: RouteComponentProps) => {
                 overlay={() => (
                   <ul>
                     {row.groups?.map((g) => (
-                      <li onClick={() => history.push(`/parcours?code=${g.code}`)}>{g.title}</li>
+                      <li key={g.title} onClick={() => history.push(`/parcours?code=${g.code}`)}>
+                        {g.title}
+                      </li>
                     ))}
                   </ul>
                 )}
@@ -209,6 +229,12 @@ const Experiences = ({ history }: RouteComponentProps) => {
       },
     ];
   };
+  const onSelectLevels = (level: number) => {
+    const r = [...levels];
+    const currentIndex = level - 1;
+    const array = r.splice(currentIndex, currentIndex + (currentIndex === 0 ? 4 : 3));
+    setAllowedLevels(array);
+  };
   useEffect(() => {
     if (addThemeAdvisorState.data) {
       setOpen(false);
@@ -217,10 +243,20 @@ const Experiences = ({ history }: RouteComponentProps) => {
       setSelected(-1);
       restFields();
       listThemesAdvisor();
+      setRefSelected(null);
+      setMaxLevel(4);
+      setAllowedLevels([]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addThemeAdvisorState.data]);
-
+  useEffect(() => {
+    if (refSelected?.competences) {
+      const res: number[] = [];
+      refSelected.competences.map((c) => res.push(c.niveau.length));
+      const min = Math.min(...res);
+      setMaxLevel(min);
+    }
+  }, [refSelected]);
   const steps = [
     <>
       <h1 className={classes.title}>Ajouter une Expérience</h1>
@@ -273,7 +309,7 @@ const Experiences = ({ history }: RouteComponentProps) => {
         <span className={classes.labelSelect}>référentiel</span>
         <div className={classes.btnShowRefs} onClick={() => setOpenRef(!openRef)}>
           <span className={classes.selectedOption}>
-            {referenceState.data?.references.data.length !== 0 ? refSelectName : 'défaut'}
+            {referenceState.data?.references.data.length !== 0 ? refSelected?.title : 'défaut'}
           </span>
           {referenceState.data?.references.data.length !== 0 && (
             <img src={ArrowLeft} alt="arrow" className={classes.img} />
@@ -282,10 +318,11 @@ const Experiences = ({ history }: RouteComponentProps) => {
             <div className={classes.optionsContainer}>
               {referenceState.data?.references.data.map((r) => (
                 <p
+                  key={r.id}
                   className={classes.option}
                   onClick={() => {
                     setRefSelect(r.id);
-                    setRefSelectName(r.title);
+                    setRefSelected(r);
                   }}
                 >
                   {r.title}
@@ -294,6 +331,30 @@ const Experiences = ({ history }: RouteComponentProps) => {
             </div>
           )}
         </div>
+        {refSelected && (
+          <>
+            <span className={classes.labelSelect}>Les niveaux à extraire (4min)</span>
+            <div className={classes.levelsContainer}>
+              {levels.map((level) => (
+                <div
+                  className={classNames(
+                    classes.levelItem,
+                    level + 3 <= maxLevel || classes.disableCursor,
+                    allowedLevels.includes(level) ? classes.selectedLevelInside : '',
+                    level === allowedLevels[allowedLevels.length - 1] ? classes.selectedLevel : '',
+                    level === allowedLevels[0] ? classes.selectedLevel : '',
+                  )}
+                  onClick={level + 3 <= maxLevel ? () => onSelectLevels(level) : () => {}}
+                  key={level}
+                >
+                  <span className={classNames(classes.levelText, level <= maxLevel || classes.disableLevelItem)}>
+                    {level}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
         {fieldsGroupes.map((field, idx) => (
           <div key={`${field}-${idx * 2}`}>
             <span className={classes.labelSelect}>{`groupe ${idx + 1}`}</span>
@@ -310,6 +371,7 @@ const Experiences = ({ history }: RouteComponentProps) => {
                 <div className={classes.optionsContainer}>
                   {GroupsLocal?.map((e) => (
                     <p
+                      key={e.title}
                       className={classNames(classes.option)}
                       onClick={() => {
                         handleChangeFieldsGroupes(idx, { title: e.title, value: e.id });
