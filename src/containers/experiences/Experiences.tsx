@@ -41,6 +41,8 @@ const Experiences = ({ history }: RouteComponentProps) => {
   const [refSelected, setRefSelected] = useState<Reference | null>(null);
   const [maxLevel, setMaxLevel] = useState<number>(4);
   const [allowedLevels, setAllowedLevels] = useState<number[]>([]);
+  const [levelFirstSelected, setFirstLevel] = useState<number>(0);
+  // const [levelLastSelected, setLastLevel] = useState<number>(0);
 
   const [GroupsLocal, setGroupsLocal] = useState<
     {
@@ -115,9 +117,12 @@ const Experiences = ({ history }: RouteComponentProps) => {
       dataToSend.levels = allowedLevels;
     }
     if (refSelect && !allowedLevels.length) {
-      setErrorMsg('Choisi les niveau');
+      return setErrorMsg('Veuillez choisir au minimum 4 niveaux');
     }
-    addThemeAdvisor({ variables: { ...dataToSend } });
+    if (fieldsGroupes[0].title === '') {
+      return setErrorMsg('Veuillez choisir au moins un groupe ');
+    }
+    return addThemeAdvisor({ variables: { ...dataToSend } });
   };
 
   const restFields = () => {
@@ -125,6 +130,9 @@ const Experiences = ({ history }: RouteComponentProps) => {
     setFields([{ value: '' }]);
     setFieldsGroupes([{ value: '', title: '' }]);
     setErrorMsg('');
+    setRefSelect('');
+    setRefSelected(null);
+    setAllowedLevels([]);
   };
   const handleAdd = () => {
     const value = [...fields];
@@ -135,6 +143,7 @@ const Experiences = ({ history }: RouteComponentProps) => {
     const value = [...fieldsGroupes];
     value.push({ value: '', title: '' });
     setFieldsGroupes(value);
+    setErrorMsg('');
   };
   const handleChangeFields = (i: any, event: any) => {
     const value = [...fields];
@@ -230,10 +239,28 @@ const Experiences = ({ history }: RouteComponentProps) => {
     ];
   };
   const onSelectLevels = (level: number) => {
-    const r = [...levels];
-    const currentIndex = level - 1;
-    const array = r.splice(currentIndex, currentIndex + (currentIndex === 0 ? 4 : 3));
-    setAllowedLevels(array);
+    let array: number[] = [];
+    if (!levelFirstSelected) {
+      setFirstLevel(level);
+      array = [level];
+      setAllowedLevels(array);
+    } else if (
+      (level < levelFirstSelected + 3 && levelFirstSelected < level) ||
+      (levelFirstSelected >= 6 && level > levelFirstSelected - 3)
+    ) {
+      setErrorMsg('Veuillez choisir au minimum 4 niveaux');
+    } else if (level > levelFirstSelected && levelFirstSelected < maxLevel) {
+      array = levels.slice(levelFirstSelected - 1, level);
+      setAllowedLevels(array);
+    } else if (level < levelFirstSelected && levelFirstSelected - level >= 3) {
+      array = levels.slice(level - 1, levelFirstSelected);
+      setAllowedLevels(array);
+    } else if (levelFirstSelected >= 6 && level === levelFirstSelected - 3) {
+      array = levels.slice(levels.length - (levelFirstSelected - (level - 1)), levelFirstSelected);
+      setAllowedLevels(array);
+    } else if (level < levelFirstSelected && levelFirstSelected - level <= 3) {
+      setErrorMsg('Veuillez choisir au minimum 4 niveaux');
+    }
   };
   useEffect(() => {
     if (addThemeAdvisorState.data) {
@@ -257,6 +284,7 @@ const Experiences = ({ history }: RouteComponentProps) => {
       setMaxLevel(min);
     }
   }, [refSelected]);
+
   const steps = [
     <>
       <h1 className={classes.title}>Ajouter une Expérience</h1>
@@ -273,7 +301,7 @@ const Experiences = ({ history }: RouteComponentProps) => {
         />
         <Button label="valider" className={classes.validerButton} />
       </form>
-      <span className={classes.aide}>Besion d&apos;aide ?</span>
+      <span className={classes.aide}>Besoin d&apos;aide ?</span>
     </>,
     <>
       <h1 className={classes.title}>Ajoutez des activités à votre expérience</h1>
@@ -300,7 +328,7 @@ const Experiences = ({ history }: RouteComponentProps) => {
         </div>
         <Button label="valider" className={classes.validerButton} />
       </form>
-      <span className={classes.aide}>Besion d&apos;aide ?</span>
+      <span className={classes.aide}>Besoin d&apos;aide ?</span>
     </>,
     <>
       <h1 className={classes.title}>Ajoutez un référentiel et partagez à un groupe</h1>
@@ -333,18 +361,30 @@ const Experiences = ({ history }: RouteComponentProps) => {
         </div>
         {refSelected && (
           <>
-            <span className={classes.labelSelect}>Les niveaux à extraire (4min)</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span className={classes.labelSelect}>Les niveaux à extraire (4min) </span>
+              <span
+                className={classes.labelSelect}
+                onClick={() => {
+                  setAllowedLevels([]);
+                  setFirstLevel(0);
+                  setErrorMsg('');
+                }}
+              >
+                (reset)
+              </span>
+            </div>
+
             <div className={classes.levelsContainer}>
               {levels.map((level) => (
                 <div
                   className={classNames(
                     classes.levelItem,
-                    level + 3 <= maxLevel || classes.disableCursor,
                     allowedLevels.includes(level) ? classes.selectedLevelInside : '',
                     level === allowedLevels[allowedLevels.length - 1] ? classes.selectedLevel : '',
                     level === allowedLevels[0] ? classes.selectedLevel : '',
                   )}
-                  onClick={level + 3 <= maxLevel ? () => onSelectLevels(level) : () => {}}
+                  onClick={() => onSelectLevels(level)}
                   key={level}
                 >
                   <span className={classNames(classes.levelText, level <= maxLevel || classes.disableLevelItem)}>
@@ -393,7 +433,7 @@ const Experiences = ({ history }: RouteComponentProps) => {
         )}
         <Button type="button" label="valider" className={classes.validerButton} onClick={handleLastSubmit} />
       </form>
-      <span className={classes.aide}>Besion d&apos;aide ?</span>
+      <span className={classes.aide}>Besoin d&apos;aide ?</span>
     </>,
   ];
   return (

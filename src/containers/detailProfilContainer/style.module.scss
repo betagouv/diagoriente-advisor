@@ -30,7 +30,7 @@
 .secondCol {
   display: flex;
   flex-direction: row;
-  &:hover{
+  &:hover {
     cursor: pointer;
   }
 }
@@ -51,7 +51,7 @@
 .srcStyle {
   height: 30px;
   width: 20px;
-  &:hover{
+  &:hover {
     cursor: pointer;
   }
 }
@@ -59,7 +59,7 @@
 .srcSecondStyle {
   height: 20px;
   width: 20px;
-  &:hover{
+  &:hover {
     cursor: pointer;
   }
 }
@@ -67,8 +67,8 @@
 .actionCard {
   margin-top: 20px;
   margin-bottom: 50px;
-  &:hover{
-    background-color: rgba(47, 80, 168 , 0.5);
+  &:hover {
+    background-color: rgba(47, 80, 168, 0.5);
     cursor: pointer;
   }
 }
@@ -210,13 +210,12 @@
   display: flex;
   flex: 1 0 auto;
   width: 100%;
-
 }
 
 .sliderContainer {
   display: flex;
   flex-direction: column;
-  &:hover{
+  &:hover {
     cursor: pointer;
   }
 }
@@ -224,9 +223,8 @@
 .circleContainer {
   display: flex;
   align-self: center;
-  &:hover{
+  &:hover {
     cursor: pointer;
-
   }
 }
 .circle {
@@ -243,6 +241,47 @@
 .secondCircle {
   background-color: #10255e;
 }
-.modal {
-  // z-index: 2001;
+
+.bodyModal {
+  height: 95%;
+  overflow: auto;
+}
+.downloadJobs {
+  width: 50px;
+  height: 24px;
+  cursor: pointer;
+}
+.modalWrapper {
+  overflow: auto;
+}
+.containerJobs {
+  margin: 10px;
+}
+.titleJobs {
+  font-size: 28px;
+  color: #10255e;
+  margin-top: 25px;
+  margin-left: 20px;
+}
+.jobsModal {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.downloadJobsSContainer {
+  position: absolute;
+  left: 266px;
+  top: 74px;
+  border: 1px solid #10255e;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #eaedf6;
+}
+.downloadJobsS {
+  @extend .downloadJobs;
 }

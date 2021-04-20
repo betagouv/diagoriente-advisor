@@ -14,12 +14,15 @@ import { Jobs, SkillType } from 'common/requests/types';
 import UserContext from 'common/contexts/UserContext';
 import moment from 'moment';
 import { Fade } from '@egjs/flicking-plugins';
+import JsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 import classNames from 'common/utils/classNames';
 import ModalSkills from 'components/ModalSkills/ModalSkills';
 import Modal from 'components/Modal/Modal';
 import Progress1 from './components/progress/progress';
 import ActionCard from './components/ActionCard';
 import Card from './components/Card';
+import CardJobs from './components/download/CardJobs';
 import style from './style.module.scss';
 import Row from './components/Row';
 import Experience from './components/Experience';
@@ -27,12 +30,15 @@ import Experience from './components/Experience';
 const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) => {
   const [jobsListCall, jobsListState] = useJobs();
   const [currentItem, setCurrentItem] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const [getParcoursCall, getParcoursState] = useGetSelectedUserParcour();
   const [generatePdfCall, generatePdfState] = useGeneratePdf({ fetchPolicy: 'network-only' });
 
   const { user } = useContext(UserContext);
   const [open, setOpen] = useState(false);
+  const [openJobs, setOpenJobs] = useState(false);
+
   useEffect(() => {
     getParcoursCall({ variables: { idUser: match.params.id } });
     // eslint-disable-next-line
@@ -93,7 +99,6 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
     else result.push([row]);
     return result;
   }, [] as Jobs[][]);
-
   const { logo, email, createdAt } = getParcoursState.data?.userParcour?.userId || {};
   const { firstName, lastName } = getParcoursState.data?.userParcour?.userId.profile || { firstName: '', lastName: '' };
   const format = 'DD/MM/YYYY';
@@ -103,7 +108,22 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
       (slider.current as any)?.moveTo(index);
     }
   };
-  console.log('generatePdfState', generatePdfState);
+  const printDocument = () => {
+    setLoading(true);
+    const input = document.getElementById('divToPrint');
+    if (input) {
+      html2canvas(input)
+        .then((canvas) => {
+          const imgWidth = 208;
+          const imgHeight = (canvas.height * imgWidth) / canvas.width;
+          const imgData = canvas.toDataURL('img/png');
+          const pdf = new JsPDF('p', 'mm', 'a4');
+          pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+          pdf.save('download.pdf');
+        })
+        .then(() => setLoading(false));
+    }
+  };
   return (
     <div className={style.container}>
       <Title title="Fiche profil" />
@@ -129,7 +149,7 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
                 {getParcoursState.data?.userParcour.globalCompetences
                   .filter((c) => c.type === 'default')
                   .map((i) => (
-                    <div className={style.compRow}>
+                    <div key={i.title} className={style.compRow}>
                       <div className={style.comptitle}>{i.title}</div>
                       <Progress1 key={i.id} frontWidth={`${i.value * 25}%`} />
                     </div>
@@ -139,11 +159,13 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
               <div className={style.interestContainer}>
                 {families?.map((familyRow) => {
                   return familyRow.map((family) => (
-                    <div className={style.expPart1}>
+                    <div className={style.expPart1} key={family.category}>
                       <img src={family.resources[2]} alt="" className={style.interest} />
                       <div className={style.avatarsTitle}>
                         {family.nom.split('/').map((s) => (
-                          <div className={style.subText}>{s.trim()}</div>
+                          <div key={s} className={style.subText}>
+                            {s.trim()}
+                          </div>
                         ))}
                       </div>
                     </div>
@@ -201,7 +223,8 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
             src={visualisation}
           />
           <div className={style.cardContainer}>
-            <div className={style.cardTitle}>Recherches</div>
+            <div className={style.cardTitle}>Pistes métiers</div>
+            <img src={download} alt="down" className={style.downloadJobs} onClick={() => setOpenJobs(true)} />
           </div>
           {jobs && jobs.length ? (
             <div className={style.sliderContainer}>
@@ -217,10 +240,10 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
                 zIndex={0}
                 moveType={{ type: 'snap', count: 1 }}
               >
-                {jobs.map((job) => (
-                  <div className={style.cardRoot}>
+                {jobs.map((job, i) => (
+                  <div key={job[i].title} className={style.cardRoot}>
                     {job.map((j) => (
-                      <Card title={j.title} description={j.description} />
+                      <Card key={j.title} title={j.title} description={j.description} />
                     ))}
                   </div>
                 ))}
@@ -228,6 +251,7 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
               <div className={style.circleContainer}>
                 {jobs.map((e, index) => (
                   <div
+                    key={`a${index * 1}`}
                     className={classNames(style.circle, currentItem === index && style.secondCircle)}
                     onClick={(event) => change(event, index)}
                   />
@@ -239,6 +263,31 @@ const detailProfilContainer = ({ match }: RouteComponentProps<{ id: string }>) =
       </div>
       <Modal backdropClassName={style.modal} wrapper={style.modal} isOpen={open} onClose={() => setOpen(false)}>
         <ModalSkills userId={match.params.id} />
+      </Modal>
+      <Modal
+        backdropClassName={style.modal}
+        wrapper={style.modal}
+        isOpen={openJobs}
+        onClose={() => setOpenJobs(false)}
+        body={style.bodyModal}
+      >
+        <div className={style.modalWrapper}>
+          <div className={style.downloadJobsSContainer}>
+            {loading ? (
+              '...'
+            ) : (
+              <img src={download} className={style.downloadJobsS} alt="down" onClick={printDocument} />
+            )}
+          </div>
+          <div id="divToPrint" className={style.containerJobs}>
+            <span className={style.titleJobs}>Pistes métiers </span>
+            <div className={style.jobsModal}>
+              {jobsListState.data?.myJobs.map((j) => (
+                <CardJobs key={j.title} title={j.title} description={j.description} />
+              ))}
+            </div>
+          </div>
+        </div>
       </Modal>
     </div>
   );

@@ -95,13 +95,13 @@ const annex = [
   {
     id: 14,
     text: 'Jeu de cartes engagement - plateau',
-    link:
-      'https://diagoriente.beta.gouv.fr/activite-advisor/Annexes/Jeu-de-cartes-Engagement-cartes-de%CC%81couper.pdf',
+    link: 'https://diagoriente.beta.gouv.fr/activite-advisor/Annexes/Jeu-de-cartes-Engagement-plateau.pdf',
   },
   {
     id: 15,
     text: 'Jeu de cartes engagement - cartes à découper ',
-    link: 'https://diagoriente.beta.gouv.fr/activite-advisor/Annexes/Jeu-de-cartes-Engagement-cartes-découper.pdf',
+    link:
+      'https://diagoriente.beta.gouv.fr/activite-advisor/Annexes/Jeu-de-cartes-Engagement-cartes-de%CC%81couper.pdf',
   },
   {
     id: 16,

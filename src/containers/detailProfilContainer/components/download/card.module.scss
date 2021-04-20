@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffd27e;
+  border-radius: 16px;
+  padding: 20px;
+  position: relative;
+  width: 45%;
+  margin: 5px;
+}
+.title {
+  font-weight: bold;
+  font-size: 18px;
+  color: #10255e;
+  font-weight: 700;
+  margin-top: 10px;
+  line-height: 18px;
+}
+.text {
+  font-size: 16px;
+  line-height: 20px;
+  color: #10255e;
+  margin-top: 10px;
+}
+
+.viewIcon {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
